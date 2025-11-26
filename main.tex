@@ -1,0 +1,34 @@
+
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{lastpage}
+
+\input{preamble}
+
+\usepackage[pagebackref,breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
+\usepackage{siunitx}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{stfloats}
+
+
+\title{Academic Statement of Purpose}
+
+\author{Xiaonan (Nice) Wang\\
+{\tt\small wangxiaonannice@gmail.com}
+}
+
+\begin{document}
+\maketitle
+ 
+\input{sec/1_intro}
+\input{sec/2_expertise}
+\input{sec/3_challenge}
+\input{sec/4_rp}
+{
+    \small
+    \bibliographystyle{ieeenat_fullname}
+    \bibliography{main}
+}
+
+\end{document}
