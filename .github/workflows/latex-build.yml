@@ -2,6 +2,7 @@ name: Build LaTeX PDF
 
 on:
   push:
+    branches: [no_exist]
   #   branches: [ "journal_tro_24_learning_a_generalizable_trajectory_sampling_distrib_4_mpc" ]
   # pull_request:
   #   branches: [ "journal_tro_24_learning_a_generalizable_trajectory_sampling_distrib_4_mpc" ]
