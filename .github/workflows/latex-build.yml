@@ -2,10 +2,9 @@ name: Build LaTeX PDF
 
 on:
   push:
-    # branches: [ "main" ]
-    branches: [ "no_exist" ]
-  # pull_request:
-    # branches: [ "main" ]
+    branches: [ "journal_tro_24_learning_a_generalizable_trajectory_sampling_distrib_4_mpc" ]
+  pull_request:
+    branches: [ "journal_tro_24_learning_a_generalizable_trajectory_sampling_distrib_4_mpc" ]
 
 jobs:
   build_latex:
@@ -18,21 +17,23 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
+          # root_file: journal/TRO/24/learning_a_generalizable_trajectory_sampling_distrib_4_mpc/main.tex
+          working_directory: journal/TRO/24/learning_a_generalizable_trajectory_sampling_distrib_4_mpc/
 
       # - name: Upload PDF artifact
       #   uses: actions/upload-artifact@v4
       #   with:
-      #     name: paper-summarization-template-pdf
+      #     name: paper-summary-pdf
       #     path: main.pdf
       
       - name: Rename PDF
         run: |
-          old_path="main.pdf"
-          new_name="paper_summarization_template.pdf"
+          old_path="journal/TRO/24/learning_a_generalizable_trajectory_sampling_distrib_4_mpc/main.pdf"
+          new_name="summary_learning_a_generalizable_trajectory_sampling_distrib_4_mpc.pdf"
           mv "$old_path" "$new_name"
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
-          name: paper-summarization-template-pdf
-          path: paper_summarization_template.pdf
+          name: paper-summary-pdf
+          path: summary_learning_a_generalizable_trajectory_sampling_distrib_4_mpc.pdf
