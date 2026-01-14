@@ -13,10 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download NeurIPS style file
-        run: |
-          wget https://neurips.cc/Conferences/2023/Styles/neurips_2023.sty
-
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
