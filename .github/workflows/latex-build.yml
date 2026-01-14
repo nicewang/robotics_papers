@@ -2,8 +2,8 @@ name: Build LaTeX PDF
 
 on:
   push:
-    branches: [ "main" ]
-    # branches: [ "no_exist" ]
+    # branches: [ "main" ]
+    branches: [ "no_exist" ]
   # pull_request:
     # branches: [ "main" ]
 
