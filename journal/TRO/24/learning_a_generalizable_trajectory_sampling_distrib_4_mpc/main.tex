@@ -44,6 +44,10 @@ This document summarizes the core contributions and methodology of the paper "Le
 \section{Core Questions and Answers}
 
 \paragraph{(1) What is the problem?} 
+\begin{itemize}
+  \item \textbf{Collision-Free Navigation} in Cluttered Environments
+  \item Navigation in \textbf{Out-of-Distribution (OOD)} Environments
+\end{itemize}
 The paper addresses the challenge of performing efficient collision-free navigation using sampling-based Model Predictive Control (MPC) in cluttered environments. Conventional samplers (e.g., MPPI, CEM) often use distributions that are uninformed by the specific geometry of the environment, leading to low sampling efficiency and failure in tight spaces. Furthermore, learned models typically struggle with out-of-distribution (OOD) environments encountered during real-world deployment.
 
 \paragraph{(2) Why need to solve this problem?} 
@@ -61,6 +65,20 @@ The proposed method generates high-quality, collision-free samples even in narro
 \end{itemize}
 
 \paragraph{(5) What is the approach itself?} 
+\begin{itemize}
+  \item Normalizing Flow (NF): Generalizable Trajectory Sampling Distribution
+  \begin{itemize}
+    \item Conditions: Start, Goal, Environment, Cost Params
+    \item Sampling Distributiom:
+      \begin{itemize}
+        \item Robot Dynamics
+        \item Obstacle Geometries
+      \end{itemize}
+  \end{itemize}
+  \item FlowMPPI: NF + MPPI
+  \item FlowiCEM: NF + iCEM
+  \item Improved FlowMPPI & FlowiCEM for Out-of-Distribution (OOD) Environments
+\end{itemize}
 The architecture consists of an environment encoder (VAE) that compresses Signed Distance Fields (SDF) into a latent embedding $h$. A context network combines $h$ with the robot's state and goal to condition a CNF. During inference, the CNF transforms Gaussian noise into informed control sequences. For OOD environments, the method performs gradient descent on $h$ to "hallucinate" a more familiar, in-distribution environment embedding that still respects the physical constraints of the true environment.
 
 \paragraph{(6) What are the applications of it?} 
