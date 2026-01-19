@@ -66,7 +66,7 @@ The proposed method generates high-quality, collision-free samples even in narro
 
 \paragraph{(5) What is the approach itself?} 
 \begin{itemize}
-  \item Normalizing Flow (NF): Generalizable Trajectory Sampling Distribution
+  \item Normalizing Flow (NF)
   \begin{itemize}
     \item Conditions: Start, Goal, Environment, Cost Params
     \item Sampling Distributiom:
@@ -77,7 +77,10 @@ The proposed method generates high-quality, collision-free samples even in narro
   \end{itemize}
   \item FlowMPPI: NF + MPPI
   \item FlowiCEM: NF + iCEM
-  \item Improved FlowMPPI \& FlowiCEM for Out-of-Distribution (OOD) Environments
+  \item Improved FlowMPPI \& FlowiCEM: Generalizing to Out-of-Distribution (OOD) Environments
+  \begin{itemize}
+    \item Improved NF: Generalizable Trajectory Sampling Distribution
+  \end{itemize}
 \end{itemize}
 The architecture consists of an environment encoder (VAE) that compresses Signed Distance Fields (SDF) into a latent embedding $h$. A context network combines $h$ with the robot's state and goal to condition a CNF. During inference, the CNF transforms Gaussian noise into informed control sequences. For OOD environments, the method performs gradient descent on $h$ to "hallucinate" a more familiar, in-distribution environment embedding that still respects the physical constraints of the true environment.
 
