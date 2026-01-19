@@ -1,0 +1,1 @@
+## Learning a Generalizable Trajectory Sampling Distribution for Model Predictive Control
