@@ -3,6 +3,8 @@
 % Pass 'final' to the neurips_2023 package to remove line numbers if needed
 \usepackage[final]{neurips_2023}
 
+\usepackage{graphicx}
+
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
 \usepackage{hyperref}       % hyperlinks
@@ -38,38 +40,81 @@
 \maketitle
 
 \begin{abstract}
-This document summarizes the core contributions and methodology of the paper "Learning a Generalizable Trajectory Sampling Distribution for Model Predictive Control," focusing on the implementation of Conditional Normalizing Flows for efficient, environment-aware sampling in MPC.
+This document summarizes the core contributions and methodology of the paper "Learning a Generalizable Trajectory Sampling Distribution for Model Predictive Control," focusing on its' main ideas and the core blocks.
 \end{abstract}
 
 \section{Core Questions and Answers}
 
 \paragraph{(1) What is the problem?} 
-The paper addresses the challenge of performing efficient collision-free navigation using sampling-based Model Predictive Control (MPC) in cluttered environments. Conventional samplers (e.g., MPPI, CEM) often use distributions that are uninformed by the specific geometry of the environment, leading to low sampling efficiency and failure in tight spaces. Furthermore, learned models typically struggle with out-of-distribution (OOD) environments encountered during real-world deployment.
+\begin{itemize}
+  \item \textbf{Collision-Free Navigation} in Cluttered Environments
+  \item Learning \textbf{Generalizable} Trajectories in \textbf{Out-of-Distribution (OOD)} Environments
+\end{itemize}
 
 \paragraph{(2) Why need to solve this problem?} 
-Robotic applications like autonomous driving or manipulation require rapid and reliable trajectory generation. In complex environments, random sampling of control sequences is unlikely to yield low-cost paths, causing robots to get stuck in local minima. Bridging the gap between simulation-trained models and diverse real-world (OOD) scenarios is critical for robust autonomous operation.
+Robotics applications like autonomous driving or manipulation require rapid and reliable trajectory generation. In complex environments, random sampling of control sequences is unlikely to generate low-cost paths, causing robots to get stuck in local optimal. Bridging the gap between sim-to-real models and diverse real-world (eg. OOD environments) scenarios is critical for robust autonomous operation.
 
 \paragraph{(3) How is it different from previous methods?} 
-Unlike previous work that utilizes simple Gaussian priors or uninformed sampling distributions, this approach employs a \textbf{Conditional Normalizing Flow (CNF)} to learn a goal-directed and environment-aware control sequence posterior. It is also the first to amortize the cost of computing this posterior by learning it from a dataset. Crucially, it introduces a novel \textbf{environment projection} method to adapt to OOD scenarios by optimizing the environment representation online.
+\begin{itemize}
+  \item Unlike previous work that utilizes simple Gaussian priors or uninformed sampling distributions, this approach employs a \textbf{Conditional Normalizing Flow (CNF)} to learn a goal-directed and environment-aware control sequence \textbf{Posterior}.
+  \item It is also the first sampling-based MPC framework to learn this \textbf{Posterior} from a dataset.
+  \item Furthermore, it introduces a novel \textbf{Environment Projection} method to adapt to OOD scenarios by converting them to in-distribution representations during online navigation.
+\end{itemize}
 
 \paragraph{(4) Why is it better than previous methods? (Advantages)} 
-The proposed method generates high-quality, collision-free samples even in narrow passages where baseline MPC methods fail. Its advantages include:
 \begin{itemize}
-    \item \textbf{Generalizability}: The learned distribution can be integrated into different MPC frameworks (FlowMPPI, FlowiCEM) without retraining.
-    \item \textbf{Adaptability}: The projection mechanism allow effective generalization to OOD and real-world data.
-    \item \textbf{Expressiveness}: It captures multimodal trajectories which standard Gaussian-based samplers cannot.
+  \item \textbf{General Architecture}: The learned distribution can be integrated into different MPC frameworks (FlowMPPI, FlowiCEM).
+  \item \textbf{Adaptability}: The projection mechanism allow effective generalizable trajectory sampling to OOD real-world environments.
+  \item \textbf{Expressiveness}: It captures multimodal (conditional) trajectories which standard Gaussian-based samplers cannot.
 \end{itemize}
 
 \paragraph{(5) What is the approach itself?} 
-The architecture consists of an environment encoder (VAE) that compresses Signed Distance Fields (SDF) into a latent embedding $h$. A context network combines $h$ with the robot's state and goal to condition a CNF. During inference, the CNF transforms Gaussian noise into informed control sequences. For OOD environments, the method performs gradient descent on $h$ to "hallucinate" a more familiar, in-distribution environment embedding that still respects the physical constraints of the true environment.
+\begin{itemize}
+  \item FlowMPC (FlowMPPI \& FlowiCEM)
+  \begin{itemize}
+    \item Normalizing Flow:
+      \begin{itemize}
+        \item Prior Flow
+        \item Posterior Flow for Sampling
+      \end{itemize}
+    \item MPC (MPPI \& iCEM)
+    \item Projection: Generalizing to Out-of-Distribution (OOD) Environments
+  \end{itemize}
+\end{itemize}
 
 \paragraph{(6) What are the applications of it?} 
-The approach is demonstrated on several robotic platforms for collision-free navigation and manipulation tasks, including a 2-D double-integrator, a 12-DoF 3-D quadrotor, and a 7-DoF kinematic manipulator. It has been validated in both simulation and real-world cluttered environments (e.g., reaching tasks in a fridge setup).
+The approach can be demonstrated on several robotic platforms for collision-free navigation and manipulation tasks:
+\begin{itemize}
+  \item 2-D double-integrator
+  \item 12-DoF quadrotor
+  \item 7-DoF kinematic manipulator
+  \item Typically, most robotic manipulators and navigators (eg. for vehicles)
+\end{itemize}
+
+% \newpage
 
 \section{The Structure}
 
-\paragraph{Summarized Block-Diagram} 
+% \paragraph{Summarized Block-Diagram} 
+% \begin{itemize}
+%   \item Mainly Inference
+%   \item Use FlowMPPI as Example
+% \end{itemize}
 
-\paragraph{Original in Paper}
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/flow_mpc_diagram.png}
+  \caption{FlowMPC Block-Diagram (Mainly Inference): Use FlowMPPI as Example}
+  \label{fig:flow_mpc_architecture}
+\end{figure}
+
+% \paragraph{Original in Paper}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/orig.png}
+  \caption{Original Block-Diagram in Paper}
+  \label{fig:original}
+\end{figure}
 
 \end{document}
