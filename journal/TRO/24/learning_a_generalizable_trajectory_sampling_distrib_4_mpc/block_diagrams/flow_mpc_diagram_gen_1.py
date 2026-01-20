@@ -23,15 +23,14 @@ def create_mpc_block_diagram():
         c.node('h_init', 'Latent h^n', shape='ellipse', fillcolor='#fff9c4')
         
         # Prior OOD Check
-        c.node('Prior', 'Prior Flow\np_φ(h), φ=θ\nOOD Check', shape='component', fillcolor='#ffe0b2', style='filled,bold')
+        c.node('Prior', 'Prior Flow\np_φ(h), φ=θ\nOOD Check', shape='component', fillcolor='#ffe0b2')
         
         # Cost Context
         c.node('CostNet', 'Context net g_ω\n(Cost Context)', shape='component', fillcolor='#ffccbc')
         c.node('Cost_C', 'Cost C=g_ω(x0,xG,h^n)', shape='ellipse', fillcolor='#ffccbc')
         
         # Loss initialization
-        c.node('LossInit', 'Loss Init\nL = -p_φ(h^n)', 
-               shape='eclipse', fillcolor='#ffccbc')
+        c.node('LossInit', 'Loss Init\nL = -p_φ(h^n)', shape='ellipse', fillcolor='#ffe0b2')
         
         # Internal edges
         c.edge('h_init', 'Prior')
@@ -41,43 +40,57 @@ def create_mpc_block_diagram():
 
     # --- ALGORITHM 3: SAMPLING LOOP (MIDDLE) ---
     with dot.subgraph(name='cluster_sampling') as c:
-        c.attr(label='Algorithm 3: Sampling Loop\n(Middle Loop: k=1 to K)\nEach sample evaluated by FlowMPPI', 
+        c.attr(label='Algorithm 3: Sampling Loop\n(Inner Loop: k=1 to K)\nEach sample evaluated by FlowMPPI', 
                color='blue', style='rounded,bold')
         
         # Noise sampling
         c.node('NoiseSample', 'Sample Noise\nΣ -> Noise', 
-               shape='box', fillcolor='#b3e5fc')
+               shape='component', fillcolor='#b3e5fc')
         
         # Get trajectory sample
-        c.node('TrajSample', 'Sample Trajectory U_k', 
-               shape='box', fillcolor='#b3e5fc')
+        c.node('TrajSample', 'Sample Trajectory U\nLoop: for k from 1 to K', 
+               shape='component', fillcolor='#b3e5fc')
         
         # Separator
-        c.node('Algo1Call', '*** Call Algorithm 1: FlowMPPI ***\n(Evaluate this sample)', 
-               shape='component', fillcolor='#ffcccc', style='filled,bold')
+        c.node('Algo1Call', '*** Call Algorithm 1: FlowMPPI ***\n(Evaluate sampled trajectories)', 
+               shape='component', fillcolor='#ffcccc')
 
     # --- ALGORITHM 1: MPC INNER LOOP ---
     with dot.subgraph(name='cluster_algo1') as c:
-        c.attr(label='ALGORITHM 1: FlowMPPI Loop\n(Inner Loop: t=1 to T and j=1 to K_mpc)\nMPC Trajectory Optimization', 
+        c.attr(label='ALGORITHM 1: FlowMPPI Loop\n(Inner Loop: k=1 to K)\nMPC Trajectory Optimization', 
                color='darkgreen', style='rounded,bold')
         
         c.node('Nominal', '*** Requested from Algorithm 3: Projection ***', 
                shape='component', fillcolor='#c8e6c9')
         
         # Time step loop
-        c.node('shift_opera', 'Shift Operation\nU_t-1 <- U_t\nU_T-1 ~ N(0, Σ)', 
+        c.node('shift_opera', 'Shift Operation\nU_t-1 <- U_t\nU_T-1 ~ N(0, Σ)\nLoop: for t from 1 to T-1', 
                shape='component', fillcolor='#a5d6a7')
         
-        c.node('gen_sample_1', 'Generate samples by\nperturbing nominal U', 
+        c.node('gen_sample_1', 'Generate samples by\nperturbing nominal U\nLoop: for k from 1 to K/2', 
                shape='component', fillcolor='#a5d6a7')
+        
+        c.node('gen_sample_2', 'Generate samples from\ncontrol sequence posterior\nLoop: for k from K/2+1 to K', 
+               shape='component', fillcolor='#a5d6a7')
+        
+        c.node('u_', 'U_', shape='ellipse', fillcolor='#a5d6a7')
         
         # iCEM or MPPI weights
         c.node('compute_new_u', 'Compute new nominal U', 
                shape='component', fillcolor='#81c784')
         
         # Return
-        c.node('Algo1_return', 'Return Evaluated U\n(Algo 1, Line 24)', 
-               shape='component', fillcolor='#7cb342', style='filled,bold')
+        c.node('Algo1_return', 'Return Evaluated U', 
+               shape='component', fillcolor='#7cb342')
+        
+        # Internal edges
+        c.edge('Nominal', 'shift_opera', label='U')
+        c.edge('shift_opera', 'gen_sample_1')
+        c.edge('shift_opera', 'gen_sample_2')
+        c.edge('gen_sample_1', 'u_')
+        c.edge('gen_sample_2', 'u_')
+        c.edge('u_', 'compute_new_u')
+        c.edge('compute_new_u', 'Algo1_return', label='U_new')
 
     # --- BACK TO ALGORITHM 3: WEIGHT & LOSS ACCUMULATION ---
     with dot.subgraph(name='cluster_loss') as c:
@@ -90,7 +103,7 @@ def create_mpc_block_diagram():
         c.node('Accum_loss', 'Accumulate Loss\nL = L - w_k*log q_C(U_k|C, h^n)\n(Algo 3, Line 9)', 
                shape='box', fillcolor='#ffe082')
 
-    # --- GRADIENT UPDATE ---
+    # --- GRADIENT DSCENT ---
     with dot.subgraph(name='cluster_gradient') as c:
         c.attr(label='ALGORITHM 3: Gradient Update\n(Line 10)', 
                color='red', style='rounded,bold')
@@ -118,15 +131,15 @@ def create_mpc_block_diagram():
     dot.edge('Encoder', 'h_init')
     
     # 3. Sampling Loop begins
-    dot.edge('Cost_C', 'NoiseSample')
-    dot.edge('NoiseSample', 'TrajSample')
+    dot.edge('Cost_C', 'TrajSample')
+    dot.edge('NoiseSample', 'TrajSample', label='noise')
     
     # 4. Call Algorithm 1
-    dot.edge('TrajSample', 'Algo1Call', label='U_k')
+    dot.edge('TrajSample', 'Algo1Call', label='U')
     dot.edge('Algo1Call', 'Nominal', label='*** CALL ALGO 1 ***')
     
     # 5. Algorithm 1 processes
-    dot.edge('Algo1_return', 'Weight_k', label='Return evaluated U_k', color='darkgreen', style='bold')
+    dot.edge('Algo1_return', 'Weight_k', label='Return updated U_new')
     
     # 6. Back to Algo 3
     dot.edge('Weight_k', 'Accum_loss')
@@ -144,14 +157,6 @@ def create_mpc_block_diagram():
     
     # Render
     dot.render('flow_mpc_diagram_algo1_algo3', view=False, cleanup=True)
-    print("Corrected block diagram generated as 'flow_mpc_diagram_algo1_algo3.png'")
-    print("\nKey improvements:")
-    print("1. ✓ Clear nested loop structure (3 levels)")
-    print("2. ✓ Explicit Algorithm 1 call within Algorithm 3 sampling loop")
-    print("3. ✓ MPC trajectory evaluation shown in detail")
-    print("4. ✓ Algorithm 3 line numbers labeled")
-    print("5. ✓ Weight and loss computation properly positioned")
-    print("6. ✓ Gradient update and h optimization shown")
 
 if __name__ == "__main__":
     create_mpc_block_diagram()
