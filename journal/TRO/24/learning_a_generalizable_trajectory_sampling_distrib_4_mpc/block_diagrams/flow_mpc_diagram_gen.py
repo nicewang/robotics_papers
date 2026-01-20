@@ -123,7 +123,7 @@ def create_mpc_block_diagram():
     c.node('LoopCheck', 'Finished or Not', shape='diamond', fillcolor='#ffccbc')
 
     # --- FINAL OUTPUT ---
-    dot.node('OptimalControl', 'Generalizable Trajectories\nU*', shape='doubleoctagon', 
+    dot.node('OptimalControl', 'Return\nGeneralizable Trajectories\nU*', shape='doubleoctagon', 
             fillcolor='#c8e6c9')
 
     # === MAIN CONNECTING EDGES ===
@@ -158,6 +158,7 @@ def create_mpc_block_diagram():
     # 8. Loop Back
     dot.edge('LoopCheck', 'h_init', label='Not finish yet')
     dot.edge('LoopCheck', 'OptimalControl', label='Done')
+#     dot.edge('Algo1_return', 'OptimalControl')
     
     # Render
     dot.render('flow_mpc_diagram', view=False, cleanup=True)
