@@ -31,13 +31,13 @@ def create_mpc_block_diagram():
         
         # Loss initialization
         c.node('LossInit', 'Loss Init\nL = -p_φ(h^n)', 
-               shape='box', fillcolor='#ffccbc')
+               shape='eclipse', fillcolor='#ffccbc')
         
         # Internal edges
         c.edge('h_init', 'Prior')
         c.edge('h_init', 'CostNet')
         c.edge('CostNet', 'Cost_C')
-        c.edge('Prior', 'LossInit', label='-p_φ(h^n)')
+        c.edge('Prior', 'LossInit')
 
     # --- ALGORITHM 3: SAMPLING LOOP (MIDDLE) ---
     with dot.subgraph(name='cluster_sampling') as c:
@@ -61,48 +61,23 @@ def create_mpc_block_diagram():
         c.attr(label='ALGORITHM 1: FlowMPPI Loop\n(Inner Loop: t=1 to T and j=1 to K_mpc)\nMPC Trajectory Optimization', 
                color='darkgreen', style='rounded,bold')
         
-        c.node('Nominal', 'Previous Nominal Trajectory\nU (or initialized from U_k)', 
-               shape='box', fillcolor='#c8e6c9')
-        
-        c.node('MPC_outer', 'For t=1 to T-1:', shape='plain', fontsize='10')
+        c.node('Nominal', '*** Requested from Algorithm 3: Projection ***', 
+               shape='component', fillcolor='#c8e6c9')
         
         # Time step loop
-        c.node('Sample_perturb', 'Sample Perturbation\nepsilon_t ~ N(0, Sigma)\n(Algo 1, Line 5)', 
-               shape='box', fillcolor='#c8e6c9')
+        c.node('shift_opera', 'Shift Operation\nU_t-1 <- U_t\nU_T-1 ~ N(0, Σ)', 
+               shape='component', fillcolor='#a5d6a7')
         
-        c.node('Sample_j_loop', 'For j=1 to K:', shape='plain', fontsize='10')
-        
-        c.node('Generate_sample', 'Generate Sample\ne_t,j ~ N(0, I)\nU_t,j = U_t-1 + e_t,j\n(Algo 1, Line 8-9)', 
-               shape='box', fillcolor='#a5d6a7')
-        
-        c.node('Compute_traj', 'Compute Trajectory\ntau_j ~ p(tau|U_t,j)\n(Algo 1, Line 10)', 
-               shape='box', fillcolor='#a5d6a7')
-        
-        c.node('Compute_cost', 'Compute Cost\nS_j = J(tau_j) + lambda*u\'*Sigma^-1*e\n(Algo 1, Line 11-12)', 
-               shape='box', fillcolor='#a5d6a7')
+        c.node('gen_sample_1', 'Generate samples by\nperturbing nominal U', 
+               shape='component', fillcolor='#a5d6a7')
         
         # iCEM or MPPI weights
-        c.node('Weights', 'Compute Weights\nw_j (MPPI formula)\n(Algo 1, Line 22)', 
-               shape='box', fillcolor='#81c784')
-        
-        # Update trajectory
-        c.node('Update_traj', 'Update Nominal\nU_new = sum(w_j * U_t,j)\n(Algo 1, Line 23)', 
-               shape='box', fillcolor='#81c784')
+        c.node('compute_new_u', 'Compute new nominal U', 
+               shape='component', fillcolor='#81c784')
         
         # Return
         c.node('Algo1_return', 'Return Evaluated U\n(Algo 1, Line 24)', 
                shape='component', fillcolor='#7cb342', style='filled,bold')
-        
-        # Internal edges for Algo 1
-        c.edge('Nominal', 'MPC_outer')
-        c.edge('MPC_outer', 'Sample_perturb')
-        c.edge('Sample_perturb', 'Sample_j_loop')
-        c.edge('Sample_j_loop', 'Generate_sample')
-        c.edge('Generate_sample', 'Compute_traj')
-        c.edge('Compute_traj', 'Compute_cost')
-        c.edge('Compute_cost', 'Weights')
-        c.edge('Weights', 'Update_traj')
-        c.edge('Update_traj', 'Algo1_return')
 
     # --- BACK TO ALGORITHM 3: WEIGHT & LOSS ACCUMULATION ---
     with dot.subgraph(name='cluster_loss') as c:
