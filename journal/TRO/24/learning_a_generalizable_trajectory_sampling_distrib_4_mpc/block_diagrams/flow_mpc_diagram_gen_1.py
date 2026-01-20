@@ -12,50 +12,48 @@ def create_mpc_block_diagram():
     with dot.subgraph(name='cluster_inputs') as c:
         c.attr(label='System Inputs', style='dashed', color='grey')
         c.node('Env', 'Environment (SDF)\nE', shape='ellipse', fillcolor='#e1f5fe')
-        c.node('State', 'Start x0, Goal xG\nCost Params (rho)', shape='ellipse', fillcolor='#e1f5fe')
+        c.node('State', 'Start x0, Goal xG\nCost Params ρ', shape='ellipse', fillcolor='#e1f5fe')
 
     # --- ALGORITHM 3: PROJECTION LOOP (OUTER) ---
     with dot.subgraph(name='cluster_projection') as c:
-        c.attr(label='ALGORITHM 3: Projection Loop\n(Outer Loop: n=1 to N)', color='purple', style='rounded,bold')
+        c.attr(label='Algorithm 3: Projection Loop\n(Outer Loop: n=1 to N)', color='purple', style='rounded,bold')
         
         # VAE Encoder
-        c.node('Encoder', 'VAE Encoder\nq_theta(h|E)', shape='component', fillcolor='#fff9c4')
-        c.node('h_init', 'h^n (Latent)', shape='ellipse', fillcolor='#fff9c4')
+        c.node('Encoder', 'VAE Encoder\nq_θ(h|E)', shape='component', fillcolor='#fff9c4')
+        c.node('h_init', 'Latent h^n', shape='ellipse', fillcolor='#fff9c4')
         
         # Prior OOD Check
-        c.node('Prior', 'Prior Flow p_phi(h)\nLog Probability Computation\n(Algorithm 3, Line 3)', 
-               shape='component', fillcolor='#ffe0b2', style='filled,bold')
+        c.node('Prior', 'Prior Flow\np_φ(h), φ=θ\nOOD Check', shape='component', fillcolor='#ffe0b2', style='filled,bold')
         
         # Cost Context
-        c.node('CostNet', 'Cost Network g_omega\n(Algorithm 3, Line 4)', shape='component', fillcolor='#ffccbc')
-        c.node('Cost_C', 'Cost C=g_omega(x0,xG,h^n)', shape='ellipse', fillcolor='#ffccbc')
+        c.node('CostNet', 'Context net g_ω\n(Cost Context)', shape='component', fillcolor='#ffccbc')
+        c.node('Cost_C', 'Cost C=g_ω(x0,xG,h^n)', shape='ellipse', fillcolor='#ffccbc')
         
         # Loss initialization
-        c.node('LossInit', 'Loss Init\nL = -log p_phi(h^n)\n(Algorithm 3, Line 6)', 
+        c.node('LossInit', 'Loss Init\nL = -p_φ(h^n)', 
                shape='box', fillcolor='#ffccbc')
         
         # Internal edges
-        c.edge('Encoder', 'h_init')
-        c.edge('h_init', 'Prior', label='OOD Check')
+        c.edge('h_init', 'Prior')
         c.edge('h_init', 'CostNet')
         c.edge('CostNet', 'Cost_C')
-        c.edge('Prior', 'LossInit', label='Log Prob')
+        c.edge('Prior', 'LossInit', label='-p_φ(h^n)')
 
     # --- ALGORITHM 3: SAMPLING LOOP (MIDDLE) ---
     with dot.subgraph(name='cluster_sampling') as c:
-        c.attr(label='ALGORITHM 3: Sampling Loop\n(Middle Loop: k=1 to K)\nEach sample evaluated by Algorithm 1', 
+        c.attr(label='Algorithm 3: Sampling Loop\n(Middle Loop: k=1 to K)\nEach sample evaluated by FlowMPPI', 
                color='blue', style='rounded,bold')
         
         # Noise sampling
-        c.node('NoiseSample', 'Sample Noise\nepsilon_k ~ N(0, Sigma_c)\n(Algorithm 3, Line 5)', 
+        c.node('NoiseSample', 'Sample Noise\nΣ -> Noise', 
                shape='box', fillcolor='#b3e5fc')
         
         # Get trajectory sample
-        c.node('TrajSample', 'Get Sample\nU_k = C + epsilon_k\n(Algorithm 3, Line 5)', 
+        c.node('TrajSample', 'Sample Trajectory U_k', 
                shape='box', fillcolor='#b3e5fc')
         
         # Separator
-        c.node('Algo1Call', '*** CALL ALGORITHM 1: FlowMPPI ***\n(Evaluate this sample)', 
+        c.node('Algo1Call', '*** Call Algorithm 1: FlowMPPI ***\n(Evaluate this sample)', 
                shape='component', fillcolor='#ffcccc', style='filled,bold')
 
     # --- ALGORITHM 1: MPC INNER LOOP ---
@@ -83,7 +81,7 @@ def create_mpc_block_diagram():
         c.node('Compute_cost', 'Compute Cost\nS_j = J(tau_j) + lambda*u\'*Sigma^-1*e\n(Algo 1, Line 11-12)', 
                shape='box', fillcolor='#a5d6a7')
         
-        # CEM or MPPI weights
+        # iCEM or MPPI weights
         c.node('Weights', 'Compute Weights\nw_j (MPPI formula)\n(Algo 1, Line 22)', 
                shape='box', fillcolor='#81c784')
         
@@ -145,11 +143,11 @@ def create_mpc_block_diagram():
     dot.edge('Encoder', 'h_init')
     
     # 3. Sampling Loop begins
-    dot.edge('Cost_C', 'NoiseSample', label='For k=1 to K')
+    dot.edge('Cost_C', 'NoiseSample')
     dot.edge('NoiseSample', 'TrajSample')
     
     # 4. Call Algorithm 1
-    dot.edge('TrajSample', 'Algo1Call', label='Pass U_k')
+    dot.edge('TrajSample', 'Algo1Call', label='U_k')
     dot.edge('Algo1Call', 'Nominal', label='*** CALL ALGO 1 ***')
     
     # 5. Algorithm 1 processes
