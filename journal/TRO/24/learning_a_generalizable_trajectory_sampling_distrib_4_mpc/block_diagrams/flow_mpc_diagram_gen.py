@@ -1,103 +1,166 @@
 from graphviz import Digraph
 
 def create_mpc_block_diagram():
-    dot = Digraph(comment='FlowMPC Architecture', format='png')
-    dot.attr(rankdir='LR', splines='ortho', compound='true')
+    dot = Digraph(comment='FlowMPC Architecture - Algo1+Algo3', format='png')
+    dot.attr(rankdir='TB', splines='ortho', compound='true')
     
     # Global styles
-    dot.attr('node', shape='box', style='filled', fillcolor='white', fontname='Helvetica')
-    dot.attr('edge', fontname='Helvetica', fontsize='10')
+    dot.attr('node', shape='box', style='filled', fillcolor='white', fontname='Helvetica', fontsize='11')
+    dot.attr('edge', fontname='Helvetica', fontsize='9')
 
     # --- INPUTS ---
     with dot.subgraph(name='cluster_inputs') as c:
         c.attr(label='System Inputs', style='dashed', color='grey')
         c.node('Env', 'Environment (SDF)\nE', shape='ellipse', fillcolor='#e1f5fe')
-        c.node('State', 'Start (x0), Goal (xG)\nCost Params (ρ)', shape='ellipse', fillcolor='#e1f5fe')
+        c.node('State', 'Start x0, Goal xG\nCost Params ρ', shape='ellipse', fillcolor='#e1f5fe')
 
-    # --- ENVIRONMENT ENCODING & PROJECTION (Algorithm 3) ---
-    with dot.subgraph(name='cluster_embedding') as c:
-        c.attr(label='Projection\n(Algorithm 3)\n(OOD -> In-Distribution)', color='purple', style='rounded')
+    # --- ALGORITHM 3: PROJECTION LOOP (OUTER) ---
+    with dot.subgraph(name='cluster_projection') as c:
+        c.attr(label='Algorithm 3: Projection Loop\n(Outer Loop: n=1 to N)', color='purple', style='rounded,bold')
         
         # VAE Encoder
         c.node('Encoder', 'VAE Encoder\nq_θ(h|E)', shape='component', fillcolor='#fff9c4')
+        c.node('h_init', 'Latent h^n', shape='ellipse', fillcolor='#fff9c4')
         
-        # Latent h
-        c.node('h', 'Latent h', shape='ellipse', fillcolor='#fff9c4')
+        # Prior Flow and OOD Check
+        c.node('Prior', 'Prior Flow\np_φ(h), φ=θ\nOOD Check', shape='component', fillcolor='#ffe0b2')
         
-        # Projection Logic
-        c.node('Prior', 'Prior Flow\np_φ(h), φ=θ\n(OOD Check)', shape='component', fillcolor='#ffe0b2')
-        c.node('Projector', 'Gradient Descent\nmin(L_OOD + L_flow)', shape='diamond', fillcolor='#ffccbc')
-        c.node('h_hat', 'Projected Embedding\nĥ', shape='ellipse', style='filled, bold', fillcolor='#ffab91')
+        # Cost Context
+        c.node('CostNet', 'Context net g_ω\n(Cost Context)', shape='component', fillcolor='#ffccbc')
+        c.node('Cost_C', 'Cost C=g_ω(x0,xG,h^n)', shape='ellipse', fillcolor='#ffccbc')
         
-        # Edges internal to embedding
-        c.edge('Encoder', 'h')
-        c.edge('h', 'Prior')
-        c.edge('h', 'Projector')
-        c.edge('Prior', 'Projector', label='∇ L_OOD')
-        c.edge('Projector', 'h_hat')
-
-    # Context  Generation
-    with dot.subgraph(name='cluster_context') as c:
-        c.attr(label='Context  Generation', style='invis')
-        c.node('ContextNet', 'Context Network\ng_ω', shape='component', fillcolor='#dcedc8')
-        c.node('Context', 'Context Vector\nC', shape='ellipse', fillcolor='#dcedc8')
-
-    # Trajectory Sampling
-    with dot.subgraph(name='cluster_flow') as c:
-        c.attr(label='Trajectory Sampling', style='invis')
-        c.node('Noise', 'Σ_c ->\nGaussian Noise', shape='eclipse', fillcolor='#f3e5f5')
-        c.node('Flow', 'Conditional Flow\nf_ζ(Z, C)', shape='component', fillcolor='#e1bee7')
-        c.node('FlowSamples', 'Flow Control Samples\nU_flow', shape='folder', fillcolor='#e1bee7')
-
-    # --- MPC CONTROL (Algorithm 1 & 2) ---
-    with dot.subgraph(name='cluster_mpc') as c:
-        c.attr(label='MPC Controller\n(Algorithm 1: FlowMPPI / Algorithm 2: FlowiCEM)', color='blue', style='rounded')
+        # Loss Initialization
+        c.node('LossInit', 'Loss Init\nL = -p_φ(h^n)', shape='ellipse', fillcolor='#ffe0b2')
         
-        c.node('Nominal', 'Previous Nominal U\nor Mean μ', shape='box')
-        c.node('Perturb', 'Gaussian/Colored\nNoise Sampling', shape='box')
-        c.node('Dynamics', 'Dynamics Model\np(x\'|x, u)', shape='box')
-        c.node('Cost', 'Cost Function\nJ(τ)', shape='box')
-        c.node('Update', 'Update Logic\n(MPPI Weighted Sum \nor CEM Elite Fit)', shape='box', style='filled, bold', fillcolor='#b3e5fc')
+        # Internal Edges
+        c.edge('h_init', 'Prior')
+        c.edge('h_init', 'CostNet')
+        c.edge('CostNet', 'Cost_C')
+        c.edge('Prior', 'LossInit')
 
-        # Internal MPC edges
-        c.edge('Nominal', 'Perturb', label='Shift')
-        c.edge('Perturb', 'Dynamics', label='U_pert')
-        c.edge('Dynamics', 'Cost', label='Trajectories τ')
-        c.edge('Cost', 'Update', label='Costs S')
+    # --- ALGORITHM 3: SAMPLING LOOP (INNER) ---
+    with dot.subgraph(name='cluster_sampling') as c:
+        c.attr(label='Algorithm 3: Sampling Loop\n(Inner Loop: k=1 to K)\nEach sample evaluated by FlowMPPI', 
+               color='blue', style='rounded,bold')
+        
+        # Noise sampling
+        c.node('NoiseSample', 'Sample Noise\nΣ -> Noise', 
+               shape='component', fillcolor='#b3e5fc')
+        
+        # Get Trajectory Samples
+        c.node('TrajSample', 'Sample Trajectory U\nLoop: for k from 1 to K', 
+               shape='component', fillcolor='#b3e5fc')
+        
+        # Call for Algorithm 1
+        c.node('Algo1Call', '*** Call Algorithm 1: FlowMPPI ***\n(Evaluate sampled trajectories)', 
+               shape='component', fillcolor='#ffcccc')
+
+    # --- ALGORITHM 1: MPC LOOP (INNER) ---
+    with dot.subgraph(name='cluster_algo1') as c:
+        c.attr(label='Algorithm 1: FlowMPPI Loop\n(Inner Loop: k=1 to K)\nMPC Trajectory Optimization', 
+               color='darkgreen', style='rounded,bold')
+        
+        c.node('Nominal', '*** Requested from Algorithm 3: Projection ***', 
+               shape='component', fillcolor='#c8e6c9')
+        
+        # Shift Operation
+        c.node('shift_opera', 'Shift Operation\nU_t-1 <- U_t\nU_T-1 ~ N(0, Σ)\nLoop: for t from 1 to T-1', 
+               shape='component', fillcolor='#a5d6a7')
+        
+        # Generate Samples
+        c.node('gen_sample_1', 'Generate samples by\nperturbing nominal U\nLoop: for k from 1 to K/2', 
+               shape='component', fillcolor='#a5d6a7')
+        
+        c.node('gen_sample_2', 'Generate samples from\ncontrol sequence posterior\nLoop: for k from K/2+1 to K', 
+               shape='component', fillcolor='#a5d6a7')
+        
+        c.node('u_', 'U_', shape='ellipse', fillcolor='#a5d6a7')
+        
+        # Update U
+        c.node('compute_new_u', 'Compute new nominal U', 
+               shape='component', fillcolor='#81c784')
+        
+        # Return
+        c.node('Algo1_return', 'Return Evaluated U', 
+               shape='component', fillcolor='#7cb342')
+        
+        # Internal edges
+        c.edge('Nominal', 'shift_opera', label='U')
+        c.edge('shift_opera', 'gen_sample_1')
+        c.edge('shift_opera', 'gen_sample_2')
+        c.edge('gen_sample_1', 'u_')
+        c.edge('gen_sample_2', 'u_')
+        c.edge('u_', 'compute_new_u')
+        c.edge('compute_new_u', 'Algo1_return', label='U_new')
+
+    # --- BACK TO ALGORITHM 3: WEIGHT & LOSS ACCUMULATION (INNER LOOP) ---
+    with dot.subgraph(name='cluster_loss') as c:
+
+        c.attr(label='Algorithm 3: Weight & Loss Accumulation\n(Inner Loop: k=1 to K)', 
+               color='orange', style='rounded,bold')
+        
+        # Weights Sum
+        c.node('Weight', 'Compute Sample Weights\nw_k for k=1 to K (Loop))', 
+               shape='box', fillcolor='#ffe082')
+        
+        # Loss Accumulation
+        c.node('Accum_loss', 'Accumulate Loss\nL = L - w_k*log q(U_k|C)\nLoop: k=1 to K', 
+               shape='box', fillcolor='#ffe082')
+
+    # --- GRADIENT DSCENT ---
+    with dot.subgraph(name='cluster_gradient') as c:
+
+        c.attr(label='Algorithm 3: Gradient Descent', 
+               color='red', style='rounded,bold')
+        
+        c.node('Gradient', 'Compute Gradient\ndL/dh', 
+               shape='component', fillcolor='#ffab91')
+        
+        c.node('Update_h', 'Update Latent\nh^(n+1) = h^n - η*dL/dh', 
+               shape='component', fillcolor='#ff7043')
+
+    # --- ITERATION DECISION ---
+    c.node('LoopCheck', 'Finished or Not', shape='diamond', fillcolor='#ffccbc')
 
     # --- FINAL OUTPUT ---
-    dot.node('Output', 'Optimal Control\nSequence U*', shape='doubleoctagon', fillcolor='#c8e6c9')
+    dot.node('OptimalControl', 'Generalizable Trajectories\nU*', shape='doubleoctagon', 
+            fillcolor='#c8e6c9')
 
-    # --- MAIN CONNECTING EDGES ---
+    # === MAIN CONNECTING EDGES ===
     
-    # 1. Input to Encoding
+    # 1. Input to Encoder & CostNet
     dot.edge('Env', 'Encoder')
+    dot.edge('State', 'CostNet')
     
-    # 2. Input to Context Net
-    dot.edge('State', 'ContextNet')
-    dot.edge('h_hat', 'ContextNet', label='Environment Feature')
+    # 2. Algorithm 3 Setup
+    dot.edge('Encoder', 'h_init')
     
-    # 3. Context to Flow
-    dot.edge('ContextNet', 'Context')
-    dot.edge('Context', 'Flow', label='Conditioning')
+    # 3. Sampling Loop Begins
+    dot.edge('Cost_C', 'TrajSample')
+    dot.edge('NoiseSample', 'TrajSample', label='noise')
     
-    # 4. Flow Sampling
-    dot.edge('Noise', 'Flow')
-    dot.edge('Flow', 'FlowSamples')
+    # 4. Call Algorithm 1
+    dot.edge('TrajSample', 'Algo1Call', label='U')
+    dot.edge('Algo1Call', 'Nominal', label='*** CALL ALGO 1 ***')
     
-    # 5. Connecting Flow Samples to MPC
-    dot.edge('FlowSamples', 'Dynamics', label='U_flow (Samples/Elites)', color='blue')
+    # 5. Back to Algo 3
+    dot.edge('Algo1_return', 'Weight', label='Return updated U_new')
+    dot.edge('Weight', 'Accum_loss', label='w_k')
+    dot.edge('LossInit', 'Accum_loss')
     
-    # 6. Connecting Flow Samples Back to Projection (The L_flow gradient)
-    dot.edge('FlowSamples', 'Projector', label='∇ L_flow', style='dotted', constraint='false', color='red')
-
-    # 7. Final Output
-    dot.edge('Update', 'Output')
-    dot.edge('Update', 'Nominal', label='Next Step', style='dashed')
-
+    # 6. Compute Gradient
+    dot.edge('Accum_loss', 'Gradient', label='After all k=1:K')
+    
+    # 7. Gradient Descent
+    dot.edge('Gradient', 'Update_h')
+    dot.edge('Update_h', 'LoopCheck')
+    
+    # 8. Loop Back
+    dot.edge('LoopCheck', 'h_init', label='Not finish yet')
+    dot.edge('LoopCheck', 'OptimalControl', label='Done')
+    
     # Render
     dot.render('flow_mpc_diagram', view=False, cleanup=True)
-    print("Block diagram generated as 'flow_mpc_diagram.png'")
 
 if __name__ == "__main__":
     create_mpc_block_diagram()
