@@ -57,7 +57,7 @@ def create_mpc_block_diagram():
 
     # --- ALGORITHM 1: MPC INNER LOOP ---
     with dot.subgraph(name='cluster_algo1') as c:
-        c.attr(label='ALGORITHM 1: FlowMPPI Loop\n(Inner Loop: k=1 to K)\nMPC Trajectory Optimization', 
+        c.attr(label='Algorithm 1: FlowMPPI Loop\n(Inner Loop: k=1 to K)\nMPC Trajectory Optimization', 
                color='darkgreen', style='rounded,bold')
         
         c.node('Nominal', '*** Requested from Algorithm 3: Projection ***', 
@@ -94,32 +94,32 @@ def create_mpc_block_diagram():
 
     # --- BACK TO ALGORITHM 3: WEIGHT & LOSS ACCUMULATION ---
     with dot.subgraph(name='cluster_loss') as c:
-        c.attr(label='ALGORITHM 3: Weight & Loss Accumulation\n(Back to Line 8-9)', 
+        c.attr(label='Algorithm 3: Weight & Loss Accumulation\n(Inner Loop: k=1 to K)', 
                color='orange', style='rounded,bold')
         
-        c.node('Weight_k', 'Compute Sample Weight\nw_k = Weight(U_k, C, h)\n(Algo 3, Line 8, Eq 11)', 
+        c.node('Weight', 'Compute Sample Weights\nw_k for k=1 to K (Loop))', 
                shape='box', fillcolor='#ffe082')
         
-        c.node('Accum_loss', 'Accumulate Loss\nL = L - w_k*log q_C(U_k|C, h^n)\n(Algo 3, Line 9)', 
+        c.node('Accum_loss', 'Accumulate Loss\nL = L - w_k*log q(U_k|C)\nLoop: k=1 to K', 
                shape='box', fillcolor='#ffe082')
 
     # --- GRADIENT DSCENT ---
     with dot.subgraph(name='cluster_gradient') as c:
-        c.attr(label='ALGORITHM 3: Gradient Update\n(Line 10)', 
+        c.attr(label='Algorithm 3: Gradient Descent', 
                color='red', style='rounded,bold')
         
-        c.node('Gradient', 'Compute Gradient\ndL/dh = -dlog p_phi(h)/dh - sum(w_k*dlog q_C/dh)\n(Algo 3, Line 10)', 
-               shape='box', fillcolor='#ffab91')
+        c.node('Gradient', 'Compute Gradient\ndL/dh', 
+               shape='component', fillcolor='#ffab91')
         
-        c.node('Update_h', 'Update Latent\nh^(n+1) = h^n - eta*dL/dh\n(Algo 3, Line 10)', 
-               shape='box', fillcolor='#ff7043', style='filled,bold')
+        c.node('Update_h', 'Update Latent\nh^(n+1) = h^n - η*dL/dh', 
+               shape='component', fillcolor='#ff7043')
 
     # --- ITERATION DECISION ---
-    c.node('LoopCheck', 'n < N?', shape='diamond', fillcolor='#ffccbc')
+    c.node('LoopCheck', 'Finished or Not', shape='diamond', fillcolor='#ffccbc')
 
     # --- FINAL OUTPUT ---
-    dot.node('OptimalControl', 'Optimal Control Sequence\nU_star', shape='doubleoctagon', 
-            fillcolor='#c8e6c9', style='filled,bold')
+    dot.node('OptimalControl', 'Generalizable Trajectories\nU*', shape='doubleoctagon', 
+            fillcolor='#c8e6c9')
 
     # === MAIN CONNECTING EDGES ===
     
@@ -139,10 +139,11 @@ def create_mpc_block_diagram():
     dot.edge('Algo1Call', 'Nominal', label='*** CALL ALGO 1 ***')
     
     # 5. Algorithm 1 processes
-    dot.edge('Algo1_return', 'Weight_k', label='Return updated U_new')
+    dot.edge('Algo1_return', 'Weight', label='Return updated U_new')
     
     # 6. Back to Algo 3
-    dot.edge('Weight_k', 'Accum_loss')
+    dot.edge('Weight', 'Accum_loss', label='w_k')
+    dot.edge('LossInit', 'Accum_loss')
     
     # 7. All K samples processed, compute gradient
     dot.edge('Accum_loss', 'Gradient', label='After all k=1:K')
@@ -152,8 +153,8 @@ def create_mpc_block_diagram():
     dot.edge('Update_h', 'LoopCheck')
     
     # 9. Loop back
-    dot.edge('LoopCheck', 'h_init', label='Yes (n+1)', constraint='false', style='dashed')
-    dot.edge('LoopCheck', 'OptimalControl', label='No (Done)')
+    dot.edge('LoopCheck', 'h_init', label='Not finish yet')
+    dot.edge('LoopCheck', 'OptimalControl', label='Done')
     
     # Render
     dot.render('flow_mpc_diagram_algo1_algo3', view=False, cleanup=True)
