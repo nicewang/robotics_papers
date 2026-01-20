@@ -71,7 +71,7 @@ def create_mpc_block_diagram():
         c.node('gen_sample_1', 'Generate samples by\nperturbing nominal U\nLoop: for k from 1 to K/2', 
                shape='component', fillcolor='#a5d6a7')
         
-        c.node('gen_sample_2', 'Generate samples from\ncontrol sequence posterior\nLoop: for k from K/2+1 to K', 
+        c.node('gen_sample_2', 'Generate samples from\ncontrol sequence Posterior Flow\nLoop: for k from K/2+1 to K', 
                shape='component', fillcolor='#a5d6a7')
         
         c.node('u_', 'U_', shape='ellipse', fillcolor='#a5d6a7')
