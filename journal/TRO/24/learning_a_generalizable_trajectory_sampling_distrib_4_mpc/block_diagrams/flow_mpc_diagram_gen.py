@@ -11,41 +11,41 @@ def create_mpc_block_diagram():
     # --- INPUTS ---
     with dot.subgraph(name='cluster_inputs') as c:
         c.attr(label='System Inputs', style='dashed', color='grey')
-        c.node('Env', 'Environment (SDF)\nE', shape='parallelogram', fillcolor='#e1f5fe')
-        c.node('State', 'Start (x0), Goal (xG)\nCost Params (ρ)', shape='parallelogram', fillcolor='#e1f5fe')
+        c.node('Env', 'Environment (SDF)\nE', shape='ellipse', fillcolor='#e1f5fe')
+        c.node('State', 'Start (x0), Goal (xG)\nCost Params (ρ)', shape='ellipse', fillcolor='#e1f5fe')
 
     # --- ENVIRONMENT ENCODING & PROJECTION (Algorithm 3) ---
     with dot.subgraph(name='cluster_embedding') as c:
-        c.attr(label='Environment Representation & Projection\n(Algorithm 3)', color='purple', style='rounded')
+        c.attr(label='Projection\n(Algorithm 3)\n(OOD -> In-Distribution)', color='purple', style='rounded')
         
         # VAE Encoder
         c.node('Encoder', 'VAE Encoder\nq_θ(h|E)', shape='component', fillcolor='#fff9c4')
         
         # Latent h
-        c.node('h', 'Latent Embedding\nh', shape='ellipse', fillcolor='#fff9c4')
+        c.node('h', 'Latent h', shape='ellipse', fillcolor='#fff9c4')
         
         # Projection Logic
-        c.node('Prior', 'VAE Prior Flow\np_φ(h)\n(OOD Score)', shape='component', fillcolor='#ffe0b2')
+        c.node('Prior', 'Prior Flow\np_φ(h), φ=θ\n(OOD Check)', shape='component', fillcolor='#ffe0b2')
         c.node('Projector', 'Gradient Descent\nmin(L_OOD + L_flow)', shape='diamond', fillcolor='#ffccbc')
         c.node('h_hat', 'Projected Embedding\nĥ', shape='ellipse', style='filled, bold', fillcolor='#ffab91')
         
         # Edges internal to embedding
         c.edge('Encoder', 'h')
-        c.edge('h', 'Prior', label='Likelihood Check')
-        c.edge('h', 'Projector', label='Initial h')
+        c.edge('h', 'Prior')
+        c.edge('h', 'Projector')
         c.edge('Prior', 'Projector', label='∇ L_OOD')
-        c.edge('Projector', 'h_hat', label='Updated h')
+        c.edge('Projector', 'h_hat')
 
-    # --- CONTEXT GENERATION ---
+    # Context  Generation
     with dot.subgraph(name='cluster_context') as c:
-        c.attr(label='Context Generation', style='invis')
+        c.attr(label='Context  Generation', style='invis')
         c.node('ContextNet', 'Context Network\ng_ω', shape='component', fillcolor='#dcedc8')
         c.node('Context', 'Context Vector\nC', shape='ellipse', fillcolor='#dcedc8')
 
-    # --- FLOW GENERATION ---
+    # Trajectory Sampling
     with dot.subgraph(name='cluster_flow') as c:
-        c.attr(label='Generative Sampling', style='invis')
-        c.node('Noise', 'Gaussian Noise\nZ ~ N(0, I)', shape='parallelogram', fillcolor='#f3e5f5')
+        c.attr(label='Trajectory Sampling', style='invis')
+        c.node('Noise', 'Σ_c ->\nGaussian Noise', shape='eclipse', fillcolor='#f3e5f5')
         c.node('Flow', 'Conditional Flow\nf_ζ(Z, C)', shape='component', fillcolor='#e1bee7')
         c.node('FlowSamples', 'Flow Control Samples\nU_flow', shape='folder', fillcolor='#e1bee7')
 
