@@ -1,7 +1,7 @@
 ## FlowMPC:
 ### Learning a Generalizable Trajectory Sampling Distribution for Model Predictive Control
 
-This document summarizes the core contributions and methodology of the paper "Learning a Generalizable Trajectory Sampling Distribution for Model Predictive Control," focusing on its' main ideas and the core blocks.
+This document summarizes the core contributions and methodology of the paper "Learning a Generalizable Trajectory Sampling Distribution for Model Predictive Control", focusing on its' main ideas and the core blocks.
 - [Original Paper](https://github.com/nicewang/robotics_papers/tree/assets/journal/TRO/24/FlowMPC/original_paper)
 - [Summarization Download](https://github.com/nicewang/robotics_papers/actions/runs/21330723843/artifacts/5248103882)
 
