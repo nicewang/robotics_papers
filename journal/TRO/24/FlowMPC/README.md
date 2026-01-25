@@ -8,7 +8,7 @@ This document summarizes the core contributions and methodology of the paper "Le
 #### Summarized Block-Diagram
 ![Block-Diagram](fig/flow_mpc_diagram.png) 
 
-#### Paper Citation
+#### Orig Paper Citation
 ```BibTex
 @article{power2024learning,
   title={Learning a generalizable trajectory sampling distribution for model predictive control},
