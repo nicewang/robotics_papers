@@ -2,10 +2,10 @@ name: Build LaTeX PDF
 
 on:
   push:
-    branches: [no_exist]
-  #   branches: [ "conf_icra_24_gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs" ]
-  # pull_request:
-  #   branches: [ "conf_icra_24_gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs" ]
+    # branches: [no_exist]
+    branches: [ "conf_icra_24_gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs" ]
+  pull_request:
+    branches: [ "conf_icra_24_gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs" ]
 
 jobs:
   build_latex:
