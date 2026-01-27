@@ -102,6 +102,15 @@ The approach can be demonstrated on several robotic platforms (eg. Boston Dynami
 
 \section{The Structure}
 
+% \paragraph{Summarized Block-Diagram} 
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/gp_robust_motion_planning.png}
+  \caption{Summarized Block-Diagram of GP-based Robust Motion Planning}
+  \label{fig:gp_motion_planning}
+\end{figure}
+
 % \paragraph{Original in Paper}
 
 \begin{figure}[tb]
@@ -111,13 +120,14 @@ The approach can be demonstrated on several robotic platforms (eg. Boston Dynami
   \label{fig:original}
 \end{figure}
 
-% \paragraph{Summarized Block-Diagram} 
+\section{Open Questions}
 
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=0.95\textwidth]{fig/gp_robust_motion_planning.png}
-  \caption{Summarized Block-Diagram of GP-based Robust Motion Planning}
-  \label{fig:gp_motion_planning}
-\end{figure}
+\begin{enumerate}
+    \item \textbf{Scalability and Unimodality Constraints:} 
+    How does the proposed framework address the $O(N^3)$ computational complexity of Gaussian Processes (GPs) as the robot accumulates more environmental data? Furthermore, can a unimodal GP effectively represent failure risks in "topologically complex" scenarios (e.g., bifurcated paths) where the optimal safe-state distribution is inherently multi-modal?
+
+    \item \textbf{Transition to Generative Normalizing Flows:} 
+    Could the current discriminative monitoring (GP as a classifier) be replaced by a generative Normalizing Flow (NF) model? By treating failure detection as a low-likelihood or Out-of-Distribution (OOD) event, could the framework leverage the NF's latent space to achieve instantaneous, multi-modal recovery sampling rather than relying on iterative optimization?
+\end{enumerate}
 
 \end{document}
