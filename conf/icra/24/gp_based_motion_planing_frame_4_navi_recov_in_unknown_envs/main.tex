@@ -123,11 +123,10 @@ The approach can be demonstrated on several robotic platforms (eg. Boston Dynami
 \section{Open Questions}
 
 \begin{enumerate}
-    \item \textbf{Scalability and Unimodality Constraints:} 
-    How does the proposed framework address the $O(N^3)$ computational complexity of Gaussian Processes (GPs) as the robot accumulates more environmental data? Furthermore, can a unimodal GP effectively represent failure risks in "topologically complex" scenarios (e.g., bifurcated paths) where the optimal safe-state distribution is inherently multi-modal?
-
+    \item \textbf{Scalability and Representing Multi-Modal Distributions:} 
+    How does the proposed framework address the $O(N^3)$ computational complexity of Gaussian Processes (GPs) as the robot accumulates more environmental data? Furthermore, can a single Gaussian Process model effectively represent multi-modal failure risk distributions when the true risk landscape exhibits multiple distinct failure modes in topologically complex environments?
     \item \textbf{Transition to Generative Normalizing Flows:} 
-    Could the current discriminative monitoring (GP as a classifier) be replaced by a generative Normalizing Flow (NF) model? By treating failure detection as a low-likelihood or Out-of-Distribution (OOD) event, could the framework leverage the NF's latent space to achieve instantaneous, multi-modal recovery sampling rather than relying on iterative optimization?
+    Could the current discriminative GP classifier for failure detection be augmented or replaced with a generative Normalizing Flow (NF) model that can capture multi-modal failure risk distributions? Specifically, would NF's latent space representation enable more efficient sampling of recovery candidate states compared to the current sampling approach?
 \end{enumerate}
 
 \end{document}
