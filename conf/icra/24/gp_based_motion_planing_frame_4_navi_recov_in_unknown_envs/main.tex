@@ -43,22 +43,22 @@
 \paragraph{(1) What is the problem?} 
 \begin{itemize}
   \item Robust, Agile Robot Navigation in \textbf{Cluttered, Unknown} Environments
-  \item \textbf{Gaussian Process} base \textbf{Proactive Failure Detection} in Motion Planning
-  \item GP-based, sampling-based \textbf{Recovery} after Failure Detection
+  \item \textbf{Safety Monitoring & Failure Detection} and \textbf{Recovery Mechanism} Design in Navigation
 \end{itemize}
 
 \paragraph{(2) Why need to solve this problem?}
 \begin{itemize}
-  \item \textbf{Reactive} Perform \textbf{Poor} and often \textbf{Lead to Collision}
-  \begin{itemize}
-    \item Too \textbf{Conservative}, thus Poor Performance
-    \item \textbf{No Enough Time} for \textbf{High-Inertial Systems} to React
-  \end{itemize}
-  \item \textbf{No Recovery} Strategies within \textbf{Proactive} Approaches
+  \item Agile Robot Navigation in \textbf{Uncertainties}
+  \item \textbf{Safety Guarantee} in Unknown environments
+  \item Ensuring \textbf{Navigation Success}
 \end{itemize}
-% To-Do: Non-GP based Proactive Approaches, DL, complex (para-2 in intro)
 
-\paragraph{(3) How is it different from prev.?} 
+\paragraph{(3) How is it different from prev.?}
+\begin{itemize}
+  \item Hard-Constrained Motion Planner with Proactive Failure Detection and Recovery Mechanism
+  \item Model Agnostic Safety Monitoring Method
+  \item Sim-to-Real Manner for Training Planner Failure Detector
+\end{itemize}
 
 
 \paragraph{(4) Why is it better than prev.? (Advantages)} 
@@ -86,7 +86,12 @@
   \end{itemize}
 \end{itemize}
 
-\paragraph{(5) What is the approach itself?} 
+\paragraph{(5) What is the approach itself?}
+\begin{itemize}
+  \item \textbf{Gaussian Process} base \textbf{Proactive Failure Detection} in Motion Planning
+  \item GP-based, sampling-based \textbf{Recovery} after Failure Detection
+  \item Sim-to-Real Training Data for Training Failure Detector
+\end{itemize}
 
 \paragraph{(6) What are the applications of it?} 
 
