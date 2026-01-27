@@ -108,7 +108,7 @@ def create_gp_motion_planning_diagram():
     dot.edge('Plant', 'Track_MPC')
 
     # Render
-    dot.render('gp_robust_motion_planning', view=False, cleanup=True)
+    dot.render('gp_robust_motion_planning_diagram', view=False, cleanup=True)
 
 if __name__ == "__main__":
     create_gp_motion_planning_diagram()
