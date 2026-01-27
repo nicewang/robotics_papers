@@ -3,6 +3,9 @@
 % Pass 'final' to the neurips_2023 package to remove line numbers if needed
 \usepackage[final]{neurips_2023}
 
+% \usepackage[style=authoryear, backend=biber]{biblatex} 
+% \addbibresource{main.bib}
+
 \usepackage{graphicx}
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
@@ -39,7 +42,7 @@
 \maketitle
 
 \begin{abstract}
-This document summarizes the core contributions and methodology of the paper "A GP-based Robust Motion Planning Framework for Agile Autonomous Robot Navigation and Recovery in Unknown Environments", focusing on its' main ideas and the core blocks.
+This document summarizes the core contributions and methodology of the paper "A GP-based Robust Motion Planning Framework for Agile Autonomous Robot Navigation and Recovery in Unknown Environments, \cite{mohammad2024gp}", focusing on its' main ideas and the core blocks.
 \end{abstract}
 
 \section{Overview: Core Questions and Answers}
@@ -90,19 +93,19 @@ This document summarizes the core contributions and methodology of the paper "A 
   \end{itemize}
 \end{itemize}
 
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=0.95\textwidth]{fig/gp_robust_motion_planning_diagram.png}
-  \caption{Summarized Block-Diagram of GP-based Robust Motion Planning}
-  \label{fig:gp_motion_planning}
-\end{figure}
-
 \paragraph{(5) What is the approach itself?}
 \begin{itemize}
   \item \textbf{Gaussian Process} based \textbf{Proactive Failure Detection} in Motion Planning
   \item GP-based, sampling-based \textbf{Recovery} after Failure Detection
   \item \textbf{Sim-to-Real} Training Data for Training Failure Detector
 \end{itemize}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/gp_robust_motion_planning_diagram.png}
+  \caption{Summarized Block-Diagram of GP-based Robust Motion Planning}
+  \label{fig:gp_motion_planning}
+\end{figure}
 
 \paragraph{(6) What are the applications of it?} 
 The approach can be demonstrated on several robotic platforms (eg. Boston Dynamics Spot quadruped, Jackal differential drive UGV) for safety-guaranteed and collision-free navigation in unknown environments.
@@ -132,4 +135,6 @@ The orig block-diagram see \ref{fig:original}
     Could the current discriminative GP classifier for failure detection be augmented or replaced with a generative Normalizing Flow (NF) model that can capture multi-modal failure risk distributions? Specifically, would NF's latent space representation enable more efficient sampling of recovery candidate states compared to the current sampling approach?
 \end{enumerate}
 
+\bibliographystyle{abbrvnat}
+\bibliography{main}
 \end{document}
