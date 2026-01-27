@@ -4,7 +4,7 @@ This document summarizes the core contributions and methodology of the paper "A 
 - Summarization Download: TBD
 
 #### Summarized Block-Diagram
-![Block-Diagram](fig/gp_robust_motion_planning.png) 
+![Block-Diagram](fig/gp_robust_motion_planning_diagram.png) 
 
 #### Orig Paper Citation
 ```BibTex
