@@ -2,10 +2,10 @@ name: Build LaTeX PDF
 
 on:
   push:
-    # branches: [no_exist]
-    branches: [ "journal_tro_24_learning_a_generalizable_trajectory_sampling_distrib_4_mpc" ]
-  pull_request:
-    branches: [ "journal_tro_24_learning_a_generalizable_trajectory_sampling_distrib_4_mpc" ]
+    branches: [no_exist]
+  #   branches: [ "journal_tro_24_learning_a_generalizable_trajectory_sampling_distrib_4_mpc" ]
+  # pull_request:
+  #   branches: [ "journal_tro_24_learning_a_generalizable_trajectory_sampling_distrib_4_mpc" ]
 
 jobs:
   build_latex:
@@ -15,11 +15,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Compile LaTeX document
-        working-directory: journal/TRO/24/FlowMPC/
-        run: |
-          pdflatex -interaction=nonstopmode -shell-escape main.tex
-          pdflatex -interaction=nonstopmode -shell-escape main.tex
-          pdflatex -interaction=nonstopmode -shell-escape main.tex
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          # root_file: journal/TRO/24/FlowMPC/main.tex
+          working_directory: journal/TRO/24/FlowMPC/
+
+      # - name: Upload PDF artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: paper-summary-pdf
+      #     path: main.pdf
       
       - name: Rename PDF
         run: |
