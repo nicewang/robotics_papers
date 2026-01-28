@@ -15,6 +15,9 @@
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
 
+\usepackage{hyperref}
+\usepackage{cleveref}
+
 \title{Summarization: Learning a Generalizable Trajectory Sampling Distribution for Model Predictive Control}
 
 % Paper BibTex
@@ -28,10 +31,10 @@
 %   publisher={IEEE}
 % }
 
-\author{%
-  Xiaonan (Nice) Wang (wangxiaonannice@gmail.com) \\
+\author{
+  Summarized by Xiaonan (Nice) Wang \thanks{wangxiaonannice@gmail.com} \\
   % Paper fr last-names (year)
-  Summarization Generated based on Paper from Power and Berenson (2024) \\
+  Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and study purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from Power and Berenson (2024) \\
   Topic: MPC, Generalizable Trajectory Sampling, Collision-Free Navigation, Prior \& Posterior Flow \\
 }
 
@@ -40,7 +43,7 @@
 \maketitle
 
 \begin{abstract}
-This document summarizes the core contributions and methodology of the paper "Learning a Generalizable Trajectory Sampling Distribution for Model Predictive Control", focusing on its' main ideas and the core blocks.
+This document summarizes the core contributions and methodology of the paper "Learning a Generalizable Trajectory Sampling Distribution for Model Predictive Control, \cite{power2024learning}", focusing on its' main ideas and the core blocks.
 \end{abstract}
 
 \section{Core Questions and Answers}
@@ -57,7 +60,7 @@ Robotics applications like autonomous driving or manipulation require rapid and 
 \paragraph{(3) How is it different from previous methods?} 
 \begin{itemize}
   \item Unlike previous work that utilizes simple Gaussian priors or uninformed sampling distributions, this approach employs a \textbf{Conditional Normalizing Flow (CNF)} to learn a goal-directed and environment-aware control sequence \textbf{Posterior}.
-  \item It is also the first sampling-based MPC framework to learn this \textbf{Posterior} from a dataset.
+  \item It is also a sampling-based MPC framework to learn this \textbf{Posterior} from a dataset.
   \item Furthermore, it introduces a novel \textbf{Environment Projection} method to adapt to OOD scenarios by converting them to in-distribution representations during online navigation.
 \end{itemize}
 
@@ -67,6 +70,13 @@ Robotics applications like autonomous driving or manipulation require rapid and 
   \item \textbf{Adaptability}: The projection mechanism allow effective generalizable trajectory sampling to OOD real-world environments.
   \item \textbf{Expressiveness}: It captures multimodal (conditional) trajectories which standard Gaussian-based samplers cannot.
 \end{itemize}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/flow_mpc_diagram.png}
+  \caption{FlowMPC Block-Diagram (Mainly Inference): Use FlowMPPI as Example}
+  \label{fig:flow_mpc_architecture}
+\end{figure}
 
 \paragraph{(5) What is the approach itself?} 
 \begin{itemize}
@@ -95,20 +105,15 @@ The approach can be demonstrated on several robotic platforms for collision-free
 
 \section{The Structure}
 
-% \paragraph{Summarized Block-Diagram} 
-% \begin{itemize}
-%   \item Mainly Inference
-%   \item Use FlowMPPI as Example
-% \end{itemize}
+\paragraph{Summarized Block-Diagram} 
+\begin{itemize}
+  \item Mainly Inference
+  \item Use FlowMPPI as Example
+\end{itemize}
+The summarized block-diagram see \cref{fig:flow_mpc_architecture}\footnote{This block-diagram is created through code-based drafting (Graphviz) for efficiency. While visual aesthetics may be limited, the overall structure remains clear.}.
 
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=0.95\textwidth]{fig/flow_mpc_diagram.png}
-  \caption{FlowMPC Block-Diagram (Mainly Inference): Use FlowMPPI as Example}
-  \label{fig:flow_mpc_architecture}
-\end{figure}
-
-% \paragraph{Original in Paper}
+\paragraph{Original in Paper}
+The original block-diagram see \cref{fig:original}.
 
 \begin{figure}[tb]
   \centering
@@ -117,4 +122,6 @@ The approach can be demonstrated on several robotic platforms for collision-free
   \label{fig:original}
 \end{figure}
 
+\bibliographystyle{abbrvnat}
+\bibliography{main}
 \end{document}
