@@ -18,8 +18,8 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
-          # root_file: journal/TRO/24/FlowMPPI/main.tex
-          working_directory: journal/TRO/24/FlowMPPI/
+          # root_file: journal/TRO/24/FlowMPC/main.tex
+          working_directory: journal/TRO/24/FlowMPC/
 
       # - name: Upload PDF artifact
       #   uses: actions/upload-artifact@v4
@@ -29,7 +29,7 @@ jobs:
       
       - name: Rename PDF
         run: |
-          old_path="journal/TRO/24/FlowMPPI/main.pdf"
+          old_path="journal/TRO/24/FlowMPC/main.pdf"
           new_name="learning_a_generalizable_trajectory_sampling_distrib_4_mpc_summarization.pdf"
           mv "$old_path" "$new_name"
 
