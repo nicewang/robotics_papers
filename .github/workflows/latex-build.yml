@@ -2,10 +2,10 @@ name: Build LaTeX PDF
 
 on:
   push:
-    # branches: [no_exist]
-    branches: [ "conf_hri_25_clea" ]
-  pull_request:
-    branches: [ "conf_hri_25_clea" ]
+    branches: [no_exist]
+  #   branches: [ "conf_hri_25_clea" ]
+  # pull_request:
+  #   branches: [ "conf_hri_25_clea" ]
 
 jobs:
   build_latex:
