@@ -62,40 +62,25 @@ This document summarizes the core contributions and methodology of the paper "Co
   \item Avoiding data-labelling process like proxy tasks before customizing the robot.
 \end{itemize}
 
-% \paragraph{(3) How is it different from prev.?}
-% \begin{itemize}
-%   \item Hard-Constrained Motion Planner with Proactive Failure Detection and Recovery Mechanism
-%   \item Model Agnostic Safety Monitoring Method
-%   \item Sim-to-Real Manner for Training Planner Failure Detector
-% \end{itemize}
+\paragraph{(3) How is it different from prev.?}
+\begin{itemize}
+  \item Compared with \textit{self-supervised methods} like AEs or VAEs which result in \textit{physically representative features only}, CLEA will learn user preference-aligned features;
+  \item Compared with \textit{hand-crafted} and \textit{prox tasks}:
+  \begin{itemize}
+    \item \textbf{Complete Feature Spaces} (compared with hand-crafted)
+    \item \textbf{No Extra Labelling Process} (since exploratory search just additionally generates needed data when achieving primary goal)
+  \end{itemize}
+\end{itemize}
 
+\paragraph{(4) Why is it better than prev.? (Advantages)} 
+\begin{itemize}
+  \item \textbf{Better Semantic Alignment}
+  \item \textbf{Lower Human Effort}
+  \item \textbf{Trade-off:} Obtained semantic representations without extra human efforts.
+  \item Robot learning as an \textbf{exploratory search} (instead of \textit{information retrieval}) interaction is useful for novice robot users (\textbf{complete}, \textbf{simple}, \textbf{minimal} and \textbf{explainable})
+\end{itemize}
 
-% \paragraph{(4) Why is it better than prev.? (Advantages)} 
-% \begin{itemize}
-%   \item Advantages among \textit{Typical Hard-Constrained} Methods
-%   \begin{itemize}
-%     \item Proactive Failure Detection enables \textbf{Adaptability to Disturbances}
-%     \item \textbf{Recovery} Mechanism
-%     \item Remain Rigor Hard Constrains while Incorporating Failure Processing Strategies (Safety Monitoring+Recovery)
-%   \end{itemize}
-%   \item Advantages among \textit{Soft-Constrained} Methods
-%   \begin{itemize}
-%     \item Compliance with Hard Constraints ensures \textbf{Safety}
-%     \item Generating Relatively \textbf{Higher Quality} and \textbf{Trackable} Trajectories
-%   \end{itemize}
-%   \item Advantages among \textit{Reachability Analysis} based Safety Monitoring Methods (Hamilton-Jacobi-Isaacs, ML based, etc.)
-%   \begin{itemize}
-%     \item \textbf{Generalizability} and \textbf{Model Agnostic}
-%   \end{itemize}
-%   \item Advantages among Other ML based Failure Detection (Safety Monitoring) Methods
-%   \begin{itemize}
-%     \item \textbf{More robust}, \textbf{Non-Manual} Recovery Mechanism
-%     \item \textbf{Computational Efficient} without Complex DL models
-%     \item \textbf{Sim-to-Real} Manner: No Need of Exhaustive Real World Training Data
-%   \end{itemize}
-% \end{itemize}
-
-% \paragraph{(5) What is the approach itself?}
+\paragraph{(5) What is the approach itself?}
 % \begin{itemize}
 %   \item \textbf{Gaussian Process} based \textbf{Proactive Failure Detection} in Motion Planning
 %   \item GP-based, sampling-based \textbf{Recovery} after Failure Detection
@@ -109,8 +94,11 @@ This document summarizes the core contributions and methodology of the paper "Co
 %   \label{fig:gp_motion_planning}
 % \end{figure}
 
-% \paragraph{(6) What are the applications of it?} 
-% The approach can be demonstrated on several robotic platforms (eg. Boston Dynamics Spot quadruped, Jackal differential drive UGV) for safety-guaranteed and collision-free navigation in unknown environments.
+\paragraph{(6) What are the applications of it?} 
+\begin{itemize}
+  \item Human-Robot Interaction Field
+  \item A Generalizable Trajectory Feature Framework that can be used in Assistive/Guidance Robots, etc.
+\end{itemize}
 
 % \section{The Structure}
 
