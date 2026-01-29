@@ -20,6 +20,6 @@ IEEE International Conference on Robotics
 - [A GP-based Robust Motion Planning Framework for Agile Autonomous Robot Navigation and Recovery in Unknown Environments](conf/icra/24/gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs)
 
 #### HRI
-
+ACM/IEEE International Conference on Human-Robot Interaction
 ##### 2025
 - [CLEA: Contrastive Learning from Exploratory Actions: Leveraging Natural Interactions for Preference Elicitation](conf/HRI/25/CLEA)
