@@ -37,7 +37,7 @@
   Summarized by Xiaonan (Nice) Wang \thanks{wangxiaonannice@gmail.com} \\
   % Paper fr last-names (year)
   Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and study purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from Dennler, Nikolaidis and Matari{\'c} (2025) \\
-  Topic: Human-Robot Interaction, Feature Generation, Preference Learning, Multimodal Learning \\
+  Topic: Human-Robot Interaction, Multimodal Trajectory Feature Generation, Preference Learning \\
 }
 
 \begin{document}
@@ -81,11 +81,35 @@ This document summarizes the core contributions and methodology of the paper "Co
 \end{itemize}
 
 \paragraph{(5) What is the approach itself?}
-% \begin{itemize}
-%   \item \textbf{Gaussian Process} based \textbf{Proactive Failure Detection} in Motion Planning
-%   \item GP-based, sampling-based \textbf{Recovery} after Failure Detection
-%   \item \textbf{Sim-to-Real} Training Data for Training Failure Detector
-% \end{itemize}
+\begin{itemize}
+  \item \textbf{CLEA:}
+  \begin{itemize}
+    \item \textbf{Contrastive} Learning from \textbf{Exploratory} Actions
+    \item A \textit{\textbf{Generalizable} Trajectory Feature Learning Framework} that provides \textit{Low-Dimensional Feature Vector Generator}
+  \end{itemize}
+\end{itemize}
+
+Experimental Workflow as following:
+\begin{verbatim}
+1. Exploratory Search: Exploratory Actions Gen (by User Set A)
+2. CLEA Training: Contrastive Feature Generation Learning:
+- Pairwise
+- Triplet Loss
+- Feature Gen Model
+3. Downstream Task Evaluation:
+- Behaviors Ranking (By User Set B)
+  - Pairwise:
+    - For N behavuors in each ranking, building C(N,2) comparisons;
+    - Modeling as C(N,2) binary classifiers.
+  - Why not pointwise? 
+    - Relativity of Preference
+    - Keeping mathematical properties of reward function
+    - Non-Binary Classification: Vector Generation rather than Probability Generation
+- Reward Learning (Training) (use 70% pairwise comparisons):
+  - Cross-Entropy Loss
+  - Reward Model
+- Evaluation (use 30% pairwise comparisons)
+\end{verbatim}
 
 % \begin{figure}[tb]
 %   \centering
@@ -97,7 +121,7 @@ This document summarizes the core contributions and methodology of the paper "Co
 \paragraph{(6) What are the applications of it?} 
 \begin{itemize}
   \item Human-Robot Interaction Field
-  \item A Generalizable Trajectory Feature Framework that can be used in Assistive/Guidance Robots, etc.
+  \item A Generalizable Trajectory Feature Learning Framework that can be used in Assistive/Guidance Robots, etc.
 \end{itemize}
 
 % \section{The Structure}
