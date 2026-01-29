@@ -37,7 +37,7 @@
   Summarized by Xiaonan (Nice) Wang \thanks{wangxiaonannice@gmail.com} \\
   % Paper fr last-names (year)
   Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and study purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from Dennler, Nikolaidis and Matari{\'c} (2025) \\
-  Topic: Motion Planning, Safety-Guaranteed and Collision-Free Navigation, Recovery Mechanism \\
+  Topic: Human-Robot Interaction, Feature Generation, Preference Learning, Multimodal Learning \\
 }
 
 \begin{document}
@@ -51,17 +51,16 @@ This document summarizes the core contributions and methodology of the paper "Co
 \section{Overview: Core Questions and Answers}
 
 \paragraph{(1) What is the problem?} 
-% \begin{itemize}
-%   \item Robust Agile Robot Navigation in \textbf{Cluttered, Unknown} Environments
-%   \item \textbf{Safety Monitoring \& Failure Detection} and \textbf{Recovery Mechanism} Design in Navigation
-% \end{itemize}
+\begin{itemize}
+  \item Scenario (the Overall Task): \textbf{Customize} Robot Behaviors that \textbf{Align with Human Preference} -> a.k.a \textit{Preference Learning}
+  \item \textit{Low-Dimensional} \textbf{Preference-Aligned (Semantic)} Trajectory \textbf{Features Generation} using Feature Learning Model (a.k.a Feature Generator)
+\end{itemize}
 
-% \paragraph{(2) Why need to solve this problem?}
-% \begin{itemize}
-%   \item Agile Robot Navigation in \textbf{Uncertainties}
-%   \item \textbf{Guaranteeing Safety} and \textbf{Avoiding Collision} in Unknown environments
-%   \item Ensuring \textbf{Navigation Success}
-% \end{itemize}
+\paragraph{(2) Why need to solve this problem?}
+\begin{itemize}
+  \item Generating semantic human preference-aligned trajectory features when customizing a robot, in order to reduce user interactions for eliciting preferences and improve user satisfaction;
+  \item Avoiding data-labelling process like proxy tasks before customizing the robot.
+\end{itemize}
 
 % \paragraph{(3) How is it different from prev.?}
 % \begin{itemize}
