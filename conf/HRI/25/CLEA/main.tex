@@ -126,7 +126,7 @@ The summarized block-diagram of \textit{experimental workflow} see \cref{fig:cle
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\textwidth]{fig/clea_experimental_workflow_diagram.png}
-  \caption{Summarized Block-Diagram of GP-based Robust Motion Planning}
+  \caption{Summarized Block-Diagram of CLEA Experimental Workflow}
   \label{fig:clea}
 \end{figure}
 
@@ -141,14 +141,14 @@ The original block-diagram see \cref{fig:original}.
   \label{fig:original}
 \end{figure}
 
-% \section{Open Questions}
+\section{Open Questions}
 
-% \begin{enumerate}
-%     \item \textbf{Scalability and Representing Multi-Modal Distributions:} 
-%     How does the proposed framework address the $O(N^3)$ computational complexity of Gaussian Processes (GPs) as the robot accumulates more environmental data? Furthermore, can a single Gaussian Process model effectively represent multi-modal failure risk distributions when the true risk landscape exhibits multiple distinct failure modes in topologically complex environments?
-%     \item \textbf{Transition to Generative Normalizing Flows:} 
-%     Could the current discriminative GP classifier for failure detection be augmented or replaced with a generative Normalizing Flow (NF) model that can capture multi-modal failure risk distributions? Specifically, would NF's latent space representation enable more efficient sampling of recovery candidate states compared to the current sampling approach?
-% \end{enumerate}
+\begin{enumerate}
+    \item \textbf{Purpose of Symmetric Triplet Loss:} 
+    Does the second half of Eq. 3 make sense? Will it increase the risk of overfitting while having limited effectiveness in promoting convergence?
+    \item \textbf{Generalizabilityity and Scalability:}
+    Can the trained CLEA feature generator only be integrated into the robot customization process for online inference to obtain feature vectors? How about other scenarios like utilizing CLEA generator offline to generate vectors to build a feature vector database? If so, does the trained generator meet the generalizabilityity quirements?
+\end{enumerate}
 
 \bibliographystyle{abbrvnat}
 \bibliography{main}
