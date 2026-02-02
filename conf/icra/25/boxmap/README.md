@@ -18,3 +18,61 @@ This document summarizes the core contributions and methodology of the paper "Bo
   organization={IEEE}
 }
 ```
+
+##### draft
+```txt
+low-level measurements can then be leveraged to achieve
+high-level goals 
+
+(1) What is the problem?
+- Navigation in Complex and Unknown (a.k.a Unmapped or Partial Sensed) Environments
+- Robot Navigation in Resource-Constrained Scenarios
+- Topological Graph Generation and Real-Time Updating -> Topological Graph Prediction (what actually do)
+
+
+(2) Why need to solve this problem?
+- Traditional standard navigation methods require maintenance of detailed environment representations.
+- Maintaining detailed environment representations is resource-expensive.
+- Demands for running within resource-constrained scenarios.
+
+
+(3) How is it different from prev.?
+
+
+- Compared with traditional pixel-wise semantic segmentation, wall entities identification \& clustering: 
+	- Utilizing deep learning to learn from prior experience.
+
+
+Anchor-free
+- Compared with Anchors based Bounding Boxes Prediction + CNN-RNN (or CNN-GCN) base Corners Detection:
+	- Transformer encoder-decoder architecture to eliminate anchor generation;
+	- Truncated Signed Distance Function (TSDF) based global loss to eliminate Non-Maximum Suppression (NMS);
+	- In Summarization, an end-to-end DEtection TRansformer (DETR) method to reduce reliance on hand-crafted components (NMS, anchor generation, etc). 
+ 
+
+
+- Compared with other DETR + regression/classification:
+	- Box embeddings/representations: Using bounding boxes as primitives of environment (core point).
+
+
+(4) Why is it better than prev.? (Advantages)
+- BoxMap (bounding boxes as interpretable embeddings, within uses a DETR-like framework) leading to no need for multi-resolution representations and extra post-processing.
+- Lower Computational Costs -> Low-Resource
+- Less Space Complexity of Map/Graph (BoxMap representation scales quadratically with the number of rooms)
+- Better Small Details Detection by Utilizing Hierarchical Loss
+- Enabling downstream decision making tasks (planning & navigation, etc) to generate shorter trajectories.
+
+(5) What is the approach itself?
+- Top-down, Low-Resource Robotic Navigation in Unmapped (or Partial Sensed) Environments
+end-to-end BoxMap, a Detection-Transformerbased architecture
+- transfers From low-level measurements (points, lines) to topological maps (i.e., high-level semantic representations (entities+relations))
+- A DEtection TRansformer (DETR) based end-to-end method
+
+(6) What are the applications of it?
+- Downstream: "Lyapunov Neural Network with Region of Attraction Search"?
+
+- a robot equipped with a 2-D laser scanner tasked with
+exploring a residential building
+
+Open Questions: "Sim-to-Real"?
+```
