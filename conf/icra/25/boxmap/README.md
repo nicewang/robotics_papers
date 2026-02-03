@@ -15,7 +15,7 @@ This document summarizes the core contributions and methodology of the paper "Bo
 | Transformer Decoder | Queries + Encoded Features | Object Manifestation | Maps queries to specific **Box Embeddings** via **Cross-attention**. |
 | Decoder Self-Attention | Intermediate Queries | Parallel Coordination | Unmasked Attention allows queries to communicate and avoid redundant detections (Parallel de-duplication). |
 | Hierarchical Loss | Predicted Boxes vs. GT | Detail Enhancement | Subtracts large objects (rooms) from TSDF to focus on small topological details (doors). |
-| Prediction Heads | Box Embeddings | Geometric Mapping | Projects embeddings into 3D box coordinates and class labels. |
+| Prediction Heads | Box Embeddings | Geometric Mapping | Projects embeddings into box coordinates and class labels (specifying existence). |
 
 #### Orig Paper Citation
 ```BibTex
