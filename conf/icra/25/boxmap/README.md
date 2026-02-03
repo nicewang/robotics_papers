@@ -6,6 +6,17 @@ This document summarizes the core contributions and methodology of the paper "Bo
 #### Summarized Block-Diagram
 ![Block-Diagram](fig/clea_experimental_workflow_diagram.png) 
 
+#### Other Summarized Details
+| Component | Input | Primary Function | Core Logic and Value |
+| :--- | :--- | :--- | :--- |
+| CNN Backbone | Raw TSDF / Images | Dimensionality Reduction and Local Feature Extraction | (1) **Downsamples** inputs into high-level semantic feature maps.  <br>(2) Reduces pixel count to prevent O(N^2) complexity explosion in Attention. <br>(3) Provides **Inductive Bias** (Translation Invariance).</br> |
+| Transformer Encoder | Feature Maps | Global Context Encoding | Uses **Self-attention** to model long-range dependencies between pixels (e.g., relating distant walls). |
+| Object Queries | Learnable Vectors | Entity Proposals | Acts as M placeholders (occupants) to query potential objects in the scene. |
+| Transformer Decoder | Queries + Encoded Features | Object Manifestation | Maps queries to specific **Box Embeddings** via **Cross-attention**. |
+| Decoder Self-Attention | Intermediate Queries | Parallel Coordination | Unmasked Attention allows queries to communicate and avoid redundant detections (Parallel de-duplication). |
+| Hierarchical Loss | Predicted Boxes vs. GT | Detail Enhancement | Subtracts large objects (rooms) from TSDF to focus on small topological details (doors). |
+| Prediction Heads | Box Embeddings | Geometric Mapping | Projects embeddings into 3D box coordinates and class labels. |
+
 #### Orig Paper Citation
 ```BibTex
 @inproceedings{mohammad2024gp,
@@ -20,15 +31,6 @@ This document summarizes the core contributions and methodology of the paper "Bo
 ```
 
 ##### draft
-| Component | Input | Primary Function | Core Logic and Value |
-| :--- | :--- | :--- | :--- |
-| CNN Backbone | Raw TSDF / Images | Dimensionality Reduction and Local Feature Extraction | (1) **Downsamples** inputs into high-level semantic feature maps.  <br>(2) Reduces pixel count to prevent O(N^2) complexity explosion in Attention. <br>(3) Provides **Inductive Bias** (Translation Invariance).</br> |
-| Transformer Encoder | Feature Maps | Global Context Encoding | Uses **Self-attention** to model long-range dependencies between pixels (e.g., relating distant walls). |
-| Object Queries | Learnable Vectors | Entity Proposals | Acts as M placeholders (occupants) to query potential objects in the scene. |
-| Transformer Decoder | Queries + Encoded Features | Object Manifestation | Maps queries to specific **Box Embeddings** via **Cross-attention**. |
-| Decoder Self-Attention | Intermediate Queries | Parallel Coordination | Unmasked Attention allows queries to communicate and avoid redundant detections (Parallel de-duplication). |
-| Hierarchical Loss | Predicted Boxes vs. GT | Detail Enhancement | Subtracts large objects (rooms) from TSDF to focus on small topological details (doors). |
-| Prediction Heads | Box Embeddings | Geometric Mapping | Projects embeddings into 3D box coordinates and class labels. |
 ```txt
 low-level measurements can then be leveraged to achieve
 high-level goals 
