@@ -100,10 +100,10 @@ This document summarizes the core contributions and methodology of the paper "Bo
   \begin{tabularx}{\textwidth}{l l l X}
     \toprule
     Component & Input & Primary Function & Core Logic and Value \\ \midrule
-    CNN Backbone & Occupancy \textit{Map} \\ \newline ($fr.$ TSDF) & \makecell[l]{Dimensionality Reduction and \\ Local Feature Extraction} & (1) \textbf{Downsamples} inputs into lower-resolution semantic feature maps. \newline (2) Reduces pixel count to prevent $O(N^2)$ complexity explosion in Attention. \newline (3) Provides \textbf{Inductive Bias} (Translation Invariance). \\ \addlinespace
+    \makecell[l]{CNN Backbone} & Occupancy \textit{Map} \newline ($fr.$ TSDF) & \makecell[l]{Dimensionality Reduction and \\ Local Feature Extraction} & (1) \textbf{Downsamples} inputs into lower-resolution semantic feature maps. \newline (2) Reduces pixel count to prevent $O(N^2)$ complexity explosion in Attention. \newline (3) Provides \textbf{Inductive Bias} (Translation Invariance). \\ \addlinespace
     Transformer Encoder & Feature Maps & Global Context Encoding & Uses \textbf{Self-attention} to model long-range dependencies between pixels (e.g., relating distant walls). \\ \addlinespace
     Object Queries & Learnable Vectors & Entity Proposals & Acts as $M$ placeholders (occupants) to query potential objects in the scene. \\ \addlinespace
-    Transformer Decoder & \makecell[l]{Queries + \\ \newline Encoded Features \\ \newline (via \textbf{Cross-attention})} & Object Manifestation & Maps queries to specific $M$ \textbf{Box Embeddings}. \\ \addlinespace
+    \makecell[l]{Transformer Decoder} & \makecell[l]{Queries + \\ \newline Encoded Features \newline (via \textbf{Cross-attention})} & Object Manifestation & Maps queries to specific $M$ \textbf{Box Embeddings}. \\ \addlinespace
     Decoder Self-Attention & Intermediate Queries & Parallel Coordination & Unmasked Attention allows queries to communicate and avoid redundant detections (Parallel de-duplication). \\ \addlinespace
     Hierarchical Loss & Predicted Boxes vs. GT & Detail Enhancement & Subtracts large objects (rooms) from TSDF to focus on small topological details (doors). \\ \addlinespace
     Prediction Heads & Box Embeddings & Geometric \textit{Mapping} & Projects embeddings into box coordinates and class labels (specifying existence). \\ \bottomrule

@@ -57,21 +57,29 @@ high-level goals
 Anchor-free
 - Compared with Anchors based Bounding Boxes Prediction + CNN-RNN (or CNN-GCN) base Corners Detection:
 	- Transformer encoder-decoder architecture to eliminate anchor generation;
-	- Truncated Signed Distance Function (TSDF) based global loss to eliminate Non-Maximum Suppression (NMS);
+	- Box-based (set-based) loss to eliminate Non-Maximum Suppression (NMS);
+
+	parametric TSDF representation
+
 	- In Summarization, an end-to-end DEtection TRansformer (DETR) method to reduce reliance on hand-crafted components (NMS, anchor generation, etc). 
  
 
 
 - Compared with other DETR + regression/classification:
-	- Box embeddings/representations: Using bounding boxes as primitives of environment (core point).
+	- Using bounding boxes (instead of vertices) as primitives of environment (core).
 
 
 (4) Why is it better than prev.? (Advantages)
-- BoxMap (bounding boxes as interpretable embeddings, within uses a DETR-like framework) leading to no need for multi-resolution representations and extra post-processing.
-- Lower Computational Costs -> Low-Resource
-- Less Space Complexity of Map/Graph (BoxMap representation scales quadratically with the number of rooms)
+- BoxMap (bounding boxes as primitives, within a DETR-like framework) leading to no need for multi-resolution representations and extra post-processing.
+- TSDF inputs enables Lower Computational Costs -> Low-Resource
+	- Furthermore: Less Space Complexity (BoxMap representation scales quadratically with the number of rooms)
 - Better Small Details Detection by Utilizing Hierarchical Loss
-- Enabling downstream decision making tasks (planning & navigation, etc) to generate shorter trajectories.
+- Enabling downstream decision making tasks (planning & navigation, e.g. A* search based methods) to generate shorter trajectories.
+
+Novelty:
+TSDF -> Resource-Constrained
+finetuning -> learn fr. prior (recursive)
+Hierarchical Loss -> Highlight small details
 
 (5) What is the approach itself?
 - Top-down, Low-Resource Robotic Navigation in Unmapped (or Partial Sensed) Environments
