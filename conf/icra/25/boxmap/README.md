@@ -3,8 +3,20 @@ This document summarizes the core contributions and methodology of the paper "Bo
 - [Original Paper](https://github.com/nicewang/robotics_papers/tree/assets/conf/icra/25/boxmap/original_paper)
 - Summarization Download: TBD
 
+### Shortages
+- The architecture feels like a *patchwork* of existing methods.
+  - "A + B + C for Task D"
+- The technical novelty is *incremental and thin*.
+- Several descriptions are *misattributed or conceptually confused*.
+  - e.g. In paper, it claims that "TSDF" L2 loss leads to non manual labeling;
+  ```
+  "We use losses based on the Truncated Signed Distance Function (TSDF) of predicted boxes to learn against the ground truth TSDF. Compared to losses based on vertices, our method is easier to train and avoids the necessity of manual labelling."
+  ```
+  - Actually, it's BoxMap which leads to this effect.
+- *Buzzword-Chasing*
+
 #### Summarized Block-Diagram
-![Block-Diagram](fig/clea_experimental_workflow_diagram.png) 
+![Block-Diagram](fig/boxmap_inferenceceiagram.png) 
 
 #### Other Summarized Details
 | Component | Input | Primary Function | Core Logic and Value |
