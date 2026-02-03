@@ -95,7 +95,7 @@ This document summarizes the core contributions and methodology of the paper "Bo
   \end{itemize}
   \item BoxMap + \textbf{TSDF-based Representation} enables \textbf{Resource-Efficient};
   \item Utilizing \textbf{Hierarchical loss} enables Better \textbf{Small Details Detection};
-  \item Enabling \textit{downstream decision making tasks} (planning & navigation, e.g. A* search based methods) to generate \textbf{shorter trajectories}.
+  \item Enabling \textit{downstream decision making tasks} (planning \& navigation, e.g. A* search based methods) to generate \textbf{shorter trajectories}.
 \end{itemize}
 
 \paragraph{(5) What is the approach itself?}
@@ -166,10 +166,10 @@ This document summarizes the core contributions and methodology of the paper "Bo
 \section{Open Questions}
 
 \begin{enumerate}
-    \item \textbf{Purpose of Symmetric Triplet Loss:} 
-    Does the second half of Eq. 3 make sense? Will it increase the risk of overfitting while having limited effectiveness in promoting convergence?
-    \item \textbf{Generalizabilityity and Scalability:}
-    Is the trained CLEA feature generator only can be integrated into the robot customization process for online inference to obtain feature vectors? How about other scenarios like utilizing CLEA generator offline to generate vectors to build a feature vector database? If so, does the trained generator meet the generalizabilityity quirements?
+    \item \textbf{Validity of Historical Predictions:} 
+    How are historical predictions (Prior Predicted) used for fine-tuning obtained? SAnd what characteristics make a historical prediction indeed beneficial for incremental mapping stability?
+    \item \textbf{Generalizability:}
+    While utlizing TSDF-based representations achieve resource efficiency in structured environments, how can this framework generalize to large-scale or non-Manhattan outdoor scenes without increasing memory requirements or losing geometric detail?
 \end{enumerate}
 
 \bibliographystyle{abbrvnat}
