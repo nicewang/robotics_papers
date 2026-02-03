@@ -28,11 +28,11 @@
 \title{Summarization: BoxMap: Efficient Structural Mapping and Navigation}
 
 % Paper BibTex
-% @inproceedings{dennler2025contrastive,
-%   title={Contrastive Learning from Exploratory Actions: Leveraging Natural Interactions for Preference Elicitation},
-%   author={Dennler, Nathaniel and Nikolaidis, Stefanos and Matari{\'c}, Maja},
-%   booktitle={2025 20th ACM/IEEE International Conference on Human-Robot Interaction (HRI)},
-%   pages={778--788},
+% @inproceedings{wang2025boxmap,
+%   title={Boxmap: Efficient structural mapping and navigation},
+%   author={Wang, Zili and Allum, Christopher and Andersson, Sean B and Tron, Roberto},
+%   booktitle={2025 IEEE International Conference on Robotics and Automation (ICRA)},
+%   pages={6401--6407},
 %   year={2025},
 %   organization={IEEE}
 % }
@@ -56,40 +56,62 @@ This document summarizes the core contributions and methodology of the paper "Bo
 
 \paragraph{(1) What is the problem?} 
 \begin{itemize}
-  \item Scenario (the Overall Task): \textbf{Customize} Robot Behaviors that \textbf{Align with Human Preference} -> a.k.a \textit{Preference Learning}
-  \item \textit{Low-Dimensional} \textbf{Preference-Aligned (Semantic)} Trajectory \textbf{Features Generation} using Feature Learning Model (a.k.a Feature Generator)
+  \item Navigation in Complex and \textbf{Unknown} (a.k.a Unmapped or Partial Sensed) Environments
+  \item Robot Navigation in \textbf{Resource-Constrained} Scenarios
+  \item \textbf{Topological Graph Generation} and \textbf{Real-Time Updating} -> Topological Graph Prediction (what actually do)
 \end{itemize}
 
 \paragraph{(2) Why need to solve this problem?}
 \begin{itemize}
-  \item Generating semantic human preference-aligned trajectory features when customizing a robot, in order to reduce user interactions for eliciting preferences and improve user satisfaction;
-  \item Avoiding data-labelling process like proxy tasks before customizing the robot.
+  \item Traditional standard navigation methods require maintenance of \textit{detailed} environment representations.
+  \item Maintaining detailed environment representations is \textit{resource-expensive}.
+  \item Demands for running within resource-constrained scenarios.
 \end{itemize}
 
 \paragraph{(3) How is it different from prev.?}
 \begin{itemize}
-  \item Compared with \textit{self-supervised methods} like AEs or VAEs which result in \textit{physically representative features only}, CLEA will learn user preference-aligned features;
-  \item Compared with \textit{hand-crafted} and \textit{prox tasks}:
+  \item Compared with traditional \textit{pixel-wise semantic segmentation}, textit{wall entities identification \& clustering}:
   \begin{itemize}
-    \item \textbf{Complete Feature Spaces} (compared with hand-crafted)
-    \item \textbf{No Extra Labelling Process} (since exploratory search just additionally generates needed data when achieving primary goal)
+    \item Utilizing \textbf{deep learning} to learn from \textbf{prior experience}.
+  \end{itemize}
+  \item Compared with \textit{Anchors based Bounding Boxes Prediction + CNN-RNN (or CNN-GCN)} base \textit{Corners Detection}:
+  \begin{itemize}
+    \item \textbf{Transformer encoder-decoder architecture} to \textbf{eliminate anchor generation};
+    \item \textbf{Box-based (set-based) loss} to \textbf{eliminate Non-Maximum Suppression (NMS)};
+    \item In Summarization, an \textbf{end-to-end} DEtection TRansformer (DETR) based method to reduce reliance on \textbf{hand-crafted} components (NMS, anchor generation, etc).
+  \end{itemize}
+  \item Compared with other \textit{DETR + regression/classification}:
+  \begin{itemize}
+    \item Using \textbf{bounding boxes} (instead of vertices) as \textbf{primitives} of environment (\textit{core}).
   \end{itemize}
 \end{itemize}
 
 \paragraph{(4) Why is it better than prev.? (Advantages)} 
 \begin{itemize}
-  \item \textbf{Better Semantic Alignment}
-  \item \textbf{Lower Human Effort}
-  \item \textbf{Trade-off:} Obtained semantic representations without extra human efforts.
-  \item Robot learning as an \textbf{exploratory search} (instead of \textit{information retrieval}) interaction is useful for novice robot users (\textbf{complete}, \textbf{simple}, \textbf{minimal} and \textbf{explainable})
+  \item \textbf{BoxMap} (bounding boxes as primitives, within a DETR-like framework) enables:
+  \begin{itemize}
+    \item Predicting bounding boxes (combined with \textbf{L2 loss}) rather than predicting vertices switches object detection to \textbf{image reconstruction}, \textbf{eliminating manual labeling} for vertices;
+    \item \textbf{No need} for \textit{multi-resolution representations} and \textit{extra post-processing} like regression/classification.
+  \end{itemize}
+  \item BoxMap + \textbf{TSDF-based Representation} enables \textbf{Resource-Efficient};
+  \item Utilizing \textbf{Hierarchical loss} enables Better \textbf{Small Details Detection};
+  \item Enabling \textit{downstream decision making tasks} (planning & navigation, e.g. A* search based methods) to generate \textbf{shorter trajectories}.
 \end{itemize}
 
 \paragraph{(5) What is the approach itself?}
 \begin{itemize}
-  \item \textbf{CLEA:}
+  \item Method used in \textbf{Top-down}, \textbf{Low-Resource} Robotic Navigation in Unmapped (or Partial Sensed) Environments
+  \item A \textbf{DEtection TRansformer (DETR)} based \textbf{end-to-end} architecture to \textit{incrementally} generate \textbf{box-based} (using \textbf{TSDF-based} representation) topological map.
   \begin{itemize}
-    \item \textbf{Contrastive} Learning from \textbf{Exploratory} Actions
-    \item A \textit{\textbf{Generalizable} Trajectory Feature Learning Framework} that provides \textit{Low-Dimensional Feature Vector Generator}
+    \item Input: low-level measurements (points, lines)
+    \item Output: topological maps (i.e., high-level semantic representations (entities+relations))
+    \item Novelty:
+    \begin{itemize}
+      \item BoxMap + TSDF -> Resource-Efficient
+      \item \textit{Fine-tuning} with (\textit{Prior Predicted}, Current Measurements) -> Learning fr. \textit{Prior} (\textit{Recursive})
+      \item Hierarchical Loss -> Highlight small details.
+    \end{itemize}
+    \item BoxMap Components: $cf.$ \cref{tab:boxmap_components}
   \end{itemize}
 \end{itemize}
 
@@ -113,8 +135,9 @@ This document summarizes the core contributions and methodology of the paper "Bo
 
 \paragraph{(6) What are the applications of it?} 
 \begin{itemize}
-  \item Human-Robot Interaction Field
-  \item A Generalizable Trajectory Feature Learning Framework that can be used in Assistive/Guidance Robots, etc.
+  \item Top-down, Low-Resource Robotic Navigation in Unmapped (or Partial Sensed) Environments (Downstream Tasks)
+  \item Examples: frontier exploration, object search, or scene understanding.
+  \item On which robotic platforms? Simulation only now (indicated in paper).
 \end{itemize}
 
 \section{The Structure}
