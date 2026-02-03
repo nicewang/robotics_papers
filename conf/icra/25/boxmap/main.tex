@@ -100,7 +100,7 @@ This document summarizes the core contributions and methodology of the paper "Bo
   \begin{tabularx}{\textwidth}{l l l X}
     \toprule
     Component & Input & Primary Function & Core Logic and Value \\ \midrule
-    CNN Backbone & \makecell[l]{Occupancy \textit{Map} \\ ($fr.$ TSDF)} & \makecell[l]{Dimensionality Reduction and \\ Local Feature Extraction} & (1) \textbf{Downsamples} inputs into lower-resolution semantic feature maps. \newline (2) Reduces pixel count to prevent $O(N^2)$ complexity explosion in Attention. \newline (3) Provides \textbf{Inductive Bias} (Translation Invariance). \\ \addlinespace
+    CNN Backbone & \makecell[l]{Occupancy \textit{Map} \\ ($fr.$ TSDF)} & \makecell[l]{Dimensionality Reduction \& \\ Local Feature Extraction} & (1) \textbf{Downsamples} inputs into lower-resolution semantic feature maps. \newline (2) Reduces pixel count to prevent $O(N^2)$ complexity explosion in Attention. \newline (3) Provides \textbf{Inductive Bias} (Translation Invariance). \\ \addlinespace
     Transformer Encoder & Feature Maps & Global Context Encoding & Uses \textbf{Self-attention} to model long-range dependencies between pixels (e.g., relating distant walls). \\ \addlinespace
     Object Queries & Learnable Vectors & Entity Proposals & Acts as $M$ placeholders (occupants) to query potential objects in the scene. \\ \addlinespace
     Transformer Decoder & \makecell[l]{Queries + \\ Encoded Features via \\ \textbf{CrossAtt}} & Object Manifestation & Maps queries to specific $M$ \textbf{Box Embeddings}. \\ \addlinespace
