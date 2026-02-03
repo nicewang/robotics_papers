@@ -18,12 +18,12 @@
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
 
-\usepackage{hyperref}
-\usepackage{cleveref}
-
 \usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage{makecell}
+
+\usepackage{hyperref}
+\usepackage{cleveref}
 
 \title{Summarization: BoxMap: Efficient Structural Mapping and Navigation}
 
@@ -109,28 +109,6 @@ This document summarizes the core contributions and methodology of the paper "Bo
     Prediction Heads & Box Embeddings & Geometric Mapping & Projects embeddings into 3D box coordinates and class labels. \\ \bottomrule
   \end{tabularx}
 \end{table}
-
-Experimental Workflow as following:
-\begin{verbatim}
-1. Exploratory Search: Exploratory Actions Gen (by User Set A)
-2. CLEA Training: Contrastive Feature Generation Learning:
-- Pairwise
-- Triplet Loss
-- Feature Gen Model
-3. Downstream Task Evaluation:
-- Behaviors Ranking (By User Set B)
-  - Pairwise:
-    - For N behavuors in each ranking, building C(N,2) comparisons;
-    - Modeling as C(N,2) binary classifiers.
-  - Why not pointwise? 
-    - Relativity of Preference
-    - Keeping mathematical properties of reward function
-    - Non-Binary Classification: Vector Generation rather than Probability Generation
-- Reward Learning (Training) (use 70% pairwise comparisons):
-  - Cross-Entropy Loss
-  - Reward Model
-- Evaluation (use 30% pairwise comparisons)
-\end{verbatim}
 
 
 \paragraph{(6) What are the applications of it?} 
