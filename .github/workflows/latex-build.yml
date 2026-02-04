@@ -2,10 +2,10 @@ name: Build LaTeX PDF
 
 on:
   push:
-    branches: [no_exist]
-  #   branches: [ "conf_icra_25_boxmap" ]
-  # pull_request:
-  #   branches: [ "conf_icra_25_boxmap" ]
+    # branches: [no_exist]
+    branches: [ "conf_icra_25_boxmap" ]
+  pull_request:
+    branches: [ "conf_icra_25_boxmap" ]
 
 jobs:
   build_latex:
