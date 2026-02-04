@@ -12,7 +12,7 @@ This document summarizes the core contributions and methodology of the paper "Bo
   ```
   "We use losses based on the Truncated Signed Distance Function (TSDF) of predicted boxes to learn against the ground truth TSDF. Compared to losses based on vertices, our method is easier to train and avoids the necessity of manual labelling."
   ```
-  - Actually, it's BoxMap which leads to this effect.
+  - Actually, it's BoxMap (using bounding boxes directly) which leads to this effect.
 - *Buzzword-Chasing*
 
 #### Summarized Block-Diagram
