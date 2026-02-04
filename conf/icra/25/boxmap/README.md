@@ -6,7 +6,7 @@ This document summarizes the core contributions and methodology of the paper "Bo
 ### Shortages
 - The architecture feels like a *patchwork* of existing methods.
   - "A + B + C for Task D"
-- The technical novelty is *incremental and thin*.
+- The novelty is *incremental and thin*.
 - Several descriptions are *misattributed or conceptually confused*.
   - e.g. In paper, it claims that "TSDF" L2 loss leads to non manual labeling;
   ```
@@ -16,7 +16,7 @@ This document summarizes the core contributions and methodology of the paper "Bo
 - *Buzzword-Chasing*
 
 #### Summarized Block-Diagram
-![Block-Diagram](fig/boxmap_inferenceceiagram.png) 
+![Block-Diagram](fig/boxmap_inferencece_diagram.png) 
 
 #### Other Summarized Details
 | Component | Input | Primary Function | Core Logic and Value |

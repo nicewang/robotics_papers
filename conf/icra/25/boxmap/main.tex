@@ -79,7 +79,7 @@ This document summarizes the core contributions and methodology of the paper "Bo
   \end{itemize}
   \item Compared with \textit{Anchors based Bounding Boxes Prediction + CNN-RNN (or CNN-GCN)} based \textit{Corners Detection}:
   \begin{itemize}
-    \item \textbf{Transformer encoder-decoder architecture} to \textbf{eliminate anchor generation};
+    \item \textbf{Anchor-Free}:\textbf{Transformer encoder-decoder architecture} to \textbf{eliminate anchor generation};
     \item \textbf{Box-based (set-based) loss} to \textbf{eliminate Non-Maximum Suppression (NMS)};
     \item In Summarization, an \textbf{end-to-end} DEtection TRansformer (DETR) based method to reduce reliance on \textbf{hand-crafted} components (NMS, anchor generation, etc).
   \end{itemize}
@@ -106,8 +106,6 @@ This document summarizes the core contributions and methodology of the paper "Bo
 \begin{itemize}
   \item A \textbf{DEtection TRansformer (DETR)} based \textbf{end-to-end} architecture to \textit{incrementally} generate \textbf{box-based} (using \textbf{TSDF-based} representation) topological map.
   \begin{itemize}
-    \item Input: low-level measurements (points, lines)
-    \item Output: topological maps (i.e., high-level semantic representations (entities+relations))
     \item Novelty:
     \begin{itemize}
       \item BoxMap + TSDF -> Resource-Efficient
@@ -125,7 +123,7 @@ This document summarizes the core contributions and methodology of the paper "Bo
   \begin{tabularx}{\textwidth}{l l l X}
     \toprule
     Component & Input & Primary Function & Core Logic and Value \\ \midrule
-    CNN Backbone & \makecell[l]{Occupancy \textit{Map} \\ ($fr.$ TSDF)} & \makecell[l]{Dimensionality Reduction \& \\ Local Feature Extraction} & (1) \textbf{Downsamples} inputs into lower-resolution semantic feature maps. \newline (2) Reduces pixel count to prevent $O(N^2)$ complexity explosion in Attention. \newline (3) Provides \textbf{Inductive Bias} (Translation Invariance). \\ \addlinespace
+    CNN Backbone & \makecell[l]{Occupancy \textit{Map} \\ ($fr.$ TSDF)} & \makecell[l]{Dimensionality Reduction \& \\ Local Feature Extraction} & (1) \textbf{Downsamples} inputs into lower-resolution semantic feature maps. \newline (2) Reduces pixel count to prevent $O(N^2)$ complexity explosion in Attention. \newline (3) Provides \textbf{Inductive Bias} (Translational Invariance). \\ \addlinespace
     Transformer Encoder & Feature Maps & Global Context Encoding & Uses \textbf{Self-attention} to model long-range dependencies between pixels (e.g., relating distant walls). \\ \addlinespace
     Object Queries & Learnable Vectors & Entity Proposals & Acts as $M$ placeholders (occupants) to query potential objects in the scene. \\ \addlinespace
     Transformer Decoder & \makecell[l]{Queries + \\ Encoded Features via \\ \textbf{CrossAtt}} & Object Manifestation & Maps queries to specific $M$ \textbf{Box Embeddings}. \\ \addlinespace
@@ -146,11 +144,11 @@ This document summarizes the core contributions and methodology of the paper "Bo
 \section{The Structure}
 
 \paragraph{Summarized Block-Diagram} 
-The summarized (inference) block-diagram see \cref{fig:boxmap}\footnote{This diagram was first hand-drawn on paper and then converted into its current digital version using Banana Nano.}.
+The summarized (inference) block-diagram see \cref{fig:boxmap}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Banana Nano.}.
 
 \begin{figure}[tb]
   \centering
-  \includegraphics[width=0.95\textwidth]{fig/boxmap_inferenceceiagram.png}
+  \includegraphics[width=0.95\textwidth]{fig/boxmap_inferencece_diagram.png}
   \caption{Summarized Block-Diagram of BoxMap Inference Process}
   \label{fig:boxmap}
 \end{figure}
@@ -170,7 +168,7 @@ The original (training) block-diagram see \cref{fig:original}.
 
 \begin{enumerate}
     \item \textbf{Validity of Historical Predictions:} 
-    How are historical predictions (Prior Predicted) used for fine-tuning obtained? SAnd what characteristics make a historical prediction indeed beneficial for incremental mapping stability?
+    How are historical predictions (Prior Predicted) used for fine-tuning obtained? And what characteristics make a historical prediction indeed beneficial for incremental mapping stability?
     \item \textbf{Generalizability:}
     While utlizing TSDF-based representations achieve resource efficiency in structured environments, how can this framework generalize to large-scale or non-Manhattan outdoor scenes without increasing memory requirements or losing geometric detail?
 \end{enumerate}
