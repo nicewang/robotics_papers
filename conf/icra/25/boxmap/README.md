@@ -3,7 +3,7 @@ This document summarizes the core contributions and methodology of the paper "Bo
 - [Original Paper](https://github.com/nicewang/robotics_papers/tree/assets/conf/icra/25/boxmap/original_paper)
 - Summarization Download: TBD
 
-### Shortages
+#### Weaknesses
 - The architecture feels like a *patchwork* of existing methods.
   - "A + B + C for Task D"
 - The novelty is *incremental and thin*.
@@ -15,6 +15,9 @@ This document summarizes the core contributions and methodology of the paper "Bo
   - Actually, it's BoxMap (using bounding boxes directly) which leads to this effect.
     - L2 loss is designed for TSDF representation based Boxes
 - *Buzzword-Chasing*
+
+##### Minor Weaknesses
+- How *Solid Engineering* if *Simulation-Only*?
 
 #### Summarized Block-Diagram
 ![Block-Diagram](fig/boxmap_inferencece_diagram.png) 
