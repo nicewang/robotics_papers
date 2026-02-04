@@ -121,7 +121,7 @@ Experimental Workflow as following:
 \section{The Structure}
 
 \paragraph{Summarized Block-Diagram} 
-The summarized block-diagram of \textit{experimental workflow} see \cref{fig:clea}.
+The summarized block-diagram of \textit{experimental workflow} see \cref{fig:clea}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Nano Banana Pro.}.
 
 \begin{figure}[tb]
   \centering
@@ -145,9 +145,9 @@ The original block-diagram see \cref{fig:original}.
 
 \begin{enumerate}
     \item \textbf{Purpose of Symmetric Triplet Loss:} 
-    Does the second half of Eq. 3 make sense? Will it increase the risk of overfitting while having limited effectiveness in promoting convergence?
-    \item \textbf{Generalizabilityity and Scalability:}
-    Is the trained CLEA feature generator only can be integrated into the robot customization process for online inference to obtain feature vectors? How about other scenarios like utilizing CLEA generator offline to generate vectors to build a feature vector database? If so, does the trained generator meet the generalizabilityity quirements?
+    Does the second half of Eq. 3 make sense? Will it increase the risk of overfitting while having limited effectiveness in promoting convergence? (In other words, does forcing the ``anchor'' and ``positive'' to be interchangeable neglect their differences and lead to ``overfitting''?)
+    \item \textbf{Generalizability and Scalability:}
+    Is the trained CLEA feature generator only can be integrated into the robot customization process for online inference to obtain feature vectors? How about other scenarios like utilizing CLEA generator offline to generate vectors to build a feature vector database? If so, does the trained generator meet the generalizability quirements?
 \end{enumerate}
 
 \bibliographystyle{abbrvnat}

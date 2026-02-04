@@ -9,7 +9,7 @@ This document summarizes the core contributions and methodology of the paper "Bo
 - The novelty is *incremental and thin*.
 - Several descriptions are *misattributed or conceptually confused*.
   - e.g. In paper, it claims that "TSDF" L2 loss leads to non manual labeling;
-  ```
+  ```txt
   "We use losses based on the Truncated Signed Distance Function (TSDF) of predicted boxes to learn against the ground truth TSDF. Compared to losses based on vertices, our method is easier to train and avoids the necessity of manual labelling."
   ```
   - Actually, it's BoxMap (using bounding boxes directly) which leads to this effect.
@@ -35,7 +35,6 @@ This document summarizes the core contributions and methodology of the paper "Bo
 
 #### Orig Paper Citation
 ```BibTex
-@inproceedings{mohammad2024gp,
 @inproceedings{wang2025boxmap,
   title={Boxmap: Efficient structural mapping and navigation},
   author={Wang, Zili and Allum, Christopher and Andersson, Sean B and Tron, Roberto},
