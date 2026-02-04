@@ -1,0 +1,178 @@
+\documentclass{article}
+
+% Pass 'final' to the neurips_2023 package to remove line numbers if needed
+\usepackage[final]{neurips_2023}
+
+% \usepackage[style=authoryear, backend=biber]{biblatex} 
+% \addbibresource{main.bib}
+
+\usepackage{graphicx}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{makecell}
+
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\title{Summarization: BoxMap: Efficient Structural Mapping and Navigation}
+
+% Paper BibTex
+% @inproceedings{wang2025boxmap,
+%   title={Boxmap: Efficient structural mapping and navigation},
+%   author={Wang, Zili and Allum, Christopher and Andersson, Sean B and Tron, Roberto},
+%   booktitle={2025 IEEE International Conference on Robotics and Automation (ICRA)},
+%   pages={6401--6407},
+%   year={2025},
+%   organization={IEEE}
+% }
+
+\author{
+  Summarized by Xiaonan (Nice) Wang \thanks{wangxiaonannice@gmail.com} \\
+  % Paper fr last-names (year)
+  Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and study purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from Wang et al. (2025) \\
+  Topic: Mapping \& Navigation, Robot Perception, DEtection TRansformer (DETR) \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This document summarizes the core contributions and methodology of the paper "BoxMap: Efficient Structural Mapping and Navigation, \cite{wang2025boxmap}", focusing on its' main ideas and the core blocks.
+\end{abstract}
+
+\section{Overview: Core Questions and Answers}
+
+\paragraph{(1) What is the problem?} 
+\begin{itemize}
+  \item Navigation in Complex and \textbf{Unknown} (a.k.a Unmapped or Partial Sensed) Environments
+  \item Robot Navigation in \textbf{Resource-Constrained} Scenarios
+  \item \textbf{Topological Graph Generation} and \textbf{Real-Time Updating} -> Topological Graph Prediction (what actually do)
+\end{itemize}
+
+\paragraph{(2) Why need to solve this problem?}
+\begin{itemize}
+  \item Traditional standard navigation methods require maintenance of \textit{detailed} environment representations.
+  \item Maintaining detailed environment representations is \textit{resource-expensive}.
+  \item Demands for running within resource-constrained scenarios.
+\end{itemize}
+
+\paragraph{(3) How is it different from prev.?}
+\begin{itemize}
+  \item Compared with traditional \textit{pixel-wise semantic segmentation}, \textit{wall entities identification \& clustering}:
+  \begin{itemize}
+    \item Utilizing \textbf{deep learning} to learn from \textbf{prior experience}. 
+    \begin{itemize}
+      \item ?: \textit{Learning fr. prior} can be achieved solely through DL?
+    \end{itemize}
+  \end{itemize}
+  \item Compared with \textit{Anchors based Bounding Boxes Prediction + CNN-RNN (or CNN-GCN)} based \textit{Corners Detection}:
+  \begin{itemize}
+    \item \textbf{Anchor-Free}:\textbf{Transformer encoder-decoder architecture} to \textbf{eliminate anchor generation};
+    \item \textbf{Box-based (set-based) loss} to \textbf{eliminate Non-Maximum Suppression (NMS)};
+    \item In Summarization, an \textbf{end-to-end} DEtection TRansformer (DETR) based method to reduce reliance on \textbf{hand-crafted} components (NMS, anchor generation, etc).
+  \end{itemize}
+  \item Compared with other \textit{DETR + regression/classification} in Topological Generation:
+  \begin{itemize}
+    \item Using \textbf{bounding boxes} directly (no need for \textit{vertices}) as \textbf{primitives} of environment (map) (\textit{core});
+    \item Thus, no \textit{post-processing components} for vertices obtaining.
+  \end{itemize}
+\end{itemize}
+
+\paragraph{(4) Why is it better than prev.? (Advantages)} 
+\begin{itemize}
+  \item \textbf{BoxMap} (bounding boxes as primitives, within a DETR-like framework) enables:
+  \begin{itemize}
+    \item Utilizing bounding boxes directly (combined with \textbf{L2 loss} (which is designed for \textit{TSDF-based} representations)) \textbf{eliminates vertices-based manual labeling};
+    \item \textbf{No need} for \textit{multi-resolution representations}, as well as \textit{extra post-processing} like regression/classification.
+  \end{itemize}
+  \item BoxMap + \textbf{TSDF-based Representation} enables \textbf{Resource-Efficient};
+  \item Utilizing \textbf{Hierarchical loss} enables Better \textbf{Small Details Detection};
+  \item Enabling \textit{downstream decision making tasks} (planning \& navigation, e.g. A* search based methods) to generate \textbf{shorter trajectories}.
+\end{itemize}
+
+\paragraph{(5) What is the approach itself?}
+\begin{itemize}
+  \item A \textbf{DEtection TRansformer (DETR)} based \textbf{end-to-end} architecture to \textit{incrementally} generate \textbf{box-based} (using \textbf{TSDF-based} representation) topological map.
+  \begin{itemize}
+    \item Novelty:
+    \begin{itemize}
+      \item BoxMap + TSDF -> Resource-Efficient
+      \item \textit{Fine-tuning} with (\textit{Prior Predicted}, Current Measurements) -> Learning fr. \textit{Prior} (\textit{Recursive})
+      \item Hierarchical Loss -> Highlight small details.
+    \end{itemize}
+    \item BoxMap Components: $cf.$ \cref{tab:boxmap_components}
+  \end{itemize}
+\end{itemize}
+
+\begin{table}[h]
+\centering
+\caption{Functional Roles of BoxMap Components}
+\label{tab:boxmap_components}
+  \begin{tabularx}{\textwidth}{l l l X}
+    \toprule
+    Component & Input & Primary Function & Core Logic and Value \\ \midrule
+    CNN Backbone & \makecell[l]{Occupancy \textit{Map} \\ ($fr.$ TSDF)} & \makecell[l]{Dimensionality Reduction \& \\ Local Feature Extraction} & (1) \textbf{Downsamples} inputs into lower-resolution semantic feature maps. \newline (2) Reduces pixel count to prevent $O(N^2)$ complexity explosion in Attention. \newline (3) Provides \textbf{Inductive Bias} (Translational Invariance). \\ \addlinespace
+    Transformer Encoder & Feature Maps & Global Context Encoding & Uses \textbf{Self-attention} to model long-range dependencies between pixels (e.g., relating distant walls). \\ \addlinespace
+    Object Queries & Learnable Vectors & Entity Proposals & Acts as $M$ placeholders (occupants) to query potential objects in the scene. \\ \addlinespace
+    Transformer Decoder & \makecell[l]{Queries + \\ Encoded Features via \\ \textbf{CrossAtt}} & Object Manifestation & Maps queries to specific $M$ \textbf{Box Embeddings}. \\ \addlinespace
+    Decoder Self-Attention & Intermediate Queries & Parallel Coordination & Unmasked Attention allows queries to communicate and avoid redundant detections (Parallel de-duplication). \\ \addlinespace
+    Hierarchical Loss & Predicted Boxes vs. GT & Detail Enhancement & Subtracts large objects (rooms) from TSDF to focus on small topological details (doors). \\ \addlinespace
+    Prediction Heads & Box Embeddings & Geometric \textit{Mapping} & Projects embeddings into box coordinates and class labels (specifying existence). \\ \bottomrule
+  \end{tabularx}
+\end{table}
+
+
+\paragraph{(6) What are the applications of it?} 
+\begin{itemize}
+  \item Top-down, Low-Resource Robotic Navigation in Unmapped (or Partial Sensed) Environments (Downstream Tasks)
+  \item Examples: frontier exploration, object search, or scene understanding.
+  \item On which robotic platforms? Simulation only now (indicated in paper).
+\end{itemize}
+
+\section{The Structure}
+
+\paragraph{Summarized Block-Diagram} 
+The summarized (inference) block-diagram see \cref{fig:boxmap}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Banana Nano.}.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/boxmap_inferencece_diagram.png}
+  \caption{Summarized Block-Diagram of BoxMap Inference Process}
+  \label{fig:boxmap}
+\end{figure}
+
+\paragraph{Original in Paper}
+
+The original (training) block-diagram see \cref{fig:original}.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/orig.png}
+  \caption{Original (Training) Block-Diagram in Paper}
+  \label{fig:original}
+\end{figure}
+
+\section{Open Questions}
+
+\begin{enumerate}
+    \item \textbf{Validity of Historical Predictions:} 
+    How are historical predictions (Prior Predicted) used for fine-tuning obtained? And what characteristics make a historical prediction indeed beneficial for incremental mapping stability?
+    \item \textbf{Generalizability:}
+    While utlizing TSDF-based representations achieve resource efficiency in structured environments, how can this framework generalize to large-scale or non-Manhattan outdoor scenes without increasing memory requirements or losing geometric detail?
+\end{enumerate}
+
+\bibliographystyle{abbrvnat}
+\bibliography{main}
+\end{document}

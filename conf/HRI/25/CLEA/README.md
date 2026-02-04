@@ -8,7 +8,6 @@ This document summarizes the core contributions and methodology of the paper "Co
 
 #### Orig Paper Citation
 ```BibTex
-@inproceedings{mohammad2024gp,
 @inproceedings{dennler2025contrastive,
   title={Contrastive Learning from Exploratory Actions: Leveraging Natural Interactions for Preference Elicitation},
   author={Dennler, Nathaniel and Nikolaidis, Stefanos and Matari{\'c}, Maja},

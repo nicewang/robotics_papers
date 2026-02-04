@@ -19,6 +19,9 @@ IEEE International Conference on Robotics
 ##### 2024
 - [A GP-based Robust Motion Planning Framework for Agile Autonomous Robot Navigation and Recovery in Unknown Environments](conf/icra/24/gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs)
 
+##### 2025
+- [BoxMap: Efficient Structural Mapping and Navigation](conf/icra/25/boxmap)
+
 #### HRI
 ACM/IEEE International Conference on Human-Robot Interaction
 ##### 2025
