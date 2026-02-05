@@ -46,6 +46,7 @@ This document summarizes the core contributions and methodology of the paper "Bo
 ```
 ![Orig-Block-Diagram](fig/orig.png) 
 ##### Important References of Orig. Paper
+- [DETR](https://github.com/nicewang/robotics_papers/tree/assets/conf/icra/25/boxmap/original_paper/ref/detr)
 ```BibTex
 @inproceedings{carion2020end,
   title={End-to-end object detection with transformers},
