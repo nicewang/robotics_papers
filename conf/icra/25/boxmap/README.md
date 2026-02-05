@@ -44,3 +44,16 @@ This document summarizes the core contributions and methodology of the paper "Bo
   organization={IEEE}
 }
 ```
+![Orig-Block-Diagram](fig/orig.png) 
+##### Important References of Orig. Paper
+```BibTex
+@inproceedings{carion2020end,
+  title={End-to-end object detection with transformers},
+  author={Carion, Nicolas and Massa, Francisco and Synnaeve, Gabriel and Usunier, Nicolas and Kirillov, Alexander and Zagoruyko, Sergey},
+  booktitle={European conference on computer vision},
+  pages={213--229},
+  year={2020},
+  organization={Springer}
+}
+```
+![DETR](fig/detr.png) 
