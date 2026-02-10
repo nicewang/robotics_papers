@@ -22,6 +22,9 @@ IEEE International Conference on Robotics
 ##### 2025
 - [BoxMap: Efficient Structural Mapping and Navigation](conf/icra/25/boxmap)
 
+##### 2026
+- [CLF-RL: Chasing Stability: Humanoid Running via Control Lyapunov Function Guided Reinforcement Learning](conf/icra/26/CLF-RL)
+
 #### HRI
 ACM/IEEE International Conference on Human-Robot Interaction
 ##### 2025

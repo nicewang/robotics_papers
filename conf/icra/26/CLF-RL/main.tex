@@ -1,0 +1,153 @@
+\documentclass{article}
+
+% Pass 'final' to the neurips_2023 package to remove line numbers if needed
+\usepackage[final]{neurips_2023}
+
+% \usepackage[style=authoryear, backend=biber]{biblatex} 
+% \addbibresource{main.bib}
+
+\usepackage{graphicx}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\title{Summarization: Chasing Stability: Humanoid Running via Control Lyapunov Function Guided Reinforcement Learning}
+
+% Paper BibTex
+% @article{olkin2025chasing,
+%   title={Chasing Stability: Humanoid Running via Control Lyapunov Function Guided Reinforcement Learning},
+%   author={Olkin, Zachary and Li, Kejun and Compton, William D and Ames, Aaron D},
+%   journal={arXiv preprint arXiv:2509.19573},
+%   year={2025}
+% }
+
+\author{
+  Summarized by Xiaonan (Nice) Wang \thanks{wangxiaonannice@gmail.com} \\
+  % Paper fr last-names (year)
+  Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and study purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from  Olkin et al. (2026) \\
+  Topic:  \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This document summarizes the core contributions and methodology of the paper "Chasing Stability: Humanoid Running via Control Lyapunov Function Guided Reinforcement Learning, \cite{olkin2025chasing}", focusing on its' main ideas and the core blocks.
+\end{abstract}
+
+\section{Overview: Core Questions and Answers}
+
+\paragraph{(1) What is the problem?} 
+\begin{itemize}
+  \item Scenario (the Overall Task): \textbf{Customize} Robot Behaviors that \textbf{Align with Human Preference} -> a.k.a \textit{Preference Learning}
+  \item \textit{Low-Dimensional} \textbf{Preference-Aligned (Semantic)} Trajectory \textbf{Features Generation} using Feature Learning Model (a.k.a Feature Generator)
+\end{itemize}
+
+\paragraph{(2) Why need to solve this problem?}
+\begin{itemize}
+  \item Generating semantic human preference-aligned trajectory features when customizing a robot, in order to reduce user interactions for eliciting preferences and improve user satisfaction;
+  \item Avoiding data-labelling process like proxy tasks before customizing the robot.
+\end{itemize}
+
+\paragraph{(3) How is it different from prev.?}
+\begin{itemize}
+  \item Compared with \textit{self-supervised methods} like AEs or VAEs which result in \textit{physically representative features only}, CLEA will learn user preference-aligned features;
+  \item Compared with \textit{hand-crafted} and \textit{prox tasks}:
+  \begin{itemize}
+    \item \textbf{Complete Feature Spaces} (compared with hand-crafted)
+    \item \textbf{No Extra Labelling Process} (since exploratory search just additionally generates needed data when achieving primary goal)
+  \end{itemize}
+\end{itemize}
+
+\paragraph{(4) Why is it better than prev.? (Advantages)} 
+\begin{itemize}
+  \item \textbf{Better Semantic Alignment}
+  \item \textbf{Lower Human Effort}
+  \item \textbf{Trade-off:} Obtained semantic representations without extra human efforts.
+  \item Robot learning as an \textbf{exploratory search} (instead of \textit{information retrieval}) interaction is useful for novice robot users (\textbf{complete}, \textbf{simple}, \textbf{minimal} and \textbf{explainable})
+\end{itemize}
+
+\paragraph{(5) What is the approach itself?}
+\begin{itemize}
+  \item \textbf{CLEA:}
+  \begin{itemize}
+    \item \textbf{Contrastive} Learning from \textbf{Exploratory} Actions
+    \item A \textit{\textbf{Generalizable} Trajectory Feature Learning Framework} that provides \textit{Low-Dimensional Feature Vector Generator}
+  \end{itemize}
+\end{itemize}
+
+Experimental Workflow as following:
+\begin{verbatim}
+1. Exploratory Search: Exploratory Actions Gen (by User Set A)
+2. CLEA Training: Contrastive Feature Generation Learning:
+- Pairwise
+- Triplet Loss
+- Feature Gen Model
+3. Downstream Task Evaluation:
+- Behaviors Ranking (By User Set B)
+  - Pairwise:
+    - For N behavuors in each ranking, building C(N,2) comparisons;
+    - Modeling as C(N,2) binary classifiers.
+  - Why not pointwise? 
+    - Relativity of Preference
+    - Keeping mathematical properties of reward function
+    - Non-Binary Classification: Vector Generation rather than Probability Generation
+- Reward Learning (Training) (use 70% pairwise comparisons):
+  - Cross-Entropy Loss
+  - Reward Model
+- Evaluation (use 30% pairwise comparisons)
+\end{verbatim}
+
+
+\paragraph{(6) What are the applications of it?} 
+\begin{itemize}
+  \item Human-Robot Interaction Field
+  \item A Generalizable Trajectory Feature Learning Framework that can be used in Assistive/Guidance Robots, etc.
+\end{itemize}
+
+\section{The Structure}
+
+\paragraph{Summarized Block-Diagram} 
+The summarized block-diagram of \textit{experimental workflow} see \cref{fig:clea}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Nano Banana Pro.}.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/clea_experimental_workflow_diagram.png}
+  \caption{Summarized Block-Diagram of CLEA Experimental Workflow}
+  \label{fig:clea}
+\end{figure}
+
+\paragraph{Original in Paper}
+
+The original block-diagram see \cref{fig:original}.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/orig.png}
+  \caption{Original Block-Diagram in Paper}
+  \label{fig:original}
+\end{figure}
+
+\section{Open Questions}
+
+\begin{enumerate}
+    \item \textbf{Purpose of Symmetric Triplet Loss:} 
+    Does the second half of Eq. 3 make sense? Will it increase the risk of overfitting while having limited effectiveness in promoting convergence? (In other words, does forcing the ``anchor'' and ``positive'' to be interchangeable neglect their differences and lead to ``overfitting''?)
+    \item \textbf{Generalizability and Scalability:}
+    Is the trained CLEA feature generator only can be integrated into the robot customization process for online inference to obtain feature vectors? How about other scenarios like utilizing CLEA generator offline to generate vectors to build a feature vector database? If so, does the trained generator meet the generalizability quirements?
+\end{enumerate}
+
+\bibliographystyle{abbrvnat}
+\bibliography{main}
+\end{document}
