@@ -80,37 +80,80 @@ This document summarizes the core contributions and methodology of the paper "Ch
 
 \paragraph{(5) What is the approach itself?}
 \begin{itemize}
-  \item \textbf{CLEA:}
+  \item \textbf{Sim-to-Real Hybrid Controller (System)} $\mathcal{H} = (\mathcal{D}, \mathcal{S}, \Gamma, \Delta, \mathcal{F})$ for \textbf{Humanoid Running}
   \begin{itemize}
-    \item \textbf{Contrastive} Learning from \textbf{Exploratory} Actions
-    \item A \textit{\textbf{Generalizable} Trajectory Feature Learning Framework} that provides \textit{Low-Dimensional Feature Vector Generator}
+    \item Robust and high-performance \textbf{policies} for humanoid running.
+  \end{itemize}
+  \item Controller Synthesizing (i.e. Policy Learning) Framework -- \textbf{CLF-RL}:
+  \begin{itemize}
+    \item \textbf{Offline Multi-Domain Trajectory Optimization}
+    \begin{itemize}
+      \item Domain: (\textit{SSP}, \textit{FLT})
+      \item Optimization (\textit{Eq. 10}) (subject to):
+      \begin{itemize}
+        \item Hybrid Systems (\textit{Eq. 1 (Continuous Evolution) + Eq. 2 (Discrete Transition)})
+        \item \textbf{HZD Constraint} (\textit{Eq. 7} or \textit{Eq. 10e} + \textit{Virtual Constraint Eq. 10f})
+        \item State and Control Limits (\textit{Eq. 10g}, \textit{Eq. 10h})
+      \end{itemize}
+      \item Output:
+      \begin{itemize}
+        \item ecision variable \textbf{$\alpha$} (Bézier curve coefficient);
+        \item \textbf{Reference} trajectories (i.e. \textbf{Gait Library}): $x^*(t)$ (state) and $u^*(t)$ (control);
+        \item \textbf{Domain timing}: time of each domain
+      \end{itemize}
+      \item Tricks and Effects:
+      \begin{itemize}
+        \item HZD Constraint (\textit{Eq. 7}):
+        \begin{itemize}
+          \item \textbf{Impact Invariance}, \textbf{Periodic Stability}
+        \end{itemize}
+        \item Virtual Constraint:
+        \begin{itemize}
+          \item Fitting Bézier curve enables output easy to track. -> \textbf{Trade-off} between HZD and subsequent RL;
+          \item \textbf{Position-based} virtual constraint -> Build \textit{Local Reference Frame}, simplify computation, adapt to FLT;
+        \end{itemize}
+        \item \textbf{Warm Start} (fast at the beginning, then slow down):
+        \begin{itemize}
+          \item Conform to \textbf{physical intuition} and guarantee \textbf{convergence};
+          \item Prevent \textit{neighboring} gaits from \textit{converging to drastically different solutions}.
+        \end{itemize}
+        \item \textbf{Even Division} (\textit{Same Node Amount} of Each Domain Time)
+        \begin{itemize}
+          \item Ensure the fixed dimension of the optimization, facilitating calculation by solvers (eg. IPOPT).
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+    \item \textbf{Reinforcement Learning (RL)}
+    \begin{itemize}
+      \item \textbf{Reward}:
+      \begin{itemize}
+        \item \textbf{Tracking Reward} (\textit{Eq. 13}):
+        \begin{itemize}
+          \item Minimize \textit{energy \& error};
+          \item The ``deep coupling'' between HZD and RL.
+        \end{itemize}
+        \item \textbf{CLF Decay \& Penalty} (\textit{Eq. 14}) (\textit{key novelty}) for \textbf{Stability}:
+        \begin{itemize}
+          \item CLF Constraint (\textit{Eq. 8}) enables \textbf{exponentially stabilizing};
+          \item \textbf{Soft Penalty}: From \textit{``Discrete Discrimination''} (\textit{Eq. 8}) to \textit{``Continuous Guidance''} (\textit{Eq. 14});
+          \item Hinge-like.
+        \end{itemize}
+        \item Other Rewards \& Penalties: SSP Domain Reward, FLT Contact Forces Penalty, L2 \& Hinge-like Regularization Penalties.
+      \end{itemize}
+      \item Other Design Tricks:
+      \begin{itemize}
+        \item Robustness to \textbf{Disturbances}: RL learning with domain \textbf{randomization};
+        \item Straight Running: \textbf{Layered} Control Architecture with extra independent PD Controllers.
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+  \item Novelty:
+  \begin{itemize}
+    \item Soft CLF Decay in Reward (\textit{Core})
+    \item The ``deep coupling'' between HZD and RL
+    \item Warm Start
   \end{itemize}
 \end{itemize}
-
-Experimental Workflow as following:
-\begin{itemize}
-  \item Sim-to-Real Hybrid Controller (System) $\mathcal{H} = (\mathcal{D}, \mathcal{S}, \Gamma, \Delta, \mathcal{F})$ for Humanoid Running
-\end{itemize}
-\begin{verbatim}
-1. Exploratory Search: Exploratory Actions Gen (by User Set A)
-2. CLEA Training: Contrastive Feature Generation Learning:
-- Pairwise
-- Triplet Loss
-- Feature Gen Model
-3. Downstream Task Evaluation:
-- Behaviors Ranking (By User Set B)
-  - Pairwise:
-    - For N behavuors in each ranking, building C(N,2) comparisons;
-    - Modeling as C(N,2) binary classifiers.
-  - Why not pointwise? 
-    - Relativity of Preference
-    - Keeping mathematical properties of reward function
-    - Non-Binary Classification: Vector Generation rather than Probability Generation
-- Reward Learning (Training) (use 70% pairwise comparisons):
-  - Cross-Entropy Loss
-  - Reward Model
-- Evaluation (use 30% pairwise comparisons)
-\end{verbatim}
 
 
 \paragraph{(6) What are the applications of it?} 
