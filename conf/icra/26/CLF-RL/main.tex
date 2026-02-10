@@ -9,8 +9,8 @@
 \setlistdepth{20}
 \renewlist{itemize}{itemize}{20}
 % \setlist[itemize,1]{label=$\bullet$, leftmargin=*}
-% \setlist[itemize,1]{label=\small$\bullet$, leftmargin=*}
-\setlist[itemize,1]{label=\footnotesize$\bullet$, leftmargin=*}
+\setlist[itemize,1]{label=\small$\bullet$, leftmargin=*}
+% \setlist[itemize,1]{label=\footnotesize$\bullet$, leftmargin=*}
 \setlist[itemize,2]{label=--}
 \setlist[itemize,3]{label=$\ast$}
 \setlist[itemize,4]{label=$\circ$}
@@ -63,32 +63,28 @@ This document summarizes the core contributions and methodology of the paper "Ch
 
 \paragraph{(1) What is the problem?} 
 \begin{itemize}
-  \item Scenario (the Overall Task): \textbf{Customize} Robot Behaviors that \textbf{Align with Human Preference} -> a.k.a \textit{Preference Learning}
-  \item \textit{Low-Dimensional} \textbf{Preference-Aligned (Semantic)} Trajectory \textbf{Features Generation} using Feature Learning Model (a.k.a Feature Generator)
+  \item \textbf{Nonlinear} and \textbf{hybrid} system for \textbf{humanoid running}.
 \end{itemize}
 
 \paragraph{(2) Why need to solve this problem?}
 \begin{itemize}
-  \item Generating semantic human preference-aligned trajectory features when customizing a robot, in order to reduce user interactions for eliciting preferences and improve user satisfaction;
-  \item Avoiding data-labelling process like proxy tasks before customizing the robot.
+  \item Achieving performant and robust running;
+  \item Rejecting disturbances.
 \end{itemize}
 
 \paragraph{(3) How is it different from prev.?}
 \begin{itemize}
-  \item Compared with \textit{self-supervised methods} like AEs or VAEs which result in \textit{physically representative features only}, CLEA will learn user preference-aligned features;
-  \item Compared with \textit{hand-crafted} and \textit{prox tasks}:
-  \begin{itemize}
-    \item \textbf{Complete Feature Spaces} (compared with hand-crafted)
-    \item \textbf{No Extra Labelling Process} (since exploratory search just additionally generates needed data when achieving primary goal)
-  \end{itemize}
+  \item Embed multi-domain trajectories and CLFs directly into the RL reward, \textbf{no} trajectories or CLFs at \textbf{runtime};
+  \item Achieve \textbf{certifiable stability}.
 \end{itemize}
 
 \paragraph{(4) Why is it better than prev.? (Advantages)} 
 \begin{itemize}
-  \item \textbf{Better Semantic Alignment}
-  \item \textbf{Lower Human Effort}
-  \item \textbf{Trade-off:} Obtained semantic representations without extra human efforts.
-  \item Robot learning as an \textbf{exploratory search} (instead of \textit{information retrieval}) interaction is useful for novice robot users (\textbf{complete}, \textbf{simple}, \textbf{minimal} and \textbf{explainable})
+  \item Compared with \textit{heuristically designed controller}: can succeed in \textbf{Hybrid Zero Dynamics (HZD)};
+  \item Compared with \textit{offline trajectory optimization + online tracking with traditional feedback linearization \& control Lyapunov functions (CLFs)}: operate on both \textbf{continuous} and \textbf{discrete} (i.e. hybrid) dynamics, with capacity to generate \textbf{transient} behaviors;
+  \item Compared with \textit{(contact) impact invariance} solutions like \textit{MPC}: yield humanoid running and \textbf{computational efficient};
+  \item Compared with \textit{end-to-end RL}: \textbf{eliminate} the need to \textbf{handcraft} and \textbf{tune heuristic} reward terms;
+  \item Produce \textbf{steady state} running motions with accurate position and velocity tracking.
 \end{itemize}
 
 \paragraph{(5) What is the approach itself?}
@@ -155,7 +151,7 @@ This document summarizes the core contributions and methodology of the paper "Ch
       \end{itemize}
       \item Other Design Tricks:
       \begin{itemize}
-        \item Robustness to \textbf{Disturbances}: RL learning with domain \textbf{randomization};
+        \item Robustness to \textbf{Disturbances}: RL learning with domain \textbf{randomization}, facilitating sim-to-real transfer (avoiding model \textit{mismatch} and preventing \textit{over exploitation});
         \item Straight Running: \textbf{Layered} Control Architecture with extra independent PD Controllers.
       \end{itemize}
     \end{itemize}
@@ -171,8 +167,7 @@ This document summarizes the core contributions and methodology of the paper "Ch
 
 \paragraph{(6) What are the applications of it?} 
 \begin{itemize}
-  \item Human-Robot Interaction Field
-  \item A Generalizable Trajectory Feature Learning Framework that can be used in Assistive/Guidance Robots, etc.
+  \item A \textbf{Hybrid Controller} that can be used both in simulation and real-world \textbf{Humanoid} Robots (eg. UniTree G1, Atlas) for \textbf{periodic steady state} \textit{running}.
 \end{itemize}
 
 \section{The Structure}
