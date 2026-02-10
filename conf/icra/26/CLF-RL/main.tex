@@ -9,9 +9,9 @@
 \setlistdepth{20}
 \renewlist{itemize}{itemize}{20}
 % \setlist[itemize,1]{label=$\bullet$, leftmargin=*}
-\setlist[itemize,1]{label=\small$\bullet$, leftmargin=*}
+\setlist[itemize,1]{label=--, leftmargin=*}
 % \setlist[itemize,1]{label=\footnotesize$\bullet$, leftmargin=*}
-\setlist[itemize,2]{label=--}
+\setlist[itemize,2]{label=\small$\bullet$}
 \setlist[itemize,3]{label=$\ast$}
 \setlist[itemize,4]{label=$\circ$}
 % \setlist[itemize,1]{label=\labelitemi, leftmargin=*}
@@ -173,33 +173,33 @@ This document summarizes the core contributions and methodology of the paper "Ch
 \section{The Structure}
 
 \paragraph{Summarized Block-Diagram} 
-% The summarized block-diagram of \textit{experimental workflow} see \cref{fig:clea}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Nano Banana Pro.}.
+The summarized block-diagram of \textit{CLF-RL controller synthesizing framework} see \cref{fig:clf_rl}.
 
-% \begin{figure}[tb]
-%   \centering
-%   \includegraphics[width=0.95\textwidth]{fig/clea_experimental_workflow_diagram.png}
-%   \caption{Summarized Block-Diagram of CLEA Experimental Workflow}
-%   \label{fig:clea}
-% \end{figure}
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/clf_rl.jpg}
+  \caption{Summarized Block-Diagram of CLF-RL Controller Synthesizing Framework}
+  \label{fig:clf_rl}
+\end{figure}
 
 \paragraph{Original in Paper}
 
-% The original block-diagram see \cref{fig:original}.
+The original block-diagram see \cref{fig:original}.
 
-% \begin{figure}[tb]
-%   \centering
-%   \includegraphics[width=0.95\textwidth]{fig/orig.png}
-%   \caption{Original Block-Diagram in Paper}
-%   \label{fig:original}
-% \end{figure}
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/orig.png}
+  \caption{Original Block-Diagram in Paper}
+  \label{fig:original}
+\end{figure}
 
 \section{Open Questions}
 
 \begin{enumerate}
-    \item \textbf{Purpose of Symmetric Triplet Loss:} 
-    Does the second half of Eq. 3 make sense? Will it increase the risk of overfitting while having limited effectiveness in promoting convergence? (In other words, does forcing the ``anchor'' and ``positive'' to be interchangeable neglect their differences and lead to ``overfitting''?)
-    \item \textbf{Generalizability and Scalability:}
-    Is the trained CLEA feature generator only can be integrated into the robot customization process for online inference to obtain feature vectors? How about other scenarios like utilizing CLEA generator offline to generate vectors to build a feature vector database? If so, does the trained generator meet the generalizability quirements?
+    \item \textbf{Optimization Target of Multi-Domain Traj. Opt.:} 
+    What are the optimization targets of Multi-Domain Trajectory Optimization? Do different optimization target types affect the overall performance of the framework?
+    \item \textbf{Generalizing to Non-Periodic-Stable Dynamic Motions:}
+    Can this framework generalize to non-periodic-stable dynamic motions?
 \end{enumerate}
 
 \bibliographystyle{abbrvnat}
