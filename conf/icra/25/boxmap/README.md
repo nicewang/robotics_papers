@@ -4,6 +4,14 @@ This document summarizes the core contributions and methodology of the paper "Bo
 - Summarization Download: TBD
 
 #### Weaknesses
+
+> [!Note]
+> 
+> Opnions are Xiaonan (Nice) Wang's Own.
+> It represents a personal interpretation and may contain inaccuracies. 
+> Feedback or corrections via email are highly welcomed.
+>
+
 - The architecture feels like a *patchwork* of existing methods.
   - "A + B + C for Task D"
 - The novelty is *incremental and thin*.
