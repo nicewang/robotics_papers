@@ -4,7 +4,7 @@ This document summarizes the core contributions and methodology of the paper "Ch
 - Summarization Download: TBD
 
 #### Summarized Block-Diagram
-<!-- ![Block-Diagram](fig/clea_experimental_workflow_diagram.png)  -->
+![Block-Diagram](fig/clf_rl.png) 
 
 #### Orig Paper Citation
 ```BibTex
@@ -15,3 +15,8 @@ This document summarizes the core contributions and methodology of the paper "Ch
   year={2025}
 }
 ```
+
+#### Appendix: Some Notes
+- "Each *joint* or *end effector* is modeled using a *reduced-order* double-integrator system, which allows the use of a quadratic CLF (Eq. 12, Convexity)"
+- "a common practice that helps prevent *overfitting* to the simulator and improves robustness by **exposing** the policy to a wide variety of states that could arise from *model mismatches in the real world*."
+- "*Full-order* dynamic reference trajectories are generated offline using a multi-domain trajectory optimizer."
