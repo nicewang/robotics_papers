@@ -3,9 +3,9 @@ name: Build LaTeX PDF
 on:
   push:
     branches: [no_exist]
-  #   branches: [ "conf_icra_25_clf_rl" ]
+  #   branches: [ "conf_icra_25_boxmap" ]
   # pull_request:
-  #   branches: [ "conf_icra_25_clf_rl" ]
+  #   branches: [ "conf_icra_25_boxmap" ]
 
 jobs:
   build_latex:
@@ -18,8 +18,8 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
-          # root_file: conf/icra/26/CLF-RL/main.tex
-          working_directory: conf/icra/26/CLF-RL/
+          # root_file: conf/icra/25/boxmap/main.tex
+          working_directory: conf/icra/25/boxmap/
 
       # - name: Upload PDF artifact
       #   uses: actions/upload-artifact@v4
@@ -29,15 +29,15 @@ jobs:
       
       - name: Rename PDF
         run: |
-          old_path="conf/icra/26/CLF-RL/main.pdf"
-          new_name="CLF-RL_summarization.pdf"
+          old_path="conf/icra/25/boxmap/main.pdf"
+          new_name="BoxMap_summarization.pdf"
           mv "$old_path" "$new_name"
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
-          name: CLF-RL_summarization_pdf
-          path: CLF-RL_summarization.pdf
+          name: BoxMap_summarization_pdf
+          path: BoxMap_summarization.pdf
 
 
 #  Orig Ver
