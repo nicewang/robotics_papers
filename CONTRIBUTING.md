@@ -5,8 +5,9 @@ This repo is is currently used only for personal research and learning purposes,
 #### Templates
 - [Add Paper Summarization](.github/PULL_REQUEST_TEMPLATE/add_paper_summarization.md)
 - [Patch](.github/PULL_REQUEST_TEMPLATE/patch.md)
+- [Sync fr. Main](.github/PULL_REQUEST_TEMPLATE/sync_fr_main.md)
 #### Default
-- [Default](.github/pull_request_template.md)(Same as `Add Paper Summarization` template.)
+- [Default](.github/pull_request_template.md) (Same as `Add Paper Summarization` template.)
 #### How to choose template (except Default)?
 Merge [branch B] to [branch A]:
 ```
