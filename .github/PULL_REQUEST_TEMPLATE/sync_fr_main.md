@@ -12,5 +12,5 @@
 > Delete this `Hint` part when in formal PR.
 >
 ```
-[method/paper]-fr-main-mgr-[YYYYMMDD]-[Index]
+[method/paper (lowercase)]-fr-main-mgr-[YYYYMMDD]-[Index]
 ```
