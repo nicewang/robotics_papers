@@ -51,51 +51,93 @@ This document summarizes the core contributions and methodology of the paper "Ex
                            
 \paragraph{(1) What is the problem?} 
 \begin{itemize}
-  \item \textbf{Nonlinear} and \textbf{hybrid} system for \textbf{humanoid running}.
+  \item In \textit{Legged Locomotion}: Learning an intelligent gait that possesses both \textbf{low-dimensional stability} and \textbf{high adaptability} within a \textbf{stochastic real-world} environment.
+  \begin{itemize}
+    \item via \textbf{Fractional Dimensionality Reduction},
+    \item facilitating \textbf{Formal Verification},
+    \item and being \textbf{robust} to \textit{Noise \& Disturbances} (\textbf{stability} or \textbf{robustness}).
+  \end{itemize}
 \end{itemize}
 
 \paragraph{(2) Why need to solve this problem?}
 \begin{itemize}
-  \item Achieving performant and robust running;
-  \item Rejecting disturbances.
+  \item \textbf{Robustness and Stability}: Guarantee the system is safe in all the regions of state space during its life.
+  \item Breaking the \textbf{curse of dimensionality}: Dealing with scenarios with \textit{high (topological) dimensional state space}.
+  \item Addressing the \textbf{Unexplainable} and \textbf{Unverifiable} issues of \textbf{Model-Free approaches}.
 \end{itemize}
 
 \paragraph{(3) How is it different from prev.?}
 \begin{itemize}
-  \item Embed multi-domain trajectories and CLFs directly into the RL reward, \textbf{no} trajectories or CLFs at \textbf{runtime};
-  \item Achieve \textbf{certifiable stability}.
+  \item When Box Meshing: Storing mesh points in a \textbf{Hash Table}.
+  \begin{itemize}
+    \item Time Complexity: \textbf{Reducing} from ${o(n^2)}$ to \textbf{${o(n)}$};
+    \item \textbf{Data Compression}: ${cnt(keys) \ll n}$, points belong to same box will share the same key.
+  \end{itemize}
+  \item When Post Processing: ``\textbf{Divided} by fractional dimension'' \textbf{rather} than ``\textit{Subtracted} by fractional dimension''.
+  \begin{itemize}
+    \item Reward Scaling;
+    \item Avoiding negative rewards: As negative signals can impede convergence of some RL, division is sign-preserving, compressing the reward magnitude without altering its polarity.
+  \end{itemize}
+  \item \textbf{Clipped} Fractional Dimension (in post processing):
+  \begin{itemize}
+    \item Force to ${\ge 1}$: Preventing agents learning to \textit{fall over immediately} to ``game the system'';
+    \item Force to ${\le half of topological dimension}$: Providing a numerically smooth ``ceiling'' for training to prevent gradients from \textit{spiraling out of control} (\textit{exploding}).
+  \end{itemize}
 \end{itemize}
 
 \paragraph{(4) Why is it better than prev.? (Advantages)} 
 \begin{itemize}
-  \item Compared with \textit{heuristically designed controller}: can succeed in \textbf{Hybrid Zero Dynamics (HZD)};
-  \item Compared with \textit{offline trajectory optimization + online tracking with traditional feedback linearization \& control Lyapunov functions (CLFs)}: operate on both \textbf{continuous} and \textbf{discrete} (i.e. hybrid) dynamics, with capacity to generate \textbf{transient} behaviors;
-  \item Compared with \textit{(contact) impact invariance} solutions like \textit{MPC}: yield humanoid running and \textbf{computational efficient};
-  \item Compared with \textit{end-to-end RL}: \textbf{eliminate} the need to \textbf{handcraft} and \textbf{tune heuristic} reward terms;
-  \item Produce \textbf{steady state} running motions with accurate position and velocity tracking.
+  \item \textbf{Low Fractional Dimension} and \textbf{More Stable} Trajectories
+  \item Hash Table for Data Compression when Box Meshing
+  \item \textbf{Computational Efficient} (Hash Table Box Meshing + Model-Free RL + Fractal Penalty)
+  \item Pursuing Low-Dimensional Trajectories for \textbf{Formal Verification}
 \end{itemize}
 
 \paragraph{(5) What is the approach itself?}
+\begin{itemize}
+  \item Approach Itself:
+  \begin{itemize}
+    \item Box Meshing
+    \begin{itemize}
+      \item Hash(Mesh Points);
+      \item Using Hash Table to stire keys.
+    \end{itemize}
+    \item Fractional Dimension Calculation
+    \begin{itemize}
+      \item Building ${H{size(state space) -> 1}}$ ( basically a \textbf{decreasing set})
+      \item Calculating the Upper \& Lower Mesh (Fractal) Dim via the slope of log-log curve (or variation)
+    \end{itemize}
+    \item Post Processing
+    \begin{itemize}
+      \item Clipped Mesh Dim
+      \item Reward \textbf{Penalty}: Reward <- Reward / Clip-Dim
+    \end{itemize}
+  \end{itemize}
+  \item Novelties:
+  \begin{itemize}
+    \item \textbf{Geometric Regularization}: It introduces fractal dimension as a differentiable reward penalty to steer the agent towards low-dimensional manifolds.
+    \item \textbf{Computational Efficiency}: It proposes a hash-based online box-counting algorithm that enables real-time complexity estimation.
+    \item \textbf{Provable Simplicity}: By actively breaking the "curse of dimensionality," the method produces policies that are not only high-performing but also amenable to formal verification.
+  \end{itemize}
+\end{itemize}
 
 \paragraph{(6) What are the applications of it?} 
-\begin{itemize}
-  \item A \textbf{Hybrid Controller} that can be used both in simulation and real-world \textbf{Humanoid} Robots (eg. UniTree G1, Atlas) for \textbf{periodic steady state} \textit{running}.
-\end{itemize}
+Legged Lomotion on robotic environments (\textit{HalfCheetah-v2}, \textit{Hopper-v2}, and \textit{Walker2d-v2}) with  high dimensionality (11-17 DOF). (Simulation only, real-world robot experiments needed.)
 
 \section{The Structure}
 
 \paragraph{Summarized Block-Diagram} 
 
-% The summarized block-diagram of \textit{CLF-RL controller synthesizing framework} see \cref{fig:clf_rl}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Nano Banana Pro.}.
+The summarized block-diagram of \textit{Meshing Box RL} see \cref{fig:meshing_box_rl}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Nano Banana Pro.}.
 
-% \begin{figure}[tb]
-%   \centering
-%   \includegraphics[width=0.95\textwidth]{fig/clf_rl.png}
-%   \caption{Summarized Block-Diagram of CLF-RL Controller Synthesizing Framework}
-%   \label{fig:clf_rl}
-% \end{figure}
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/meshing_box_rl.png}
+  \caption{Summarized Block-Diagram of Meshing Box Reinforcement Learning}
+  \label{fig:meshing_box_rl}
+\end{figure}
 
-\paragraph{Original in Paper}
+% \paragraph{Original in Paper}
 
 % The original block-diagram see \cref{fig:original}.
 
@@ -109,10 +151,10 @@ This document summarizes the core contributions and methodology of the paper "Ex
 \section{Open Questions}
 
 \begin{enumerate}
-    \item \textbf{Optimization Target of Multi-Domain Traj. Opt.:} 
-    What are the optimization targets of Multi-Domain Trajectory Optimization? Do different optimization target types affect the overall performance of the framework?
-    \item \textbf{Generalizing to Non-Periodic-Stable Dynamic Motions:}
-    Can this framework generalize to non-periodic-stable dynamic motions?
+    \item \textbf{Generalizing to Highly Stochastic Environments:}
+    In highly stochastic environments, such as rocky terrains or slippery surfaces, complex maneuvers are often essential for survival. Does forcibly compressing the fractal dimension risk compromising the agent's performance in high-difficulty settings? Furthermore, is there an ``optimal dimension'' that strikes a balance between guaranteed verifiability and environmental adaptability?
+    \item \textbf{Beyond the Model-Free RL:} 
+    Beyond the field of Model-Free RL, does the concept of Fractal Regularization still hold significant value in legged locomotion based on recent popular approaches?
 \end{enumerate}
 
 \bibliographystyle{abbrvnat}
