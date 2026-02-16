@@ -3,7 +3,7 @@
 ${\LaTeX}$ Template: `neurips_2023`
 
 [Template](https://github.com/nicewang/robotics_papers/actions/runs/21002896691/artifacts/5129631517)
-    - [ ] Move to a valid position.
+- [ ] Move to a valid position.
 
 ### Journal
 
