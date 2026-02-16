@@ -4,6 +4,13 @@ This document summarizes the core contributions and methodology of the paper "Ex
 - [Original Paper](https://github.com/nicewang/robotics_papers/tree/assets/conf/corl/21/meshing_box/original_paper)
 - Summarization Download: TBD
 
+#### Comments
+
+> [!Note]
+> 
+> **Disclaimer:** Opnions are Xiaonan (Nice) Wang's Own. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly welcomed.
+>
+
 #### Summarized Block-Diagram
 ![Block-Diagram](fig/meshing_box_rl.png) 
 
