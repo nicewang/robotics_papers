@@ -5,7 +5,7 @@ This document summarizes the core contributions and methodology of the paper "Ex
 - Summarization Download: TBD
 
 #### Summarized Block-Diagram
-<!-- ![Block-Diagram](fig/clf_rl.png)  -->
+![Block-Diagram](fig/meshing_box_rl.png) 
 
 #### Orig Paper Citation
 ```BibTex
