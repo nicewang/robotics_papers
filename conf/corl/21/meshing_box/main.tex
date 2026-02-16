@@ -1,0 +1,195 @@
+\documentclass{article}
+
+% Pass 'final' to the neurips_2023 package to remove line numbers if needed
+\usepackage[final]{neurips_2023}
+
+\usepackage{graphicx}
+
+\usepackage{enumitem}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\title{Summarization: Explicitly Encouraging Low Fractional Dimensional Trajectories via Reinforcement Learning}
+
+% Paper BibTex
+% @inproceedings{gillen2021explicitly,
+%   title={Explicitly encouraging low fractional dimensional trajectories via reinforcement learning},
+%   author={Gillen, Sean and Byl, Katie},
+%   booktitle={Conference on Robot Learning},
+%   pages={2137--2147},
+%   year={2021},
+%   organization={PMLR}
+% }
+
+\author{
+  Summarized by Xiaonan (Nice) Wang \thanks{wangxiaonannice@gmail.com} \\
+  % Paper fr last-names (year)
+  Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and study purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from  Olkin et al. (2026) \\
+  Topic: Control Lyapunov Functions, Humanoid Running, Reinforcement Learning, Sim-to-Real \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This document summarizes the core contributions and methodology of the paper "Chasing Stability: Humanoid Running via Control Lyapunov Function Guided Reinforcement Learning, \cite{olkin2025chasing}", focusing on its' main ideas and the core blocks.
+\end{abstract}
+
+\section{Overview: Core Questions and Answers}
+                           
+\paragraph{(1) What is the problem?} 
+\begin{itemize}
+  \item \textbf{Nonlinear} and \textbf{hybrid} system for \textbf{humanoid running}.
+\end{itemize}
+
+\paragraph{(2) Why need to solve this problem?}
+\begin{itemize}
+  \item Achieving performant and robust running;
+  \item Rejecting disturbances.
+\end{itemize}
+
+\paragraph{(3) How is it different from prev.?}
+\begin{itemize}
+  \item Embed multi-domain trajectories and CLFs directly into the RL reward, \textbf{no} trajectories or CLFs at \textbf{runtime};
+  \item Achieve \textbf{certifiable stability}.
+\end{itemize}
+
+\paragraph{(4) Why is it better than prev.? (Advantages)} 
+\begin{itemize}
+  \item Compared with \textit{heuristically designed controller}: can succeed in \textbf{Hybrid Zero Dynamics (HZD)};
+  \item Compared with \textit{offline trajectory optimization + online tracking with traditional feedback linearization \& control Lyapunov functions (CLFs)}: operate on both \textbf{continuous} and \textbf{discrete} (i.e. hybrid) dynamics, with capacity to generate \textbf{transient} behaviors;
+  \item Compared with \textit{(contact) impact invariance} solutions like \textit{MPC}: yield humanoid running and \textbf{computational efficient};
+  \item Compared with \textit{end-to-end RL}: \textbf{eliminate} the need to \textbf{handcraft} and \textbf{tune heuristic} reward terms;
+  \item Produce \textbf{steady state} running motions with accurate position and velocity tracking.
+\end{itemize}
+
+\paragraph{(5) What is the approach itself?}
+\begin{itemize}
+  \item \textbf{Sim-to-Real Hybrid Controller (System)} $\mathcal{H} = (\mathcal{D}, \mathcal{S}, \Gamma, \Delta, \mathcal{F})$ for \textbf{Humanoid Running}
+  \begin{itemize}
+    \item Robust and high-performance \textbf{policies} for humanoid running.
+  \end{itemize}
+  \item Controller Synthesizing (i.e. Policy Learning) Framework -- \textbf{CLF-RL}:
+  \begin{itemize}
+    \item \textbf{Offline Multi-Domain Trajectory Optimization}
+    \begin{itemize}
+      \item Domain: (\textit{SSP}, \textit{FLT})
+      \item Optimization (\textit{Eq. 10}) (subject to):
+      \begin{itemize}
+        \item Hybrid Systems (\textit{Eq. 1 (Continuous Evolution) + Eq. 2 (Discrete Transition)})
+        \item \textbf{HZD Constraint} (\textit{Eq. 7} or \textit{Eq. 10e} + \textit{Virtual Constraint Eq. 10f})
+        \item State and Control Limits (\textit{Eq. 10g}, \textit{Eq. 10h})
+      \end{itemize}
+      \item Output:
+      \begin{itemize}
+        \item ecision variable \textbf{$\alpha$} (Bézier curve coefficient);
+        \item \textbf{Reference} trajectories (i.e. \textbf{Gait Library}): $x^*(t)$ (state) and $u^*(t)$ (control);
+        \item \textbf{Domain timing}: time of each domain
+      \end{itemize}
+      \item Tricks and Effects:
+      \begin{itemize}
+        \item HZD Constraint (\textit{Eq. 7}):
+        \begin{itemize}
+          \item \textbf{Impact Invariance}, \textbf{Periodic Stability}
+        \end{itemize}
+        \item Virtual Constraint:
+        \begin{itemize}
+          \item Fitting Bézier curve enables output easy to track. -> \textbf{Trade-off} between HZD and subsequent RL;
+          \item \textbf{Position-based} virtual constraint -> Build \textit{Local Reference Frame}, simplify computation, adapt to FLT;
+        \end{itemize}
+        \item \textbf{Warm Start} (fast at the beginning, then slow down):
+        \begin{itemize}
+          \item Conform to \textbf{physical intuition} and guarantee \textbf{convergence};
+          \item Prevent \textit{neighboring} gaits from \textit{converging to drastically different solutions}.
+        \end{itemize}
+        \item \textbf{Even Division} (\textit{Same Node Amount} of Each Domain Time)
+        \begin{itemize}
+          \item Ensure the fixed dimension of the optimization, facilitating calculation by solvers (eg. IPOPT).
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+    \item \textbf{Reinforcement Learning (RL)}
+    \begin{itemize}
+      \item \textbf{Reward}:
+      \begin{itemize}
+        \item \textbf{Tracking Reward} (\textit{Eq. 13}):
+        \begin{itemize}
+          \item Minimize \textit{energy \& error};
+          \item The ``deep coupling'' between HZD and RL.
+        \end{itemize}
+        \item \textbf{CLF Decay \& Penalty} (\textit{Eq. 14}) (\textit{key novelty}) for \textbf{Stability}:
+        \begin{itemize}
+          \item CLF Constraint (\textit{Eq. 8}) enables \textbf{exponentially stabilizing};
+          \item \textbf{Soft Penalty}: From \textit{``Discrete Discrimination''} (\textit{Eq. 8}) to \textit{``Continuous Guidance''} (\textit{Eq. 14});
+          \item Hinge-like.
+        \end{itemize}
+        \item Other Rewards \& Penalties: SSP Domain Reward, FLT Contact Forces Penalty, L2 \& Hinge-like Regularization Penalties.
+      \end{itemize}
+      \item Other Design Tricks:
+      \begin{itemize}
+        \item Robustness to \textbf{Disturbances}: RL learning with domain \textbf{randomization}, facilitating sim-to-real transfer (avoiding model \textit{mismatch} and preventing \textit{over exploitation});
+        \item Straight Running: \textbf{Layered} Control Architecture with extra independent PD Controllers.
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+  \item Novelty:
+  \begin{itemize}
+    \item Soft CLF Decay in Reward (\textit{Core})
+    \item The ``deep coupling'' between HZD and RL
+    \item Warm Start
+  \end{itemize}
+\end{itemize}
+
+
+\paragraph{(6) What are the applications of it?} 
+\begin{itemize}
+  \item A \textbf{Hybrid Controller} that can be used both in simulation and real-world \textbf{Humanoid} Robots (eg. UniTree G1, Atlas) for \textbf{periodic steady state} \textit{running}.
+\end{itemize}
+
+\section{The Structure}
+
+\paragraph{Summarized Block-Diagram} 
+The summarized block-diagram of \textit{CLF-RL controller synthesizing framework} see \cref{fig:clf_rl}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Nano Banana Pro.}.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/clf_rl.png}
+  \caption{Summarized Block-Diagram of CLF-RL Controller Synthesizing Framework}
+  \label{fig:clf_rl}
+\end{figure}
+
+\paragraph{Original in Paper}
+
+The original block-diagram see \cref{fig:original}.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/orig.png}
+  \caption{Original Block-Diagram in Paper}
+  \label{fig:original}
+\end{figure}
+
+\section{Open Questions}
+
+\begin{enumerate}
+    \item \textbf{Optimization Target of Multi-Domain Traj. Opt.:} 
+    What are the optimization targets of Multi-Domain Trajectory Optimization? Do different optimization target types affect the overall performance of the framework?
+    \item \textbf{Generalizing to Non-Periodic-Stable Dynamic Motions:}
+    Can this framework generalize to non-periodic-stable dynamic motions?
+\end{enumerate}
+
+\bibliographystyle{abbrvnat}
+\bibliography{main}
+\end{document}

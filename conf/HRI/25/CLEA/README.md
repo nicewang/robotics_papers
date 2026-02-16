@@ -1,4 +1,5 @@
-### CLEA: Contrastive Learning from Exploratory Actions: Leveraging Natural Interactions for Preference Elicitation
+## CLEA:
+### Contrastive Learning from Exploratory Actions: Leveraging Natural Interactions for Preference Elicitation
 This document summarizes the core contributions and methodology of the paper "Contrastive Learning from Exploratory Actions: Leveraging Natural Interactions for Preference Elicitation", focusing on its' main ideas and the core blocks.
 - [Original Paper](https://github.com/nicewang/robotics_papers/tree/assets/conf/HRI/25/CLEA/original_paper)
 - Summarization Download: TBD

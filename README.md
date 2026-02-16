@@ -3,6 +3,7 @@
 ${\LaTeX}$ Template: `neurips_2023`
 
 [Template](https://github.com/nicewang/robotics_papers/actions/runs/21002896691/artifacts/5129631517)
+    - [ ] Move to a valid position.
 
 ### Journal
 
@@ -13,6 +14,11 @@ IEEE Transactions on Robotics
 
 
 ### Conf
+
+#### CoRL
+Conference on Robot Learning. PMLR.
+##### 2021
+- [Meshing Box: Explicitly Encouraging Low Fractional Dimensional Trajectories via Reinforcement Learning](conf/corl/21/meshing_box/)
 
 #### ICRA
 IEEE International Conference on Robotics
