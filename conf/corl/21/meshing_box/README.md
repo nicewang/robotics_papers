@@ -29,9 +29,21 @@ This document summarizes the core contributions and methodology of the paper "Ex
 ### Appendix
 
 #### Formula Derivation
+
 When considering about topological dim., Eq. 1 equals to topological dim.
+
 ![formula](fig/note_draft_2.png)
 
 #### Note Draft
+
 Mapping the Fea-Dimensionality to Multi-Dimensionality Coordinate Sys.
+
 ![note](fig/note_draft_1.png)
+
+#### Physical DOF vs. Feature Dimension vs. Fractal Dimension
+
+| Concept | Explanation | Metaphor | Attribute |
+| :--- | :--- | :--- | :--- |
+| **Physical DOF** | Degrees of Freedom | The number of **joints** in the robot (hardware constraint). | Constant |
+| **Feature Dimension** | State Space Dimension | The **total number of coordinate axes** describing the motion (typically $> 2 \times$ DOF: e.g. for each joint, $<q, \dot{q}>$ whereas ${q}$ is the position and $\dot{q}$ is the velocity). | Constant |
+| **Fractal Dimension** | Fractal Dimension ($D_f$) | The **"thickness" or complexity** of the actual trajectory the robot follows. | **Variable** (Determined by RL policy, _theoretical maximum is State Space Dimension_) |
