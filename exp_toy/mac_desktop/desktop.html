@@ -3,104 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>macOS 27 Supernova - Fully Interactive</title>
+    <title>macOS 28 Hyperion - Ultimate</title>
     <style>
-        /* --- SYSTEM VARIABLES --- */
+        /* --- CORE VARIABLES --- */
         :root {
-            --bg-wallpaper: url('https://images.unsplash.com/photo-1621360841012-3f9f635f79b9?q=80&w=2560&auto=format&fit=crop');
-            --dock-size: 60px;
-            --sys-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+            /* Wallpaper: macOS Big Sur / Monterey Abstract Style */
+            --bg-image: url('https://images.unsplash.com/photo-1621360841012-3f9f635f79b9?q=80&w=2560&auto=format&fit=crop');
             
-            /* Light Mode Defaults */
-            --win-bg: rgba(255, 255, 255, 0.65);
-            --win-border: rgba(255, 255, 255, 0.4);
+            --glass-menu: rgba(255, 255, 255, 0.3);
+            --glass-win: rgba(245, 245, 245, 0.65);
+            --glass-dock: rgba(255, 255, 255, 0.25);
+            --border-light: rgba(255, 255, 255, 0.4);
+            
             --text-main: #000;
-            --text-sec: #555;
-            --accent: #007AFF;
-            --menu-bg: rgba(255, 255, 255, 0.3);
-            --dock-bg: rgba(255, 255, 255, 0.2);
+            --accent-color: #007AFF;
+            --font-sys: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+            
+            --shadow-win: 0 20px 50px rgba(0,0,0,0.25);
         }
 
+        /* Dark Mode Override */
         body.dark-mode {
-            --win-bg: rgba(30, 30, 30, 0.6);
-            --win-border: rgba(255, 255, 255, 0.1);
+            --glass-menu: rgba(0, 0, 0, 0.3);
+            --glass-win: rgba(30, 30, 30, 0.65);
+            --glass-dock: rgba(0, 0, 0, 0.3);
+            --border-light: rgba(255, 255, 255, 0.1);
             --text-main: #fff;
-            --text-sec: #aaa;
-            --menu-bg: rgba(0, 0, 0, 0.3);
-            --dock-bg: rgba(0, 0, 0, 0.3);
+            --shadow-win: 0 20px 50px rgba(0,0,0,0.6);
         }
 
-        * { box-sizing: border-box; user-select: none; outline: none; }
-        body { margin: 0; overflow: hidden; font-family: var(--sys-font); background: #000; color: var(--text-main); }
-        
-        /* --- WALLPAPER & SELECTION --- */
+        * { box-sizing: border-box; user-select: none; outline: none; -webkit-user-drag: none; cursor: default; }
+        body { margin: 0; overflow: hidden; font-family: var(--font-sys); background: #000; color: var(--text-main); }
+
+        /* --- BOOT SCREEN (The "Nebula" Feature) --- */
+        #boot-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 999999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 1s ease-in-out;
+        }
+        .boot-logo { font-size: 80px; color: white; margin-bottom: 40px; }
+        .boot-bar-bg { width: 220px; height: 6px; background: #333; border-radius: 3px; overflow: hidden; }
+        .boot-bar-fill { height: 100%; width: 0%; background: white; border-radius: 3px; transition: width 0.5s ease-out; }
+
+        /* --- DESKTOP --- */
         #desktop {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: var(--bg-wallpaper); background-size: cover; background-position: center;
-            transition: transform 0.3s;
+            background-image: var(--bg-image); background-size: cover; background-position: center;
+            transition: transform 0.3s, filter 0.3s;
         }
-        
+
+        /* Selection Box */
         #selection-box {
             position: absolute; background: rgba(0, 122, 255, 0.2);
-            border: 1px solid rgba(0, 122, 255, 0.5); border-radius: 4px; display: none; z-index: 1;
+            border: 1px solid rgba(0, 122, 255, 0.5); border-radius: 3px; display: none; z-index: 10;
         }
 
-        /* --- MENUBAR --- */
+        /* --- MENU BAR --- */
         #menubar {
             position: absolute; top: 0; width: 100%; height: 30px;
-            background: var(--menu-bg); backdrop-filter: blur(20px);
-            display: flex; justify-content: space-between; align-items: center; padding: 0 15px;
+            background: var(--glass-menu); backdrop-filter: blur(25px);
+            display: flex; justify-content: space-between; align-items: center; padding: 0 18px;
             font-size: 13px; font-weight: 500; z-index: 10000; color: white;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05); transition: background 0.3s;
         }
-        .menu-left span, .menu-right span { margin: 0 10px; cursor: default; }
-        .menu-left span:hover { opacity: 0.8; }
-        .apple-logo { font-weight: 600; font-size: 15px; }
-
-        /* --- WINDOWS SYSTEM --- */
-        .window {
-            position: absolute;
-            background: var(--win-bg);
-            backdrop-filter: blur(30px) saturate(150%);
-            -webkit-backdrop-filter: blur(30px) saturate(150%);
-            border: 1px solid var(--win-border);
-            border-radius: 12px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            display: flex; flex-direction: column;
-            overflow: hidden;
-            min-width: 300px; min-height: 200px;
-            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
-            animation: openWin 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        @keyframes openWin { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        .window.active { box-shadow: 0 25px 60px rgba(0,0,0,0.5); border-color: rgba(255,255,255,0.5); }
-        
-        .title-bar {
-            height: 38px; display: flex; align-items: center; padding: 0 14px;
-            cursor: default; background: rgba(255,255,255,0.05);
-        }
-        
-        .controls { display: flex; gap: 8px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; position: relative; }
-        .close { background: #FF5F57; } .min { background: #FEBC2E; } .max { background: #28C840; }
-        .dot:hover { filter: brightness(0.8); }
-        .dot:hover::after { content: ''; position: absolute; top:2px; left:2px; width:8px; height:8px; color:rgba(0,0,0,0.5); font-size:8px; line-height:8px; text-align:center; }
-        
-        .win-title { flex: 1; text-align: center; color: var(--text-main); font-size: 13px; font-weight: 600; pointer-events: none; opacity: 0.8; }
-        
-        .content { flex: 1; overflow: auto; position: relative; color: var(--text-main); }
-
-        /* Resize Handle */
-        .resize-handle {
-            position: absolute; bottom: 0; right: 0; width: 15px; height: 15px; cursor: nwse-resize; z-index: 10;
-        }
+        .menu-grp { display: flex; gap: 18px; }
+        .menu-item:hover { opacity: 0.7; }
 
         /* --- DESKTOP ICONS --- */
-        #icon-container {
+        #icon-grid {
             position: absolute; top: 40px; right: 20px; bottom: 100px; width: auto;
             display: flex; flex-direction: column; flex-wrap: wrap-reverse; align-content: flex-end; gap: 15px;
-            pointer-events: none; 
+            pointer-events: none; /* Allows clicks to pass through to desktop for selection */
         }
         .d-icon {
             width: 80px; height: 95px; pointer-events: auto;
@@ -108,242 +82,326 @@
             border-radius: 5px; border: 1px solid transparent; padding: 5px;
             transition: background 0.1s;
         }
-        .d-icon:hover { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
+        .d-icon:hover { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); }
         .d-icon.selected { background: rgba(0, 100, 255, 0.3); border: 1px solid rgba(0, 122, 255, 0.5); }
-        .d-img { font-size: 48px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); margin-bottom: 5px; }
+        .d-img { font-size: 46px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); margin-bottom: 4px; }
         .d-label { 
-            color: white; font-size: 12px; text-align: center; 
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8); line-height: 1.2;
-            padding: 2px 4px; border-radius: 3px;
+            color: white; font-size: 12px; text-align: center; font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8); line-height: 1.25;
+            padding: 1px 4px; border-radius: 3px; 
+            max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
         .d-icon.selected .d-label { background: #0058d0; text-shadow: none; }
 
-        /* --- DOCK --- */
-        #dock-container {
-            position: absolute; bottom: 10px; width: 100%; display: flex; justify-content: center; z-index: 9999;
+        /* --- WINDOWS (Enhanced) --- */
+        .window {
+            position: absolute;
+            background: var(--glass-win);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            box-shadow: var(--shadow-win);
+            display: flex; flex-direction: column;
+            min-width: 200px; min-height: 150px;
+            opacity: 0; transform: scale(0.95);
+            transition: opacity 0.25s, transform 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+            overflow: hidden;
+        }
+        .window.open { opacity: 1; transform: scale(1); }
+        .window.active { border-color: rgba(255,255,255,0.5); box-shadow: 0 30px 70px rgba(0,0,0,0.4); }
+
+        .title-bar {
+            height: 38px; display: flex; align-items: center; padding: 0 14px;
+            cursor: default; background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .t-lights { display: flex; gap: 8px; margin-right: 10px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; position: relative; }
+        .dot.cl { background: #FF5F57; } .dot.mn { background: #FEBC2E; } .dot.mx { background: #28C840; }
+        .dot:hover { filter: brightness(0.9); }
+        .t-title { flex: 1; text-align: center; font-size: 13px; font-weight: 600; opacity: 0.7; pointer-events: none; }
+        
+        .win-body { flex: 1; overflow: auto; position: relative; }
+        
+        .resize-handle {
+            position: absolute; bottom: 0; right: 0; width: 20px; height: 20px; cursor: nwse-resize; z-index: 20;
+        }
+
+        /* --- DOCK (Floating Glass) --- */
+        #dock-wrap {
+            position: absolute; bottom: 15px; width: 100%; display: flex; justify-content: center; z-index: 99999;
         }
         #dock {
-            background: var(--dock-bg); backdrop-filter: blur(25px);
-            border: 1px solid rgba(255,255,255,0.2); padding: 8px; border-radius: 20px;
-            display: flex; gap: 10px; align-items: flex-end; height: 70px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            transition: width 0.2s;
+            background: var(--glass-dock); backdrop-filter: blur(25px);
+            border: 1px solid var(--border-light);
+            padding: 8px; border-radius: 24px;
+            display: flex; gap: 12px; align-items: flex-end; height: 74px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            transition: width 0.3s ease;
         }
-        .dock-item {
-            width: 50px; height: 50px; border-radius: 12px; background: #555;
-            cursor: pointer; transition: 0.2s cubic-bezier(0.4, 1.3, 0.4, 1);
-            position: relative; display: flex; justify-content: center; align-items: center; font-size: 28px;
+        .dock-app {
+            width: 54px; height: 54px; border-radius: 14px; background: #444;
+            cursor: pointer; transition: 0.2s cubic-bezier(0.3, 0.7, 0.4, 1.5);
+            display: flex; align-items: center; justify-content: center; font-size: 30px;
+            position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        .dock-item:hover { transform: scale(1.2) translateY(-15px); margin: 0 5px; }
-        .dock-item:active { filter: brightness(0.7); transform: scale(0.9); }
+        .dock-app:hover { transform: scale(1.15) translateY(-15px); margin: 0 8px; }
+        .dock-app:active { filter: brightness(0.7); transform: scale(0.95); }
+        
         .dock-dot {
             width: 4px; height: 4px; background: white; border-radius: 50%;
-            position: absolute; bottom: -8px; opacity: 0;
+            position: absolute; bottom: -8px; opacity: 0; transition: opacity 0.3s;
         }
-        .dock-item.running .dock-dot { opacity: 0.8; }
-        .tooltip {
-            position: absolute; top: -40px; background: rgba(0,0,0,0.7); color: white;
-            padding: 4px 8px; border-radius: 4px; font-size: 11px; opacity: 0; pointer-events: none;
-            backdrop-filter: blur(5px); transition: opacity 0.2s;
+        .dock-app.running .dock-dot { opacity: 0.7; }
+
+        /* --- CONTEXT MENU --- */
+        #ctx-menu {
+            position: absolute; width: 200px;
+            background: var(--glass-win); backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light); border-radius: 8px;
+            padding: 5px; display: none; flex-direction: column; z-index: 999999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
-        .dock-item:hover .tooltip { opacity: 1; }
+        .ctx-item { padding: 6px 10px; border-radius: 4px; font-size: 13px; cursor: pointer; display: flex; justify-content: space-between; }
+        .ctx-item:hover { background: var(--accent-color); color: white; }
+        .ctx-sep { height: 1px; background: rgba(128,128,128,0.2); margin: 4px 0; }
 
         /* --- APP CONTENTS --- */
+        .term-wrap { background: #1e1e1e; height: 100%; color: #33ff00; font-family: 'Menlo', monospace; padding: 12px; font-size: 12px; }
+        .term-line { margin-bottom: 4px; }
+        .term-input { background: transparent; border: none; color: white; width: 100%; font-family: inherit; font-size: inherit; caret-color: #33ff00; }
         
-        /* Terminal */
-        .term-body { background: #1e1e1e; height: 100%; color: #33ff00; font-family: 'Menlo', monospace; padding: 10px; font-size: 13px; }
-        .term-line { margin-bottom: 5px; word-break: break-all; }
-        #term-input { background: transparent; border: none; color: white; width: 80%; font-family: inherit; font-size: inherit; caret-color: #33ff00; }
-        
-        /* Calculator */
-        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; height: 100%; background: #333; padding: 1px; }
-        .calc-display { grid-column: span 4; background: #222; color: white; font-size: 40px; text-align: right; padding: 20px; font-weight: 300; }
-        .calc-btn { border: none; font-size: 18px; cursor: pointer; transition: 0.1s; }
-        .c-grey { background: #555; color: white; } .c-grey:active { background: #777; }
-        .c-orange { background: #ff9f0a; color: white; } .c-orange:active { background: #d48406; }
-        .c-dark { background: #333; color: white; } .c-dark:active { background: #555; }
-
-        /* Browser */
-        .browser-chrome { display: flex; background: #333; padding: 8px; gap: 8px; align-items: center; }
-        .url-bar { flex: 1; background: #222; border: none; border-radius: 5px; color: #aaa; padding: 5px 10px; font-size: 12px; text-align: center; }
-        .browser-view { width: 100%; height: calc(100% - 40px); border: none; background: white; }
-
-        /* Settings */
-        .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 20px; }
-        .toggle-card { background: rgba(128,128,128,0.2); padding: 15px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; }
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; height: 100%; background: #323232; padding: 1px; }
+        .calc-display { grid-column: span 4; background: #202020; color: white; font-size: 42px; text-align: right; padding: 15px; font-weight: 300; }
+        .calc-btn { border: none; font-size: 20px; cursor: pointer; transition: 0.1s; }
+        .c-g { background: #505050; color: white; } .c-o { background: #ff9f0a; color: white; } .c-d { background: #3a3a3a; color: white; }
+        .c-g:active, .c-d:active { filter: brightness(1.2); } .c-o:active { filter: brightness(0.8); }
 
     </style>
 </head>
 <body class="dark-mode">
 
+    <div id="boot-screen">
+        <div class="boot-logo"></div>
+        <div class="boot-bar-bg"><div class="boot-bar-fill" id="boot-fill"></div></div>
+    </div>
+
     <div id="desktop">
         <div id="selection-box"></div>
         
-        <div id="icon-container">
+        <div id="icon-grid">
             </div>
+
+        <div id="ctx-menu">
+            <div class="ctx-item" onclick="Sys.createFolder()">New Folder</div>
+            <div class="ctx-item">Get Info</div>
+            <div class="ctx-sep"></div>
+            <div class="ctx-item" onclick="Sys.toggleTheme()">Toggle Dark Mode</div>
+            <div class="ctx-item" onclick="Sys.changeWallpaper()">Change Wallpaper</div>
+            <div class="ctx-sep"></div>
+            <div class="ctx-item" onclick="location.reload()">Restart...</div>
+        </div>
     </div>
 
     <div id="menubar">
-        <div class="menu-left">
-            <span class="apple-logo"></span>
-            <span id="app-name">Finder</span>
-            <span>File</span>
-            <span>Edit</span>
-            <span>View</span>
-            <span>Go</span>
-            <span>Window</span>
-            <span>Help</span>
+        <div class="menu-grp">
+            <span style="font-weight:700; font-size:16px;"></span>
+            <span id="active-app" style="font-weight:600;">Finder</span>
+            <span class="menu-item">File</span>
+            <span class="menu-item">Edit</span>
+            <span class="menu-item">View</span>
+            <span class="menu-item">Go</span>
+            <span class="menu-item">Window</span>
+            <span class="menu-item">Help</span>
         </div>
-        <div class="menu-right">
-            <span>🔋 100%</span>
-            <span>📶 Wi-Fi</span>
-            <span id="clock">12:00</span>
+        <div class="menu-grp">
+            <span class="menu-item">🔋 100%</span>
+            <span class="menu-item">📶 Wi-Fi</span>
+            <span class="menu-item" id="clock">9:41 AM</span>
         </div>
     </div>
 
-    <div id="windows-area"></div>
+    <div id="win-layer"></div>
 
-    <div id="dock-container">
+    <div id="dock-wrap">
         <div id="dock">
             </div>
     </div>
 
     <script>
-        /* --- CORE SYSTEM KERNEL --- */
-        const System = {
+        /* --- HYPERION SYSTEM KERNEL --- */
+        const Sys = {
             zIndex: 100,
             draggingId: null,
             resizingId: null,
-            apps: {},
+            clipboard: null,
             
             init() {
+                this.bootSequence();
                 this.time.start();
-                this.desktop.render();
-                this.dock.render();
+                this.ui.renderIcons();
+                this.ui.renderDock();
                 this.input.setup();
                 
-                // Open Welcome App
-                setTimeout(() => this.windows.open('safari'), 500);
+                // Add default files
+                this.fs.addFile('Macintosh HD', 'drive');
+                this.fs.addFile('Portfolio.pdf', 'pdf');
+                this.fs.addFile('Project X', 'folder');
             },
 
-            /* --- TIME MODULE --- */
+            bootSequence() {
+                const bar = document.getElementById('boot-fill');
+                const screen = document.getElementById('boot-screen');
+                
+                // Simulate boot stages
+                setTimeout(() => bar.style.width = "30%", 200);
+                setTimeout(() => bar.style.width = "70%", 800);
+                setTimeout(() => bar.style.width = "100%", 1600);
+                
+                setTimeout(() => {
+                    screen.style.opacity = 0;
+                    setTimeout(() => {
+                        screen.remove();
+                        this.apps.open('safari'); // Auto launch browser
+                    }, 1000);
+                }, 2200);
+            },
+
             time: {
                 start() {
                     const update = () => {
-                        const d = new Date();
-                        document.getElementById('clock').innerText = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        const now = new Date();
+                        document.getElementById('clock').innerText = now.toLocaleTimeString('en-US', {hour: 'numeric', minute:'2-digit'});
                     };
                     setInterval(update, 1000);
                     update();
                 }
             },
 
-            /* --- DESKTOP ICONS & SELECTION --- */
-            desktop: {
-                files: [
-                    { id: 1, name: 'Macintosh HD', type: 'drive' },
-                    { id: 2, name: 'Project Alpha', type: 'folder' },
-                    { id: 3, name: 'resume.pdf', type: 'pdf' },
-                    { id: 4, name: 'vacation.png', type: 'img' }
-                ],
-                
-                render() {
-                    const container = document.getElementById('icon-container');
-                    container.innerHTML = '';
-                    this.files.forEach(f => {
-                        const icons = { drive: '💾', folder: '📁', pdf: '📄', img: '🖼️' };
+            fs: {
+                files: [],
+                addFile(name, type) {
+                    const id = Date.now() + Math.random();
+                    this.files.push({ id, name, type });
+                    Sys.ui.renderIcons();
+                }
+            },
+
+            ui: {
+                renderIcons() {
+                    const grid = document.getElementById('icon-grid');
+                    grid.innerHTML = '';
+                    const icons = { drive: '💾', folder: '📁', pdf: '📄', img: '🖼️', txt: '📝', unknown: '📦' };
+                    
+                    Sys.fs.files.forEach(f => {
                         const div = document.createElement('div');
                         div.className = 'd-icon';
                         div.dataset.id = f.id;
                         div.onmousedown = (e) => {
-                            e.stopPropagation(); // Prevent selection box start
-                            if(!e.ctrlKey && !e.metaKey) document.querySelectorAll('.d-icon').forEach(el => el.classList.remove('selected'));
+                            e.stopPropagation();
+                            if(!e.shiftKey) document.querySelectorAll('.d-icon').forEach(el => el.classList.remove('selected'));
                             div.classList.add('selected');
                         };
-                        div.ondblclick = () => alert(`Opening ${f.name}... (File System simulated)`);
-                        div.innerHTML = `<div class="d-img">${icons[f.type]}</div><div class="d-label">${f.name}</div>`;
-                        container.appendChild(div);
+                        div.innerHTML = `<div class="d-img">${icons[f.type] || icons.unknown}</div><div class="d-label">${f.name}</div>`;
+                        grid.appendChild(div);
                     });
+                },
+
+                renderDock() {
+                    const dock = document.getElementById('dock');
+                    const apps = [
+                        { id: 'finder', icon: '😊', name: 'Finder' },
+                        { id: 'safari', icon: '🧭', name: 'Safari' },
+                        { id: 'terminal', icon: '💻', name: 'Terminal' },
+                        { id: 'vscode', icon: '🛠️', name: 'VS Code' },
+                        { id: 'calc', icon: '🧮', name: 'Calculator' },
+                        { id: 'settings', icon: '⚙️', name: 'Settings' }
+                    ];
+                    
+                    dock.innerHTML = apps.map(app => `
+                        <div class="dock-app" id="dock-${app.id}" onclick="Sys.apps.open('${app.id}')" title="${app.name}">
+                            ${app.icon}
+                            <div class="dock-dot"></div>
+                        </div>
+                    `).join('');
                 }
             },
 
-            /* --- INPUT & DRAG HANDLING --- */
             input: {
                 setup() {
-                    const desktop = document.getElementById('desktop');
-                    const selBox = document.getElementById('selection-box');
-                    let isSelecting = false;
-                    let startX, startY;
+                    const box = document.getElementById('selection-box');
+                    let startX, startY, isSel = false;
 
-                    // Global Key Listener
-                    document.addEventListener('keydown', (e) => {
-                        if (e.key === 'Delete') {
-                            const selected = document.querySelectorAll('.d-icon.selected');
-                            if(selected.length > 0) {
-                                if(confirm(`Delete ${selected.length} items?`)) {
-                                    selected.forEach(el => el.remove());
-                                }
-                            }
-                        }
+                    /* --- GLOBAL EVENTS --- */
+                    document.addEventListener('contextmenu', e => {
+                        e.preventDefault();
+                        const menu = document.getElementById('ctx-menu');
+                        menu.style.display = 'flex';
+                        menu.style.left = e.clientX + 'px';
+                        menu.style.top = e.clientY + 'px';
+                    });
+                    
+                    document.addEventListener('click', () => document.getElementById('ctx-menu').style.display = 'none');
+
+                    /* --- DRAG & DROP FILES FROM COMPUTER --- */
+                    const body = document.body;
+                    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(ev => {
+                        body.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); });
+                    });
+                    body.addEventListener('drop', (e) => {
+                        const files = e.dataTransfer.files;
+                        ([...files]).forEach(file => {
+                            let type = 'unknown';
+                            if(file.type.includes('image')) type = 'img';
+                            if(file.type.includes('pdf')) type = 'pdf';
+                            if(file.type.includes('text')) type = 'txt';
+                            Sys.fs.addFile(file.name, type);
+                        });
                     });
 
-                    // Mouse Events
+                    /* --- SELECTION & WINDOW DRAG --- */
                     document.addEventListener('mousedown', (e) => {
-                        if (e.target.id === 'desktop' || e.target.id === 'icon-container') {
-                            // Deselect all
+                        if(e.target.id === 'desktop' || e.target.id === 'icon-grid') {
                             document.querySelectorAll('.d-icon').forEach(el => el.classList.remove('selected'));
-                            
-                            // Start Selection Box
-                            isSelecting = true;
-                            startX = e.clientX;
-                            startY = e.clientY;
-                            selBox.style.display = 'block';
-                            selBox.style.left = startX + 'px';
-                            selBox.style.top = startY + 'px';
-                            selBox.style.width = '0px';
-                            selBox.style.height = '0px';
+                            isSel = true;
+                            startX = e.clientX; startY = e.clientY;
+                            box.style.display = 'block';
+                            box.style.width = '0'; box.style.height = '0';
+                            box.style.left = startX+'px'; box.style.top = startY+'px';
                         }
                     });
 
                     document.addEventListener('mousemove', (e) => {
-                        // Window Dragging
-                        if (System.draggingId) {
-                            const win = document.getElementById(System.draggingId);
+                        // Window Drag
+                        if(Sys.draggingId) {
+                            const win = document.getElementById(Sys.draggingId);
                             if(win) {
-                                const x = e.clientX - win.dataset.offX;
-                                const y = e.clientY - win.dataset.offY;
-                                win.style.left = x + 'px';
-                                win.style.top = Math.max(30, y) + 'px';
+                                let y = e.clientY - win.dataset.offY;
+                                if(y < 30) y = 30; // Menu bar block
+                                win.style.left = (e.clientX - win.dataset.offX) + 'px';
+                                win.style.top = y + 'px';
                             }
                         }
-                        
-                        // Window Resizing
-                        if (System.resizingId) {
-                            const win = document.getElementById(System.resizingId);
-                            const rect = win.getBoundingClientRect();
-                            win.style.width = (e.clientX - rect.left) + 'px';
-                            win.style.height = (e.clientY - rect.top) + 'px';
+                        // Window Resize
+                        if(Sys.resizingId) {
+                            const win = document.getElementById(Sys.resizingId);
+                            win.style.width = (e.clientX - win.getBoundingClientRect().left) + 'px';
+                            win.style.height = (e.clientY - win.getBoundingClientRect().top) + 'px';
                         }
-
-                        // Selection Box Logic
-                        if (isSelecting) {
-                            const currentX = e.clientX;
-                            const currentY = e.clientY;
+                        // Selection Box
+                        if(isSel) {
+                            const curX = e.clientX; const curY = e.clientY;
+                            const left = Math.min(startX, curX);
+                            const top = Math.min(startY, curY);
+                            box.style.left = left+'px'; box.style.top = top+'px';
+                            box.style.width = Math.abs(curX - startX)+'px';
+                            box.style.height = Math.abs(curY - startY)+'px';
                             
-                            const left = Math.min(startX, currentX);
-                            const top = Math.min(startY, currentY);
-                            const width = Math.abs(currentX - startX);
-                            const height = Math.abs(currentY - startY);
-                            
-                            selBox.style.left = left + 'px';
-                            selBox.style.top = top + 'px';
-                            selBox.style.width = width + 'px';
-                            selBox.style.height = height + 'px';
-
-                            // Hit testing for selection
+                            // Hit Test
                             document.querySelectorAll('.d-icon').forEach(icon => {
-                                const rect = icon.getBoundingClientRect();
-                                if (left < rect.right && left + width > rect.left && top < rect.bottom && top + height > rect.top) {
+                                const r = icon.getBoundingClientRect();
+                                if(left < r.right && left+Math.abs(curX-startX) > r.left && 
+                                   top < r.bottom && top+Math.abs(curY-startY) > r.top) {
                                     icon.classList.add('selected');
                                 } else {
                                     icon.classList.remove('selected');
@@ -353,281 +411,202 @@
                     });
 
                     document.addEventListener('mouseup', () => {
-                        isSelecting = false;
-                        System.draggingId = null;
-                        System.resizingId = null;
-                        selBox.style.display = 'none';
-                        // Re-enable iframes pointer events (if disabled during drag)
-                        document.querySelectorAll('iframe').forEach(f => f.style.pointerEvents = 'auto');
+                        isSel = false;
+                        Sys.draggingId = null;
+                        Sys.resizingId = null;
+                        box.style.display = 'none';
+                        document.querySelectorAll('iframe').forEach(i => i.style.pointerEvents = 'auto');
                     });
                 }
             },
 
-            /* --- WINDOW MANAGER --- */
-            windows: {
-                open(appKey) {
-                    const app = System.apps[appKey];
-                    const id = 'win-' + Date.now();
+            apps: {
+                definitions: {
+                    'finder': { title:'Finder', w:600, h:400, html: `<div style="padding:20px; text-align:center; color:#888;"><h1>Macintosh HD</h1><p>System is operating normally.</p></div>` },
+                    'safari': { title:'Safari', w:800, h:550, html: `<div style="display:flex; flex-direction:column; height:100%;">
+                        <div style="padding:8px; background:rgba(0,0,0,0.1); display:flex; gap:10px;">
+                            <input value="apple.com/hyperion" style="flex:1; border:none; border-radius:5px; padding:4px 10px; text-align:center; background:rgba(255,255,255,0.2);">
+                        </div>
+                        <iframe src="https://www.wikipedia.org" style="flex:1; border:none; background:white;"></iframe>
+                    </div>` },
+                    'terminal': { title:'Terminal', w:500, h:320, html: `<div class="term-wrap" onclick="this.querySelector('input').focus()">
+                        <div>Last login: ${new Date().toDateString()} on ttys000</div>
+                        <br>
+                        <div id="term-log"></div>
+                        <div style="display:flex;">
+                            <span style="color:#33ff00; margin-right:8px;">root@hyperion ~ %</span>
+                            <input class="term-input" onkeydown="Sys.apps.handleTerm(event)">
+                        </div>
+                    </div>` },
+                    'calc': { title:'Calculator', w:260, h:340, html: `<div class="calc-grid">
+                        <div class="calc-display" id="c-res">0</div>
+                        ${['AC','+/-','%','÷','7','8','9','×','4','5','6','-','1','2','3','+','0','.','='].map(b => 
+                            `<button class="calc-btn ${['÷','×','-','+','='].includes(b)?'c-o':['AC','+/-','%'].includes(b)?'c-g':'c-d'}" 
+                            ${b==='0'?'style="grid-column:span 2"':''} onclick="Sys.apps.calc('${b}')">${b}</button>`).join('')}
+                    </div>` },
+                    'vscode': { title:'Code', w:700, h:500, html: `<div style="background:#1e1e1e; height:100%; padding:15px; color:#ccc; font-family:monospace;">
+                        <span style="color:#c586c0">const</span> <span style="color:#4ec9b0">Future</span> = () => {<br>
+                        &nbsp;&nbsp;<span style="color:#ce9178">"Hyperion OS is ready."</span><br>
+                        }
+                    </div>` },
+                    'settings': { title:'Settings', w:400, h:300, html: `<div style="padding:20px;">
+                        <h3>Appearance</h3>
+                        <button onclick="Sys.toggleTheme()" style="padding:8px 16px;">Toggle Dark/Light Mode</button>
+                        <br><br>
+                        <h3>Wallpaper</h3>
+                        <button onclick="Sys.changeWallpaper()" style="padding:8px 16px;">Randomize Wallpaper</button>
+                    </div>` }
+                },
+
+                open(id) {
+                    const app = this.definitions[id];
+                    const uid = `win-${Date.now()}`;
+                    
+                    // Activate Dock
+                    const dIcon = document.getElementById(`dock-${id}`);
+                    if(dIcon) {
+                        dIcon.classList.add('running');
+                        dIcon.style.animation = 'bounce 0.5s';
+                        setTimeout(() => dIcon.style.animation='', 500);
+                    }
+
+                    document.getElementById('active-app').innerText = app.title;
+
                     const win = document.createElement('div');
-                    win.className = 'window active';
-                    win.id = id;
+                    win.className = 'window open active';
+                    win.id = uid;
                     win.style.width = app.w + 'px';
                     win.style.height = app.h + 'px';
-                    win.style.left = (100 + Math.random()*50) + 'px';
-                    win.style.top = (80 + Math.random()*50) + 'px';
-                    win.style.zIndex = ++System.zIndex;
-
-                    // Update Menu Title
-                    document.getElementById('app-name').innerText = app.title;
+                    win.style.zIndex = ++Sys.zIndex;
                     
-                    // Mark dock active
-                    const dockItem = document.querySelector(`.dock-item[data-app="${appKey}"]`);
-                    if(dockItem) dockItem.classList.add('running');
+                    // Center-ish spawn
+                    const rX = 50 + Math.random()*50;
+                    const rY = 50 + Math.random()*50;
+                    win.style.top = rY + 'px'; win.style.left = rX + 'px';
 
                     win.innerHTML = `
-                        <div class="title-bar" onmousedown="System.windows.startDrag(event, '${id}')">
-                            <div class="controls">
-                                <div class="dot close" onclick="System.windows.close('${id}', '${appKey}')"></div>
-                                <div class="dot min" onclick="System.windows.minimize('${id}')"></div>
-                                <div class="dot max" onclick="System.windows.maximize('${id}')"></div>
+                        <div class="title-bar" onmousedown="Sys.apps.drag(event, '${uid}')">
+                            <div class="t-lights">
+                                <div class="dot cl" onclick="Sys.apps.close('${uid}', '${id}')"></div>
+                                <div class="dot mn" onclick="Sys.apps.min('${uid}')"></div>
+                                <div class="dot mx" onclick="Sys.apps.max('${uid}')"></div>
                             </div>
-                            <div class="win-title">${app.title}</div>
+                            <div class="t-title">${app.title}</div>
                         </div>
-                        <div class="content">${app.content}</div>
-                        <div class="resize-handle" onmousedown="System.windows.startResize(event, '${id}')"></div>
+                        <div class="win-body">${app.html}</div>
+                        <div class="resize-handle" onmousedown="Sys.apps.resize(event, '${uid}')"></div>
                     `;
-
-                    // Bring to front on click
+                    
                     win.addEventListener('mousedown', () => {
-                        win.style.zIndex = ++System.zIndex;
-                        document.querySelectorAll('.window').forEach(w => w.classList.remove('active'));
+                        win.style.zIndex = ++Sys.zIndex;
+                        document.querySelectorAll('.window').forEach(w=>w.classList.remove('active'));
                         win.classList.add('active');
-                        document.getElementById('app-name').innerText = app.title;
+                        document.getElementById('active-app').innerText = app.title;
                     });
 
-                    document.getElementById('windows-area').appendChild(win);
+                    document.getElementById('win-layer').appendChild(win);
                 },
 
-                startDrag(e, id) {
-                    if(e.target.closest('.controls')) return;
-                    System.draggingId = id;
-                    const win = document.getElementById(id);
-                    const rect = win.getBoundingClientRect();
-                    win.dataset.offX = e.clientX - rect.left;
-                    win.dataset.offY = e.clientY - rect.top;
-                    // Disable iframe pointer events for smooth drag
-                    document.querySelectorAll('iframe').forEach(f => f.style.pointerEvents = 'none');
-                },
-
-                startResize(e, id) {
-                    e.stopPropagation();
-                    System.resizingId = id;
-                    document.querySelectorAll('iframe').forEach(f => f.style.pointerEvents = 'none');
-                },
-
-                close(id, appKey) {
-                    const win = document.getElementById(id);
+                close(uid, appId) {
+                    const win = document.getElementById(uid);
+                    win.classList.remove('open');
                     win.style.opacity = 0;
-                    win.style.transform = 'scale(0.9)';
-                    setTimeout(() => win.remove(), 200);
+                    win.style.transform = "scale(0.9)";
+                    setTimeout(() => win.remove(), 250);
+                    // Check if other instances exist to keep dock dot? (Skipped for simplicity)
                 },
 
-                minimize(id) {
-                    const win = document.getElementById(id);
-                    win.style.transform = 'translateY(100vh) scale(0.1)';
+                min(uid) {
+                    const win = document.getElementById(uid);
+                    win.style.transform = "translateY(100vh) scale(0.1)";
                     win.style.opacity = 0;
                     win.classList.remove('active');
                 },
 
-                maximize(id) {
-                    const win = document.getElementById(id);
+                max(uid) {
+                    const win = document.getElementById(uid);
                     if(win.dataset.max) {
-                        // Restore
-                        win.style.width = win.dataset.oldW;
-                        win.style.height = win.dataset.oldH;
-                        win.style.top = win.dataset.oldT;
-                        win.style.left = win.dataset.oldL;
+                        win.style.top = win.dataset.ot; win.style.left = win.dataset.ol;
+                        win.style.width = win.dataset.ow; win.style.height = win.dataset.oh;
                         delete win.dataset.max;
                     } else {
-                        // Maximize
-                        win.dataset.oldW = win.style.width;
-                        win.dataset.oldH = win.style.height;
-                        win.dataset.oldT = win.style.top;
-                        win.dataset.oldL = win.style.left;
-                        win.style.top = '30px';
-                        win.style.left = '0';
-                        win.style.width = '100%';
-                        win.style.height = 'calc(100% - 100px)'; // Account for Dock
+                        win.dataset.ot = win.style.top; win.dataset.ol = win.style.left;
+                        win.dataset.ow = win.style.width; win.dataset.oh = win.style.height;
+                        win.style.top = '30px'; win.style.left = '0';
+                        win.style.width = '100%'; win.style.height = 'calc(100% - 110px)';
                         win.dataset.max = true;
                     }
-                }
-            },
+                },
 
-            /* --- DOCK --- */
-            dock: {
-                items: [
-                    { key: 'finder', icon: '😊', name: 'Finder' },
-                    { key: 'safari', icon: '🧭', name: 'Safari' },
-                    { key: 'terminal', icon: '💻', name: 'Terminal' },
-                    { key: 'calc', icon: '🧮', name: 'Calculator' },
-                    { key: 'vscode', icon: '🛠️', name: 'VS Code' },
-                    { key: 'settings', icon: '⚙️', name: 'Settings' }
-                ],
-                render() {
-                    const el = document.getElementById('dock');
-                    el.innerHTML = this.items.map(i => `
-                        <div class="dock-item" data-app="${i.key}" onclick="System.windows.open('${i.key}')">
-                            ${i.icon}
-                            <div class="tooltip">${i.name}</div>
-                            <div class="dock-dot"></div>
-                        </div>
-                    `).join('');
-                }
-            }
-        };
+                drag(e, uid) {
+                    if(e.target.closest('.t-lights')) return;
+                    const win = document.getElementById(uid);
+                    Sys.draggingId = uid;
+                    const r = win.getBoundingClientRect();
+                    win.dataset.offX = e.clientX - r.left;
+                    win.dataset.offY = e.clientY - r.top;
+                    document.querySelectorAll('iframe').forEach(i => i.style.pointerEvents = 'none');
+                },
 
-        /* --- APP DEFINITIONS --- */
-        System.apps = {
-            'finder': {
-                title: 'Finder', w: 600, h: 400,
-                content: `<div style="padding:20px; text-align:center; color:gray; height:100%; display:flex; align-items:center; justify-content:center;">
-                    <div>
-                        <h1>Macintosh HD</h1>
-                        <p>345 GB Available</p>
-                    </div>
-                </div>`
-            },
-            'safari': {
-                title: 'Safari', w: 800, h: 500,
-                content: `
-                    <div class="browser-chrome">
-                        <span style="color:white; cursor:pointer;">⬅️</span>
-                        <input class="url-bar" value="apple.com/macos-supernova" readonly>
-                        <span style="color:white; cursor:pointer;">🔄</span>
-                    </div>
-                    <iframe class="browser-view" src="https://www.wikipedia.org/" title="Browser"></iframe>
-                `
-            },
-            'terminal': {
-                title: 'Terminal - zsh', w: 500, h: 350,
-                content: `
-                    <div class="term-body" onclick="document.getElementById('term-input').focus()">
-                        <div id="term-output">
-                            Last login: ${new Date().toDateString()} on ttys001<br>
-                            Welcome to macOS 27 Supernova.<br><br>
-                        </div>
-                        <span>guest@macbook ~ % </span>
-                        <input id="term-input" autocomplete="off" onkeydown="handleTerm(event)">
-                    </div>
-                `
-            },
-            'calc': {
-                title: 'Calculator', w: 260, h: 360,
-                content: `
-                    <div class="calc-grid">
-                        <div class="calc-display" id="c-disp">0</div>
-                        ${['AC','+/-','%','÷','7','8','9','×','4','5','6','-','1','2','3','+','0','.','='].map(k => {
-                            let c = 'c-dark';
-                            if(['÷','×','-','+','='].includes(k)) c = 'c-orange';
-                            else if(['AC','+/-','%'].includes(k)) c = 'c-grey';
-                            let span = k==='0' ? 'style="grid-column:span 2"' : '';
-                            return `<button class="calc-btn ${c}" ${span} onclick="calcInput('${k}')">${k}</button>`;
-                        }).join('')}
-                    </div>
-                `
-            },
-            'vscode': {
-                title: 'Code', w: 700, h: 500,
-                content: `<div style="background:#1e1e1e; height:100%; padding:20px; font-family:monospace; color:#ccc;">
-                    <span style="color:#569cd6;">import</span> React <span style="color:#569cd6;">from</span> 'react';<br><br>
-                    <span style="color:#6a9955;">// TODO: Build the future</span><br>
-                    <span style="color:#569cd6;">const</span> App = () => {<br>
-                    &nbsp;&nbsp;<span style="color:#c586c0;">return</span> &lt;<span style="color:#4ec9b0;">OS</span> /&gt;;<br>
+                resize(e, uid) {
+                    e.stopPropagation();
+                    Sys.resizingId = uid;
+                    document.querySelectorAll('iframe').forEach(i => i.style.pointerEvents = 'none');
+                },
+                
+                // Utils
+                calc(key) {
+                    const d = document.getElementById('c-res');
+                    if(!d) return;
+                    if(key === 'AC') d.innerText = '0';
+                    else if(key === '=') { try { d.innerText = eval(d.innerText.replace('×','*').replace('÷','/')) } catch { d.innerText = 'Error'} }
+                    else { if(d.innerText === '0') d.innerText = key; else d.innerText += key; }
+                },
+
+                handleTerm(e) {
+                    if(e.key === 'Enter') {
+                        const v = e.target.value;
+                        const log = document.getElementById('term-log');
+                        log.innerHTML += `<div>root@hyperion ~ % ${v}</div>`;
+                        let resp = '';
+                        if(v === 'help') resp = 'Commands: help, date, clear, open [app]';
+                        else if(v === 'date') resp = new Date().toString();
+                        else if(v === 'clear') log.innerHTML = '';
+                        else if(v.startsWith('open ')) Sys.apps.open(v.split(' ')[1]);
+                        else if(v) resp = `zsh: command not found: ${v}`;
+                        
+                        if(resp) log.innerHTML += `<div style="opacity:0.8; margin-bottom:5px;">${resp}</div>`;
+                        e.target.value = '';
+                        e.target.scrollIntoView();
                     }
-                </div>`
+                }
             },
-            'settings': {
-                title: 'System Settings', w: 500, h: 400,
-                content: `
-                    <div class="settings-grid">
-                        <div class="toggle-card">
-                            <span>Appearance</span>
-                            <button onclick="document.body.classList.toggle('dark-mode')" style="cursor:pointer; padding:5px 10px;">Toggle Mode</button>
-                        </div>
-                        <div class="toggle-card">
-                            <span>Wallpaper</span>
-                            <button onclick="changeWall()" style="cursor:pointer; padding:5px 10px;">Random</button>
-                        </div>
-                    </div>
-                `
+
+            toggleTheme() {
+                document.body.classList.toggle('dark-mode');
+            },
+            
+            changeWallpaper() {
+                const bgs = [
+                    'https://images.unsplash.com/photo-1621360841012-3f9f635f79b9?q=80&w=2560', // Big Sur Abstract
+                    'https://images.unsplash.com/photo-1477346611705-65d1883cee1e?q=80&w=2560', // Mountain
+                    'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2560'  // Dark Abstract
+                ];
+                const r = bgs[Math.floor(Math.random() * bgs.length)];
+                document.getElementById('desktop').style.backgroundImage = `url('${r}')`;
+            },
+            
+            createFolder() {
+                this.fs.addFile('New Folder', 'folder');
             }
         };
 
-        /* --- UTILS & HELPERS --- */
-        
-        // Terminal Logic
-        function handleTerm(e) {
-            if(e.key === 'Enter') {
-                const val = e.target.value.trim();
-                const out = document.getElementById('term-output');
-                out.innerHTML += `<span>guest@macbook ~ % ${val}</span><br>`;
-                
-                let resp = '';
-                if(val === 'help') resp = 'Available commands: date, clear, open [app], whoami, ls';
-                else if(val === 'date') resp = new Date().toString();
-                else if(val === 'clear') { out.innerHTML = ''; e.target.value = ''; return; }
-                else if(val === 'ls') resp = 'Desktop  Documents  Downloads  Music  Pictures';
-                else if(val === 'whoami') resp = 'root';
-                else if(val.startsWith('open ')) {
-                    const app = val.split(' ')[1];
-                    if(System.apps[app]) { System.windows.open(app); resp = `Opening ${app}...`; }
-                    else resp = `Application '${app}' not found.`;
-                }
-                else if(val !== '') resp = `zsh: command not found: ${val}`;
-                
-                if(resp) out.innerHTML += `<div class="term-line">${resp}</div><br>`;
-                e.target.value = '';
-                // Scroll to bottom
-                e.target.scrollIntoView();
-            }
-        }
+        // Add bounce anim
+        const s = document.createElement('style');
+        s.innerHTML = "@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }";
+        document.head.appendChild(s);
 
-        // Calculator Logic
-        let cVal = '0', cOp = null, cPrev = null;
-        function calcInput(k) {
-            const disp = document.getElementById('c-disp');
-            if(!isNaN(k) || k === '.') {
-                if(cVal === '0' && k !== '.') cVal = k;
-                else cVal += k;
-            } else if (k === 'AC') {
-                cVal = '0'; cOp = null; cPrev = null;
-            } else if (['÷','×','-','+'].includes(k)) {
-                cOp = k; cPrev = cVal; cVal = '0';
-            } else if (k === '=') {
-                if(!cOp || !cPrev) return;
-                const a = parseFloat(cPrev); const b = parseFloat(cVal);
-                let res = 0;
-                if(cOp === '+') res = a + b;
-                if(cOp === '-') res = a - b;
-                if(cOp === '×') res = a * b;
-                if(cOp === '÷') res = a / b;
-                cVal = String(res); cOp = null;
-            }
-            disp.innerText = cVal.substring(0, 9);
-        }
-
-        function changeWall() {
-            const urls = [
-                'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=2070',
-                'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=2074',
-                'https://images.unsplash.com/photo-1501854140884-074bf22ca911?q=80&w=2080'
-            ];
-            const rand = urls[Math.floor(Math.random()*urls.length)];
-            document.getElementById('desktop').style.backgroundImage = `url('${rand}')`;
-        }
-
-        /* --- BOOT SYSTEM --- */
-        window.onload = () => System.init();
+        window.onload = () => Sys.init();
 
     </script>
 </body>
