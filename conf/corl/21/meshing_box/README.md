@@ -25,3 +25,13 @@ This document summarizes the core contributions and methodology of the paper "Ex
   organization={PMLR}
 }
 ```
+
+### Appendix
+
+#### Formula Derivation
+When considering about topological dim., Eq. 1 equals to topological dim.
+![formula](fig/note_draft_2.png)
+
+#### Note Draft
+Mapping the Fea-Dimensionality to Multi-Dimensionality Coordinate Sys.
+![note](fig/note_draft_1.png)
