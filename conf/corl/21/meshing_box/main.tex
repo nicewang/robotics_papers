@@ -7,6 +7,8 @@
 
 \usepackage{enumitem}
 
+\usepackage{placeins}
+
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
 \usepackage{hyperref}       % hyperlinks
@@ -160,22 +162,24 @@ The summarized block-diagram of \textit{Meshing Box RL} see \cref{fig:meshing_bo
 \bibliographystyle{abbrvnat}
 \bibliography{main}
 
+\FloatBarrier
+
 \newpage
 \appendix
-\section{Appendix: Notes and Formula Derivation Drafts\protect\footnote{Converted by Nano Banana Pro.}}
-
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=0.95\textwidth]{fig/note_draft_1.png}
-  \caption{Note Draft: Mapping the Fea-Dimensionality to Multi-Dimensionality Coordinate Sys.}
-  \label{fig:note}
-\end{figure}
+\section{Notes and Formula Derivation Drafts\protect\footnote{Converted by Nano Banana Pro.}}
 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\textwidth]{fig/note_draft_2.png}
   \caption{Formula Derivation: When consider about topological dim., Eq. 1 equals to topological dim.}
   \label{fig:formula_derivation}
+\end{figure}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/note_draft_1.png}
+  \caption{Note Draft: Mapping the Fea-Dimensionality to Multi-Dimensionality Coordinate Sys.}
+  \label{fig:note}
 \end{figure}
 
 \end{document}
