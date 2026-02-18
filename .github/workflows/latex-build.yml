@@ -2,10 +2,10 @@ name: Build LaTeX PDF
 
 on:
   push:
-    branches: [no_exist]
-  #   branches: [ "conf_corl_21_meshing_box" ]
-  # pull_request:
-  #   branches: [ "conf_corl_21_meshing_box" ]
+    # branches: [no_exist]
+    branches: [ "conf_corl_21_meshing_box" ]
+  pull_request:
+    branches: [ "conf_corl_21_meshing_box" ]
 
 jobs:
   build_latex:
