@@ -1,5 +1,5 @@
 ## Contributing to this Repo
-This repo is is currently used only for personal research and learning purposes, so contributions are not yet required. But we encourage for recommending a valuable robotics paper to us through `📝 Paper Recommendation` issue, please see [there](#issues).
+This repo is is currently used only for personal research and learning purposes, so contributions are not yet required. But we do encourage for recommending valuable robotics papers to us through `📝 Paper Recommendation` issue, please see [there](#issues).
 
 ### Pull Request Templates (for Maintainers only)
 #### Templates
@@ -15,3 +15,4 @@ https://github.com/nicewang/robotics_papers/compare/[branch A]...[branch B]?expa
 ```
 
 ### Issues
+You can recommend us a robotics paper by submitting a [📝 Paper Recommendation issue](https://github.com/nicewang/robotics_papers/issues/new?template=paper_recommendation.yml).
