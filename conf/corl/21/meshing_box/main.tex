@@ -192,7 +192,7 @@ The \cref{fig:note}\repeatfootnote{note_draft} shows the ``hand-crafted \textit{
   \label{fig:note}
 \end{figure}
 
-The \cref{tab:dimensionality_concepts} illustrates the comparison of ``textit{Physical DOF vs. Feature Dim. vs. Fractal Dim.}''
+The \cref{tab:dimensionality_concepts} illustrates the comparison of ``\textit{Physical DOF vs. Feature Dim. vs. Fractal Dim.}''
 
 \begin{table}[htbp]
   \centering
@@ -202,8 +202,8 @@ The \cref{tab:dimensionality_concepts} illustrates the comparison of ``textit{Ph
     \toprule
     \textbf{Concept} & \textbf{Explanation} & \textbf{Metaphor} & \textbf{Attribute} \\ \midrule
     \textbf{Physical DOF} & Degrees of Freedom & \begin{tabular}[c]{@{}l@{}}The number of \textbf{joints} in the robot\\ (hardware constraint).\end{tabular} & Constant \\ \addlinespace
-    \textbf{Feature Dimension} & \begin{tabular}[c]{@{}l@{}}State Space\\ Dimension\end{tabular} & \begin{tabular}[c]{@{}l@{}}The \textbf{total number of coordinate axes}\\ (typically $> 2 \times$ DOF: e.g., $\langle q, \dot{q} \rangle$).\end{tabular} & Constant \\ \addlinespace
-    \textbf{Fractal Dimension} & \begin{tabular}[c]{@{}l@{}}Fractal Dimension\\ ($D_f$)\end{tabular} & \begin{tabular}[c]{@{}l@{}}The \textbf{``thickness''} or complexity of the\\ actual trajectory (policy-dependent).\end{tabular} & \textbf{Variable} \\ \bottomrule
+    \textbf{Feature Dimension} & \begin{tabular}[c]{@{}l@{}}State Space\\ Dimension\end{tabular} & \begin{tabular}[c]{@{}l@{}}The \textbf{total number of coordinate axes} describing the motion\\ (typically $\ge 2 \times$ DOF: e.g. for each joint, $\langle q, \dot{q} \rangle$\\ whereas $q$ is the position and\\ $\dot{q}$ is the velocity).\end{tabular} & Constant \\ \addlinespace
+    \textbf{Fractal Dimension} & \begin{tabular}[c]{@{}l@{}}Fractal Dimension\\ ($D_f$)\end{tabular} & \begin{tabular}[c]{@{}l@{}}The \textbf{``thickness'' or complexity} of the\\ actual trajectory the robot follows.\end{tabular} & \textbf{Variable} \\ \bottomrule
   \end{tabular}
 \end{table}
 
