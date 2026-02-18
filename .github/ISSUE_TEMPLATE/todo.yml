@@ -1,7 +1,7 @@
 name: "ToDo"
 description: "Create a structured ToDo issue"
 title: "ToDo-YYYY/MM/DD"
-labels: ["todo"]
+labels: ["ToDo"]
 body:
   - type: textarea
     id: tasks_and_summaries

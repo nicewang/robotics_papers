@@ -1,5 +1,5 @@
 name: 📝 Paper Recommendation
-description: Submit a robotics or AI paper worth including in this repository.
+description: Submit a robotics paper worth including in this repository.
 title: "[Rec]: "
 labels: ["paper-submission", "triage"]
 assignees:
