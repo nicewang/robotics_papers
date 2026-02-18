@@ -1,7 +1,7 @@
 name: 📝 Paper Recommendation
 description: Submit a robotics paper worth including in this repository.
 title: "[Rec]: "
-labels: ["paper-submission", "triage"]
+labels: ["Add Paper Summarization"]
 assignees:
   - nicewang
 body:
