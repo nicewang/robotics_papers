@@ -1,7 +1,7 @@
 ## Contributing to this Repo
-This repo is is currently used only for personal research and learning purposes, so contributions are not yet required.
+This repo is is currently used only for personal research and learning purposes, so contributions are not yet required. But we encourage for recommending a valuable robotics paper to us through `📝 Paper Recommendation` issue, please see [there](#issues).
 
-### Pull Request Templates
+### Pull Request Templates (for Maintainers only)
 #### Templates
 - [Add Paper Summarization](.github/PULL_REQUEST_TEMPLATE/add_paper_summarization.md)
 - [Patch](.github/PULL_REQUEST_TEMPLATE/patch.md)
