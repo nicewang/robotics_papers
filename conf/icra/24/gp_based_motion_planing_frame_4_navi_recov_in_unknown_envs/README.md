@@ -1,3 +1,4 @@
+## GP Robust Motion Planning:
 ### A GP-based Robust Motion Planning Framework for Agile Autonomous Robot Navigation and Recovery in Unknown Environments
 This document summarizes the core contributions and methodology of the paper "A GP-based Robust Motion Planning Framework for Agile Autonomous Robot Navigation and Recovery in Unknown Environments", focusing on its' main ideas and the core blocks.
 - [Original Paper](https://github.com/nicewang/robotics_papers/tree/assets/conf/icra/24/gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs/original_paper)

@@ -3,9 +3,9 @@ name: Build LaTeX PDF
 on:
   push:
     branches: [no_exist]
-  #   branches: [ "conf_icra_25_boxmap" ]
+  #   branches: [ "conf_corl_21_meshing_box" ]
   # pull_request:
-  #   branches: [ "conf_icra_25_boxmap" ]
+  #   branches: [ "conf_corl_21_meshing_box" ]
 
 jobs:
   build_latex:
@@ -18,8 +18,8 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
-          # root_file: conf/icra/25/boxmap/main.tex
-          working_directory: conf/icra/25/boxmap/
+          # root_file: conf/corl/21/meshing_box/main.tex
+          working_directory: conf/corl/21/meshing_box/
 
       # - name: Upload PDF artifact
       #   uses: actions/upload-artifact@v4
@@ -29,15 +29,15 @@ jobs:
       
       - name: Rename PDF
         run: |
-          old_path="conf/icra/25/boxmap/main.pdf"
-          new_name="BoxMap_summarization.pdf"
+          old_path="conf/corl/21/meshing_box/main.pdf"
+          new_name="Meshing-Box_summarization.pdf"
           mv "$old_path" "$new_name"
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
-          name: BoxMap_summarization_pdf
-          path: BoxMap_summarization.pdf
+          name: Meshing-Box_summarization_pdf
+          path: Meshing-Box_summarization.pdf
 
 
 #  Orig Ver

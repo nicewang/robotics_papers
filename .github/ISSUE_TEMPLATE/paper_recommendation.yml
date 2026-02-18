@@ -36,11 +36,12 @@ body:
       multiple: false
       options:
         - 🤖 Robotics (General)
-        - 👁️ Computer Vision
-        - 🗺️ SLAM / Localization
+        - 🦾 Motion Planning / Manipulation / Control
+        - 🎓 Robot Learning
+        - 👁️ Perception
         - 🧠 Reinforcement Learning
-        - 🦾 Manipulation / Control
         - 🚙 Autonomous Driving
+        - 🗺️ SLAM / Localization
         - 🧩 Others
     validations:
       required: true
@@ -50,7 +51,7 @@ body:
     attributes:
       label: 💡 Recommendation Reason / Core Contribution
       description: Briefly explain what problem this paper solves.
-      placeholder: This paper proposes a new method for... achieving SOTA on...
+      placeholder: This paper proposes a new method for... achieving... on...
     validations:
       required: true
 
