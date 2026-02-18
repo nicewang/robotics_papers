@@ -15,4 +15,4 @@ https://github.com/nicewang/robotics_papers/compare/[branch A]...[branch B]?expa
 ```
 
 ### Issues
-You can recommend us a robotics paper by submitting a [📝 Paper Recommendation issue](https://github.com/nicewang/robotics_papers/issues/new?template=paper_recommendation.yml).
+You can recommend a robotics paper to us by submitting a [📝 Paper Recommendation issue](https://github.com/nicewang/robotics_papers/issues/new?template=paper_recommendation.yml).
