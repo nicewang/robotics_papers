@@ -1,6 +1,3 @@
-## robotics_papers
-
-
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
     <defs>
         <pattern id="wp" width="80" height="80" patternUnits="userSpaceOnUse">
@@ -191,6 +188,8 @@
     </radialGradient>
     <rect width="800" height="400" fill="url(#vignette)" pointer-events="none"/>
 </svg>
+
+## robotics_papers
 
 ${\LaTeX}$ Template: `neurips_2023`
 
