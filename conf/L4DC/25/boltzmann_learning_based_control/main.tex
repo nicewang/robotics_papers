@@ -36,7 +36,7 @@
   Summarized by Xiaonan (Nice) Wang \thanks{wangxiaonannice@gmail.com} \\
   % Paper fr last-names (year)
   Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and study purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from Anderson and Hespanha. (2025) \\
-  Topic: Boltzmann Learning, Non-Stationary Environments, Learning-based Control \\
+  Topic: Boltzmann Learning, Non-Stationary Environments, Learning-based Control, Reinforcement Learning\\
 }
 
 \begin{document}
@@ -85,7 +85,7 @@ This document summarizes the core contributions and methodology of the paper "Le
 \begin{itemize}
   \item The algorithm provides \textbf{explicit bounds on the regret}, showing that \textbf{regret can be made arbitrarily small}.
   \begin{itemize}
-    \item Conceptually, ${\text{Regret}_K(\rho) = \underbrace{ \frac{1}{K} \sum_{k=1}^{K} \mathbb{E}[J(a_k, \omega_k)] }_{\text{Actual Cost}} - \underbrace{ \frac{1}{K} \sum_{k=1}^{K} \mathbb{E}[J(\rho(y_k), \omega_k)] }_{\text{Benchmark Cost}} \leq \alpha_0}$
+    \item Conceptually, $R(T) = \Delta(\pi_{actual}, \pi_{static}^*)$
   \end{itemize}
   \item It is \textbf{computationally much more efficient} and requires significantly \textbf{less memory} than competing \textit{machine learning approaches} (SVM and Neural Network, which must be continuously retrained on sliding windows of past data to handle non-stationarity).
 \end{itemize}
