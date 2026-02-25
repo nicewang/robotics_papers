@@ -3,9 +3,9 @@ name: Build LaTeX PDF
 on:
   push:
     branches: [no_exist]
-  #   branches: [ "conf_corl_21_meshing_box" ]
+  #   branches: [ "conf_l4dc_boltzmann_learning_based_control" ]
   # pull_request:
-  #   branches: [ "conf_corl_21_meshing_box" ]
+  #   branches: [ "conf_l4dc_boltzmann_learning_based_control" ]
 
 jobs:
   build_latex:
@@ -18,8 +18,8 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
-          # root_file: conf/corl/21/meshing_box/main.tex
-          working_directory: conf/corl/21/meshing_box/
+          # root_file: conf/L4DC/25/boltzmann_learning_based_control/main.tex
+          working_directory: conf/L4DC/25/boltzmann_learning_based_control/
 
       # - name: Upload PDF artifact
       #   uses: actions/upload-artifact@v4
@@ -29,15 +29,15 @@ jobs:
       
       - name: Rename PDF
         run: |
-          old_path="conf/corl/21/meshing_box/main.pdf"
-          new_name="Meshing-Box_summarization.pdf"
+          old_path="conf/L4DC/25/boltzmann_learning_based_control/main.pdf"
+          new_name="boltzmann_learning_based_control_summarization.pdf"
           mv "$old_path" "$new_name"
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Meshing-Box_summarization_pdf
-          path: Meshing-Box_summarization.pdf
+          name: boltzmann_learning_based_control_summarization_pdf
+          path: boltzmann_learning_based_control_summarization.pdf
 
 
 #  Orig Ver
