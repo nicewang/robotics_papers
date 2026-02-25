@@ -22,6 +22,11 @@ Conference on Robot Learning. PMLR.
 ##### 2021
 - [Meshing Box: Explicitly Encouraging Low Fractional Dimensional Trajectories via Reinforcement Learning](conf/corl/21/meshing_box/)
 
+#### HRI
+ACM/IEEE International Conference on Human-Robot Interaction
+##### 2025
+- [CLEA: Contrastive Learning from Exploratory Actions: Leveraging Natural Interactions for Preference Elicitation](conf/HRI/25/CLEA)
+
 #### ICRA
 IEEE International Conference on Robotics
 ##### 2024
@@ -33,7 +38,8 @@ IEEE International Conference on Robotics
 ##### 2026
 - [CLF-RL: Chasing Stability: Humanoid Running via Control Lyapunov Function Guided Reinforcement Learning](conf/icra/26/CLF-RL)
 
-#### HRI
-ACM/IEEE International Conference on Human-Robot Interaction
+#### L4DC
+Learning for Dynamics \& Control Conference
+
 ##### 2025
-- [CLEA: Contrastive Learning from Exploratory Actions: Leveraging Natural Interactions for Preference Elicitation](conf/HRI/25/CLEA)
+- [Boltzmann Learning: Learning with Contextual Information in Non-Stationary Environments](conf/L4DC/25/boltzmann_learning_based_control/)

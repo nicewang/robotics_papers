@@ -2,10 +2,10 @@ name: Build LaTeX PDF
 
 on:
   push:
-    # branches: [no_exist]
-    branches: [ "boltzmann_learning_based_control" ]
-  pull_request:
-    branches: [ "boltzmann_learning_based_control" ]
+    branches: [no_exist]
+  #   branches: [ "conf_l4dc_boltzmann_learning_based_control" ]
+  # pull_request:
+  #   branches: [ "conf_l4dc_boltzmann_learning_based_control" ]
 
 jobs:
   build_latex:
