@@ -85,9 +85,9 @@ This document summarizes the core contributions and methodology of the paper "Le
 \begin{itemize}
   \item The algorithm provides \textbf{explicit bounds on the regret}, showing that \textbf{regret can be made arbitrarily small}.
   \begin{itemize}
-    \item Conceptually, $R(T) = \Delta(\pi_{actual}, \pi_{static}^*)$
+    \item Conceptually, the regret is defined as: $R(T) = \Delta(\pi_{actual}, \pi_{static}^*)$
   \end{itemize}
-  \item It is \textbf{computationally much more efficient} and requires significantly \textbf{less memory} than competing \textit{machine learning approaches} (SVM and Neural Network, which must be continuously retrained on sliding windows of past data to handle non-stationarity).
+  \item It is \textbf{computationally much more efficient} and requires significantly \textbf{less memory} than competing \textit{machine learning approaches} (SVM and Neural Network, which must be \textit{continuously retrained on sliding windows of past data} to handle non-stationarity).
 \end{itemize}
 
 \paragraph{(5) What is the approach itself?}
