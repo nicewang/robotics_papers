@@ -21,25 +21,43 @@ IEEE Transactions on Robotics
 Conference on Robot Learning. PMLR.
 ##### 2021
 - [Meshing Box: Explicitly Encouraging Low Fractional Dimensional Trajectories via Reinforcement Learning](conf/corl/21/meshing_box/)
+    - [ ] Real-world Robotics Exp.
+    - [ ] Simulation
+    - [ ] Other Application Scenarios (but within the scope of control & robotics)
 
 #### HRI
 ACM/IEEE International Conference on Human-Robot Interaction
 ##### 2025
 - [CLEA: Contrastive Learning from Exploratory Actions: Leveraging Natural Interactions for Preference Elicitation](conf/HRI/25/CLEA)
+    - [ ] Real-world Robotics Exp.
+    - [ ] Simulation
+    - [ ] Other Application Scenarios (but within the scope of control & robotics)
 
 #### ICRA
 IEEE International Conference on Robotics
 ##### 2024
 - [A GP-based Robust Motion Planning Framework for Agile Autonomous Robot Navigation and Recovery in Unknown Environments](conf/icra/24/gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs)
+    - [ ] Real-world Robotics Exp.
+    - [ ] Simulation
+    - [ ] Other Application Scenarios (but within the scope of control & robotics)
 
 ##### 2025
 - [BoxMap: Efficient Structural Mapping and Navigation](conf/icra/25/boxmap)
+    - [ ] Real-world Robotics Exp.
+    - [ ] Simulation
+    - [ ] Other Application Scenarios (but within the scope of control & robotics)
 
 ##### 2026
 - [CLF-RL: Chasing Stability: Humanoid Running via Control Lyapunov Function Guided Reinforcement Learning](conf/icra/26/CLF-RL)
-
+    - [ ] Real-world Robotics Exp.
+    - [ ] Simulation
+    - [ ] Other Application Scenarios (but within the scope of control & robotics)
 #### L4DC
 Learning for Dynamics \& Control Conference
 
 ##### 2025
 - [Boltzmann Learning: Learning with Contextual Information in Non-Stationary Environments](conf/L4DC/25/boltzmann_learning_based_control/)
+    - [ ] Real-world Robotics Exp.
+    - [ ] Simulation
+    - [ ] Other Application Scenarios (but within the scope of control & robotics)
+    
