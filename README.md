@@ -18,6 +18,13 @@ IEEE Transactions on Robotics
         - [ ] Simulation
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
     - Confidence:
+- [Port-Hamiltonian ODE: Port-Hamiltonian Neural ODE Networks on Lie Groups for Robot Dynamics Learning and Control](journal/TRO/24/Port-Hamiltonian-ODE/)
+    - Exp:
+        - [x] Real-world Robotics Exp.
+            - PX4 quadrotors (RaspberryPi)
+        - [x] Simulation
+        - [ ] Other Application Scenarios (but within the scope of control & robotics)
+    - Confidence:
 
 ### Conf
 
