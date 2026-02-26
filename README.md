@@ -13,7 +13,9 @@ ${\LaTeX}$ Template: `neurips_2023`
 IEEE Transactions on Robotics
 ##### 2024
 - [FlowMPC: Learning a Generalizable Trajectory Sampling Distribution for Model Predictive Control](journal/TRO/24/FlowMPC)
-
+    - [ ] Real-world Robotics Exp.
+    - [ ] Simulation
+    - [ ] Other Application Scenarios (but within the scope of control & robotics)
 
 ### Conf
 
@@ -60,4 +62,3 @@ Learning for Dynamics \& Control Conference
     - [ ] Real-world Robotics Exp.
     - [ ] Simulation
     - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    
