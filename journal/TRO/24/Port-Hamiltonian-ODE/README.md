@@ -5,7 +5,7 @@ This document summarizes the core contributions and methodology of the paper "Po
 - Summarization Download: TBD
 
 #### Summarized Block-Diagram
-![Block-Diagram](fig/boltzmann.png) 
+![Block-Diagram](fig/port_hamiltonian_ode.png) 
 
 #### Orig Paper Citation
 ```BibTex
