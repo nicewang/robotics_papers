@@ -17,14 +17,14 @@ IEEE Transactions on Robotics
         - [ ] Real-world Robotics Exp.
         - [ ] Simulation
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    - Confidence:
+    - Confidence: ([details](journal/TRO/24/FlowMPC/.confidence/))
 - [Port-Hamiltonian ODE: Port-Hamiltonian Neural ODE Networks on Lie Groups for Robot Dynamics Learning and Control](journal/TRO/24/Port-Hamiltonian-ODE/)
     - Exp:
         - [x] Real-world Robotics Exp.
             - PX4 quadrotors (RaspberryPi)
         - [x] Simulation
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    - Confidence:
+    - Confidence: _35% ~ 40% ([details](journal/TRO/24/Port-Hamiltonian-ODE/.confidence/))
 
 ### Conf
 
@@ -36,7 +36,7 @@ Conference on Robot Learning. PMLR.
         - [ ] Real-world Robotics Exp.
         - [ ] Simulation
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    - Confidence:
+    - Confidence: ([details](conf/corl/21/meshing_box/.confidence/))
 
 #### HRI
 ACM/IEEE International Conference on Human-Robot Interaction
@@ -46,7 +46,7 @@ ACM/IEEE International Conference on Human-Robot Interaction
         - [ ] Real-world Robotics Exp.
         - [ ] Simulation
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    - Confidence:
+    - Confidence: ([details](conf/HRI/25/CLEA/.confidence/))
 
 #### ICRA
 IEEE International Conference on Robotics
@@ -56,7 +56,7 @@ IEEE International Conference on Robotics
         - [ ] Real-world Robotics Exp.
         - [ ] Simulation
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    - Confidence:
+    - Confidence: ([details](conf/icra/24/gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs/.confidence/))
 
 ##### 2025
 - [BoxMap: Efficient Structural Mapping and Navigation](conf/icra/25/boxmap)
@@ -64,7 +64,7 @@ IEEE International Conference on Robotics
         - [ ] Real-world Robotics Exp.
         - [ ] Simulation
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    - Confidence:
+    - Confidence: ([details](conf/icra/25/boxmap/.confidence/))
 
 ##### 2026
 - [CLF-RL: Chasing Stability: Humanoid Running via Control Lyapunov Function Guided Reinforcement Learning](conf/icra/26/CLF-RL)
@@ -72,7 +72,7 @@ IEEE International Conference on Robotics
         - [ ] Real-world Robotics Exp.
         - [ ] Simulation
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    - Confidence:
+    - Confidence: ([details](conf/icra/26/CLF-RL/.confidence/))
 
 #### L4DC
 Learning for Dynamics \& Control Conference
@@ -83,4 +83,4 @@ Learning for Dynamics \& Control Conference
         - [ ] Real-world Robotics Exp.
         - [ ] Simulation
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    - Confidence:
+    - Confidence: ([details](conf/L4DC/25/boltzmann_learning_based_control/.confidence/))
