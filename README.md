@@ -24,7 +24,7 @@ IEEE Transactions on Robotics
             - PX4 quadrotors (RaspberryPi)
         - [x] Simulation
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    - Confidence: _35% ~ 40% ([details](journal/TRO/24/Port-Hamiltonian-ODE/.confidence/))
+    - Confidence: _35% ~ 40%_ ([details](journal/TRO/24/Port-Hamiltonian-ODE/.confidence/))
 
 ### Conf
 
