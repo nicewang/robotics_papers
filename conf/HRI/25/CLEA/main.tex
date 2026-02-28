@@ -21,23 +21,23 @@
 \usepackage{hyperref}
 \usepackage{cleveref}
 
-\title{Summarization: A GP-based Robust Motion Planning Framework for Agile Autonomous Robot Navigation and Recovery in Unknown Environments}
+\title{Summarization: Contrastive Learning from Exploratory Actions: Leveraging Natural Interactions for Preference Elicitation}
 
 % Paper BibTex
-% @inproceedings{mohammad2024gp,
-%   title={A gp-based robust motion planning framework for agile autonomous robot navigation and recovery in unknown environments},
-%   author={Mohammad, Nicholas and Higgins, Jacob and Bezzo, Nicola},
-%   booktitle={2024 IEEE International Conference on Robotics and Automation (ICRA)},
-%   pages={2418--2424},
-%   year={2024},
+% @inproceedings{dennler2025contrastive,
+%   title={Contrastive Learning from Exploratory Actions: Leveraging Natural Interactions for Preference Elicitation},
+%   author={Dennler, Nathaniel and Nikolaidis, Stefanos and Matari{\'c}, Maja},
+%   booktitle={2025 20th ACM/IEEE International Conference on Human-Robot Interaction (HRI)},
+%   pages={778--788},
+%   year={2025},
 %   organization={IEEE}
 % }
 
 \author{
   Summarized by Xiaonan (Nice) Wang \thanks{wangxiaonannice@gmail.com} \\
   % Paper fr last-names (year)
-  Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and study purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from Mohammad, Higgins and Bezzo (2024) \\
-  Topic: Motion Planning, Safety-Guaranteed and Collision-Free Navigation, Recovery Mechanism \\
+  Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and study purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from Dennler, Nikolaidis and Matari{\'c} (2025) \\
+  Topic: Human-Robot Interaction, Multimodal Trajectory Feature Generation, Preference Learning \\
 }
 
 \begin{document}
@@ -45,78 +45,90 @@
 \maketitle
 
 \begin{abstract}
-This document summarizes the core contributions and methodology of the paper "A GP-based Robust Motion Planning Framework for Agile Autonomous Robot Navigation and Recovery in Unknown Environments, \cite{mohammad2024gp}", focusing on its' main ideas and the core blocks.
+This document summarizes the core contributions and methodology of the paper "Contrastive Learning from Exploratory Actions: Leveraging Natural Interactions for Preference Elicitation, \cite{dennler2025contrastive}", focusing on its' main ideas and the core blocks.
 \end{abstract}
 
 \section{Overview: Core Questions and Answers}
 
 \paragraph{(1) What is the problem?} 
 \begin{itemize}
-  \item Robust Agile Robot Navigation in \textbf{Cluttered, Unknown} Environments
-  \item \textbf{Safety Monitoring \& Failure Detection} and \textbf{Recovery Mechanism} Design in Navigation
+  \item Scenario (the Overall Task): \textbf{Customize} Robot Behaviors that \textbf{Align with Human Preference} -> a.k.a \textit{Preference Learning}
+  \item \textit{Low-Dimensional} \textbf{Preference-Aligned (Semantic)} Trajectory \textbf{Features Generation} using Feature Learning Model (a.k.a Feature Generator)
 \end{itemize}
 
 \paragraph{(2) Why need to solve this problem?}
 \begin{itemize}
-  \item Agile Robot Navigation in \textbf{Uncertainties}
-  \item \textbf{Guaranteeing Safety} and \textbf{Avoiding Collision} in Unknown environments
-  \item Ensuring \textbf{Navigation Success}
+  \item Generating semantic human preference-aligned trajectory features when customizing a robot, in order to reduce user interactions for eliciting preferences and improve user satisfaction;
+  \item Avoiding data-labelling process like proxy tasks before customizing the robot.
 \end{itemize}
 
 \paragraph{(3) How is it different from prev.?}
 \begin{itemize}
-  \item Hard-Constrained Motion Planner with Proactive Failure Detection and Recovery Mechanism
-  \item Model Agnostic Safety Monitoring Method
-  \item Sim-to-Real Manner for Training Planner Failure Detector
+  \item Compared with \textit{self-supervised methods} like AEs or VAEs which result in \textit{physically representative features only}, CLEA will learn user preference-aligned features;
+  \item Compared with \textit{hand-crafted} and \textit{prox tasks}:
+  \begin{itemize}
+    \item \textbf{Complete Feature Spaces} (compared with hand-crafted)
+    \item \textbf{No Extra Labelling Process} (since exploratory search just additionally generates needed data when achieving primary goal)
+  \end{itemize}
 \end{itemize}
-
 
 \paragraph{(4) Why is it better than prev.? (Advantages)} 
 \begin{itemize}
-  \item Advantages among \textit{Typical Hard-Constrained} Methods
-  \begin{itemize}
-    \item Proactive Failure Detection enables \textbf{Adaptability to Disturbances}
-    \item \textbf{Recovery} Mechanism
-    \item Remain Rigor Hard Constrains while Incorporating Failure Processing Strategies (Safety Monitoring+Recovery)
-  \end{itemize}
-  \item Advantages among \textit{Soft-Constrained} Methods
-  \begin{itemize}
-    \item Compliance with Hard Constraints ensures \textbf{Safety}
-    \item Generating Relatively \textbf{Higher Quality} and \textbf{Trackable} Trajectories
-  \end{itemize}
-  \item Advantages among \textit{Reachability Analysis} based Safety Monitoring Methods (Hamilton-Jacobi-Isaacs, ML based, etc.)
-  \begin{itemize}
-    \item \textbf{Generalizability} and \textbf{Model Agnostic}
-  \end{itemize}
-  \item Advantages among Other ML based Failure Detection (Safety Monitoring) Methods
-  \begin{itemize}
-    \item \textbf{More robust}, \textbf{Non-Manual} Recovery Mechanism
-    \item \textbf{Computational Efficient} without Complex DL models
-    \item \textbf{Sim-to-Real} Manner: No Need of Exhaustive Real World Training Data
-  \end{itemize}
+  \item \textbf{Better Semantic Alignment}
+  \item \textbf{Lower Human Effort}
+  \item \textbf{Trade-off:} Obtained semantic representations without extra human efforts.
+  \item Robot learning as an \textbf{exploratory search} (instead of \textit{information retrieval}) interaction is useful for novice robot users (\textbf{complete}, \textbf{simple}, \textbf{minimal} and \textbf{explainable})
 \end{itemize}
 
 \paragraph{(5) What is the approach itself?}
 \begin{itemize}
-  \item \textbf{Gaussian Process} based \textbf{Proactive Failure Detection} in Motion Planning
-  \item GP-based, sampling-based \textbf{Recovery} after Failure Detection
-  \item \textbf{Sim-to-Real} Training Data for Training Failure Detector
+  \item \textbf{CLEA:}
+  \begin{itemize}
+    \item \textbf{Contrastive} Learning from \textbf{Exploratory} Actions
+    \item A \textit{\textbf{Generalizable} Trajectory Feature Learning Framework} that provides \textit{Low-Dimensional Feature Vector Generator}
+  \end{itemize}
 \end{itemize}
 
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=0.95\textwidth]{fig/gp_robust_motion_planning_diagram.png}
-  \caption{Summarized Block-Diagram of GP-based Robust Motion Planning}
-  \label{fig:gp_motion_planning}
-\end{figure}
+Experimental Workflow as following:
+\begin{verbatim}
+1. Exploratory Search: Exploratory Actions Gen (by User Set A)
+2. CLEA Training: Contrastive Feature Generation Learning:
+- Pairwise
+- Triplet Loss
+- Feature Gen Model
+3. Downstream Task Evaluation:
+- Behaviors Ranking (By User Set B)
+  - Pairwise:
+    - For N behavuors in each ranking, building C(N,2) comparisons;
+    - Modeling as C(N,2) binary classifiers.
+  - Why not pointwise? 
+    - Relativity of Preference
+    - Keeping mathematical properties of reward function
+    - Non-Binary Classification: Vector Generation rather than Probability Generation
+- Reward Learning (Training) (use 70% pairwise comparisons):
+  - Cross-Entropy Loss
+  - Reward Model
+- Evaluation (use 30% pairwise comparisons)
+\end{verbatim}
+
 
 \paragraph{(6) What are the applications of it?} 
-The approach can be demonstrated on several robotic platforms (eg. Boston Dynamics Spot quadruped, Jackal differential drive UGV) for safety-guaranteed and collision-free navigation in unknown environments.
+\begin{itemize}
+  \item Human-Robot Interaction Field
+  \item A Generalizable Trajectory Feature Learning Framework that can be used in Assistive/Guidance Robots, etc.
+\end{itemize}
 
 \section{The Structure}
 
 \paragraph{Summarized Block-Diagram} 
-The summarized block-diagram see \cref{fig:gp_motion_planning}\footnote{This block-diagram is created through code-based drafting (Graphviz) for efficiency. While visual aesthetics may be limited, the overall structure remains clear.}.
+The summarized block-diagram of \textit{experimental workflow} see \cref{fig:clea}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Nano Banana Pro.}.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/clea_experimental_workflow_diagram.png}
+  \caption{Summarized Block-Diagram of CLEA Experimental Workflow}
+  \label{fig:clea}
+\end{figure}
 
 \paragraph{Original in Paper}
 
@@ -132,10 +144,10 @@ The original block-diagram see \cref{fig:original}.
 \section{Open Questions}
 
 \begin{enumerate}
-    \item \textbf{Scalability and Representing Multi-Modal Distributions:} 
-    How does the proposed framework address the $O(N^3)$ computational complexity of Gaussian Processes (GPs) as the robot accumulates more environmental data? Furthermore, can a single Gaussian Process model effectively represent multi-modal failure risk distributions when the true risk landscape exhibits multiple distinct failure modes in topologically complex environments?
-    \item \textbf{Transition to Generative Normalizing Flows:} 
-    Could the current discriminative GP classifier for failure detection be augmented or replaced with a generative Normalizing Flow (NF) model that can capture multi-modal failure risk distributions? Specifically, would NF's latent space representation enable more efficient sampling of recovery candidate states compared to the current sampling approach?
+    \item \textbf{Purpose of Symmetric Triplet Loss:} 
+    Does the second half of Eq. 3 make sense? Will it increase the risk of overfitting while having limited effectiveness in promoting convergence? (In other words, does forcing the ``anchor'' and ``positive'' to be interchangeable neglect their differences and lead to ``overfitting''?)
+    \item \textbf{Generalizability and Scalability:}
+    Is the trained CLEA feature generator only can be integrated into the robot customization process for online inference to obtain feature vectors? How about other scenarios like utilizing CLEA generator offline to generate vectors to build a feature vector database? If so, does the trained generator meet the generalizability quirements?
 \end{enumerate}
 
 \bibliographystyle{abbrvnat}

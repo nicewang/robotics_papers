@@ -3,9 +3,9 @@ name: Build LaTeX PDF
 on:
   push:
     branches: [no_exist]
-  #   branches: [ "conf_icra_24_gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs" ]
+  #   branches: [ "journal_tro_24_port_hamiltonian_ode" ]
   # pull_request:
-  #   branches: [ "conf_icra_24_gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs" ]
+  #   branches: [ "journal_tro_24_port_hamiltonian_ode" ]
 
 jobs:
   build_latex:
@@ -18,8 +18,8 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
-          # root_file: conf/icra/24/gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs//main.tex
-          working_directory: conf/icra/24/gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs/
+          # root_file: journal/TRO/24/Port-Hamiltonian-ODE/main.tex
+          working_directory: journal/TRO/24/Port-Hamiltonian-ODE/
 
       # - name: Upload PDF artifact
       #   uses: actions/upload-artifact@v4
@@ -29,15 +29,15 @@ jobs:
       
       - name: Rename PDF
         run: |
-          old_path="conf/icra/24/gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs/main.pdf"
-          new_name="gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs_summarization.pdf"
+          old_path="journal/TRO/24/Port-Hamiltonian-ODE/main.pdf"
+          new_name="Port-Hamiltonian-ODE_summarization.pdf"
           mv "$old_path" "$new_name"
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
-          name: gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs_summarization_pdf
-          path: gp_based_motion_planing_frame_4_navi_recov_in_unknown_envs_summarization.pdf
+          name: Port-Hamiltonian-ODE_summarization_pdf
+          path: Port-Hamiltonian-ODE_summarization.pdf
 
 
 #  Orig Ver
