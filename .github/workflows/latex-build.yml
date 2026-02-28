@@ -3,9 +3,9 @@ name: Build LaTeX PDF
 on:
   push:
     branches: [no_exist]
-  #   branches: [ "conf_icra_25_clf_rl" ]
+  #   branches: [ "journal_tro_24_port_hamiltonian_ode" ]
   # pull_request:
-  #   branches: [ "conf_icra_25_clf_rl" ]
+  #   branches: [ "journal_tro_24_port_hamiltonian_ode" ]
 
 jobs:
   build_latex:
@@ -18,8 +18,8 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
-          # root_file: conf/icra/26/CLF-RL/main.tex
-          working_directory: conf/icra/26/CLF-RL/
+          # root_file: journal/TRO/24/Port-Hamiltonian-ODE/main.tex
+          working_directory: journal/TRO/24/Port-Hamiltonian-ODE/
 
       # - name: Upload PDF artifact
       #   uses: actions/upload-artifact@v4
@@ -29,15 +29,15 @@ jobs:
       
       - name: Rename PDF
         run: |
-          old_path="conf/icra/26/CLF-RL/main.pdf"
-          new_name="CLF-RL_summarization.pdf"
+          old_path="journal/TRO/24/Port-Hamiltonian-ODE/main.pdf"
+          new_name="Port-Hamiltonian-ODE_summarization.pdf"
           mv "$old_path" "$new_name"
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
-          name: CLF-RL_summarization_pdf
-          path: CLF-RL_summarization.pdf
+          name: Port-Hamiltonian-ODE_summarization_pdf
+          path: Port-Hamiltonian-ODE_summarization.pdf
 
 
 #  Orig Ver

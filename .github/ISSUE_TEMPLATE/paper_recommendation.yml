@@ -1,0 +1,66 @@
+name: 📝 Paper Recommendation
+description: Submit a robotics paper worth including in this repository.
+title: "[Rec]: "
+labels: ["Add Paper Summarization"]
+assignees:
+  - nicewang
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 👋 Welcome to contribute!
+        Thank you for contributing to the **robotics_papers** repository. Please fill out the form below to help us evaluate this paper quickly.
+  
+  - type: input
+    id: paper_title
+    attributes:
+      label: 📄 Paper Title
+      placeholder: e.g., Attention Is All You Need
+    validations:
+      required: true
+
+  - type: input
+    id: paper_link
+    attributes:
+      label: 🔗 Paper Link (URL)
+      description: Please provide arXiv or official PDF links.
+      placeholder: https://arxiv.org/abs/xxxx.xxxxx
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 🏷️ Category
+      description: Please select the best match for automatic classification.
+      multiple: false
+      options:
+        - 🤖 Robotics (General)
+        - 🦾 Motion Planning / Manipulation / Control
+        - 🎓 Robot Learning
+        - 👁️ Perception
+        - 🧠 Reinforcement Learning
+        - 🚙 Autonomous Driving
+        - 🗺️ SLAM / Localization
+        - 🧩 Others
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: 💡 Recommendation Reason / Core Contribution
+      description: Briefly explain what problem this paper solves.
+      placeholder: This paper proposes a new method for... achieving... on...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: ✅ Checklist
+      options:
+        - label: I have searched the Issue list to ensure no duplicate recommendations.
+          required: true
+        - label: I confirmed that the link is publicly accessible.
+          required: true
