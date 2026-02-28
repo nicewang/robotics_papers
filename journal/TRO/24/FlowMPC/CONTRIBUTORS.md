@@ -7,7 +7,7 @@
   - **Signature**: `Signed-off-by: nicewang <wangxiaonannice@gmail.com>`
 
 ### Acknowledgments (if applicable)
-- **[Collaborator Name]**
+- **[Name]**
   - **Roles**:
   - **Responsibilities**:
 
