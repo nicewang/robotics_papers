@@ -1,5 +1,5 @@
 ## Contributing to this Repo
-This repo is is currently used only for personal research and learning purposes, so contributions are not yet required. But we do encourage for recommending valuable robotics papers to us through `📝 Paper Recommendation` issue, please see [there](#issues).
+We are very happy that you are interested in contributing to this Repo. However, this repo is is currently used only for personal research and learning purposes, so contributions are not yet required. But we do encourage for recommending valuable robotics papers to us through `📝 Paper Recommendation` issue, please see [there](#issues).
 
 ### Pull Request Templates (for Maintainers only)
 #### Templates
