@@ -3,9 +3,9 @@ name: Build LaTeX PDF
 on:
   push:
     branches: [no_exist]
-  #   branches: [ "journal_tro_24_learning_a_generalizable_trajectory_sampling_distrib_4_mpc" ]
+  #   branches: [ "journal_tro_24_port_hamiltonian_ode" ]
   # pull_request:
-  #   branches: [ "journal_tro_24_learning_a_generalizable_trajectory_sampling_distrib_4_mpc" ]
+  #   branches: [ "journal_tro_24_port_hamiltonian_ode" ]
 
 jobs:
   build_latex:
@@ -18,8 +18,8 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
-          # root_file: journal/TRO/24/FlowMPC/main.tex
-          working_directory: journal/TRO/24/FlowMPC/
+          # root_file: journal/TRO/24/Port-Hamiltonian-ODE/main.tex
+          working_directory: journal/TRO/24/Port-Hamiltonian-ODE/
 
       # - name: Upload PDF artifact
       #   uses: actions/upload-artifact@v4
@@ -29,15 +29,15 @@ jobs:
       
       - name: Rename PDF
         run: |
-          old_path="journal/TRO/24/FlowMPC/main.pdf"
-          new_name="learning_a_generalizable_trajectory_sampling_distrib_4_mpc_summarization.pdf"
+          old_path="journal/TRO/24/Port-Hamiltonian-ODE/main.pdf"
+          new_name="Port-Hamiltonian-ODE_summarization.pdf"
           mv "$old_path" "$new_name"
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
-          name: learning_a_generalizable_trajectory_sampling_distrib_4_mpc_summarization_pdf
-          path: learning_a_generalizable_trajectory_sampling_distrib_4_mpc_summarization.pdf
+          name: Port-Hamiltonian-ODE_summarization_pdf
+          path: Port-Hamiltonian-ODE_summarization.pdf
 
 
 #  Orig Ver

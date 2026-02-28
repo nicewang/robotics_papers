@@ -1,0 +1,211 @@
+\documentclass{article}
+
+% Pass 'final' to the neurips_2023 package to remove line numbers if needed
+\usepackage[final]{neurips_2023}
+
+\usepackage{graphicx}
+
+\usepackage{enumitem}
+
+\usepackage{placeins}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\title{Summarization: Explicitly Encouraging Low Fractional Dimensional Trajectories via Reinforcement Learning}
+
+% Paper BibTex
+% @inproceedings{gillen2021explicitly,
+%   title={Explicitly encouraging low fractional dimensional trajectories via reinforcement learning},
+%   author={Gillen, Sean and Byl, Katie},
+%   booktitle={Conference on Robot Learning},
+%   pages={2137--2147},
+%   year={2021},
+%   organization={PMLR}
+% }
+
+\author{
+  Summarized by Xiaonan (Nice) Wang \thanks{wangxiaonannice@gmail.com} \\
+  % Paper fr last-names (year)
+  Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and study purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from Gillen and Byl. (2021) \\
+  Topic: Legged Locomotion, Fractal Geometry, Reinforcement Learning \\
+}
+
+\begin{document}
+
+\newcommand{\repeatfootnote}[1]{\textsuperscript{\ref{#1}}}
+
+\maketitle
+
+\begin{abstract}
+This document summarizes the core contributions and methodology of the paper "Explicitly Encouraging Low Fractional Dimensional Trajectories via Reinforcement Learning, \cite{gillen2021explicitly}", focusing on its' main ideas and the core blocks.
+\end{abstract}
+
+\section{Overview: Core Questions and Answers}
+                           
+\paragraph{(1) What is the problem?} 
+\begin{itemize}
+  \item In \textit{Legged Locomotion}: Learning an intelligent gait that possesses both \textbf{low-dimensional stability} and \textbf{high adaptability} within a \textbf{stochastic real-world} environment.
+  \begin{itemize}
+    \item via \textbf{Fractional Dimensionality Reduction},
+    \item facilitating \textbf{Formal Verification},
+    \item and being \textbf{robust} to \textit{Noise \& Disturbances} (\textbf{stability} or \textbf{robustness}).
+  \end{itemize}
+\end{itemize}
+
+\paragraph{(2) Why need to solve this problem?}
+\begin{itemize}
+  \item \textbf{Robustness and Stability}: Guarantee the system is safe in all the regions of state space during its life.
+  \item Breaking the \textbf{curse of dimensionality}: Dealing with scenarios with \textit{high (topological) dimensional state space}.
+  \item Addressing the \textbf{Unexplainable} and \textbf{Unverifiable} issues of \textbf{Model-Free approaches}.
+\end{itemize}
+
+\paragraph{(3) How is it different from prev.?}
+\begin{itemize}
+  \item When Box Meshing: Storing mesh points in a \textbf{Hash Table}.
+  \begin{itemize}
+    \item Time Complexity: \textbf{Reducing} from ${o(n^2)}$ to \textbf{${o(n)}$};
+    \item \textbf{Data Compression}: ${cnt(keys) \ll n}$, points belong to same box will share the same key.
+  \end{itemize}
+  \item When Post Processing: ``\textbf{Divided} by fractional dimension'' \textbf{rather} than ``\textit{Subtracted} by fractional dimension''.
+  \begin{itemize}
+    \item Reward Scaling;
+    \item Avoiding negative rewards: As negative signals can impede convergence of some RL, division is sign-preserving, compressing the reward magnitude without altering its polarity.
+  \end{itemize}
+  \item \textbf{Clipped} Fractional Dimension (in post processing):
+  \begin{itemize}
+    \item Force to ${\ge 1}$: Preventing agents learning to \textit{fall over immediately} to ``game the system'';
+    \item Force to ${\le half of topological dimension}$: Providing a numerically smooth ``ceiling'' for training to prevent gradients from \textit{spiraling out of control} (\textit{exploding}).
+  \end{itemize}
+\end{itemize}
+
+\paragraph{(4) Why is it better than prev.? (Advantages)} 
+\begin{itemize}
+  \item \textbf{Low Fractional Dimension} and \textbf{More Stable} Trajectories
+  \item Hash Table for Data Compression when Box Meshing
+  \item \textbf{Computational Efficient} (Hash Table Box Meshing + Model-Free RL + Fractal Penalty)
+  \item Pursuing Low-Dimensional Trajectories for \textbf{Formal Verification}
+\end{itemize}
+
+\paragraph{(5) What is the approach itself?}
+\begin{itemize}
+  \item Approach Itself:
+  \begin{itemize}
+    \item Box Meshing
+    \begin{itemize}
+      \item Hash(Mesh Points);
+      \item Using Hash Table to stire keys.
+    \end{itemize}
+    \item Fractional Dimension Calculation
+    \begin{itemize}
+      \item Building ${H{size(state space) -> 1}}$ ( basically a \textbf{decreasing set})
+      \item Calculating the Upper \& Lower Mesh (Fractal) Dim via the slope of log-log curve (or variation)
+    \end{itemize}
+    \item Post Processing
+    \begin{itemize}
+      \item Clipped Mesh Dim
+      \item Reward \textbf{Penalty}: Reward <- Reward / Clip-Dim
+    \end{itemize}
+  \end{itemize}
+  \item Novelties:
+  \begin{itemize}
+    \item \textbf{Geometric Regularization}: It introduces fractal dimension as a differentiable reward penalty to steer the agent towards low-dimensional manifolds.
+    \item \textbf{Computational Efficiency}: It proposes a hash-based online box-counting algorithm that enables real-time complexity estimation.
+    \item \textbf{Provable Simplicity}: By actively breaking the "curse of dimensionality," the method produces policies that are not only high-performing but also amenable to formal verification.
+  \end{itemize}
+\end{itemize}
+
+\paragraph{(6) What are the applications of it?} 
+Legged Lomotion on robotic environments (\textit{HalfCheetah-v2}, \textit{Hopper-v2}, and \textit{Walker2d-v2}) with  high dimensionality (11-17 DOF). (Simulation only, real-world robot experiments needed.)
+
+\section{The Structure}
+
+\paragraph{Summarized Block-Diagram} 
+
+The summarized block-diagram of \textit{Meshing Box RL} see \cref{fig:meshing_box_rl}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Nano Banana Pro.}.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/meshing_box_rl.png}
+  \caption{Summarized Block-Diagram of Meshing Box Reinforcement Learning}
+  \label{fig:meshing_box_rl}
+\end{figure}
+
+% \paragraph{Original in Paper}
+
+% The original block-diagram see \cref{fig:original}.
+
+% \begin{figure}[tb]
+%   \centering
+%   \includegraphics[width=0.95\textwidth]{fig/orig.png}
+%   \caption{Original Block-Diagram in Paper}
+%   \label{fig:original}
+% \end{figure}
+
+\section{Open Questions}
+
+\begin{enumerate}
+    \item \textbf{Generalizing to Highly Stochastic Environments:}
+    In highly stochastic environments, such as rocky terrains or slippery surfaces, complex maneuvers are often essential for survival. Does forcibly compressing the fractal dimension risk compromising the agent's performance in high-difficulty settings? Furthermore, is there an ``optimal dimension'' that strikes a balance between guaranteed verifiability and environmental adaptability?
+    \item \textbf{Beyond the Model-Free RL:} 
+    Beyond the field of Model-Free RL, does the concept of Fractal Regularization still hold significant value in legged locomotion based on recent popular approaches?
+\end{enumerate}
+
+\bibliographystyle{abbrvnat}
+\bibliography{main}
+
+\FloatBarrier
+
+\newpage
+\appendix
+\section{Formula Derivation Draft\protect\footnote{Converted by Nano Banana Pro. \label{note_draft}}}
+
+\FloatBarrier
+
+The \cref{fig:formula_derivation} shows the ``hand-crafted'' formula derivation (draft) of Eq 1. when considering the special circumstance (i.e. considering topological dim.).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/note_draft_2.png}
+  \caption{Formula Derivation: When considering about topological dim., Eq. 1 equals to topological dim.}
+  \label{fig:formula_derivation}
+\end{figure}
+
+\section{Note: Physical DOF vs. Feature Dimension vs. Fractal Dimension}
+
+The \cref{fig:note}\repeatfootnote{note_draft} shows the ``hand-crafted \textit{Mapping the Fea-Dimensionality to Multi-Dimensionality Coordinate Sys.}'' 
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/note_draft_1.png}
+  \caption{Note Draft: Mapping the Fea-Dimensionality to Multi-Dimensionality Coordinate Sys.}
+  \label{fig:note}
+\end{figure}
+
+The \cref{tab:dimensionality_concepts} illustrates the comparison of ``\textit{Physical DOF vs. Feature Dim. vs. Fractal Dim.}''
+
+\begin{table}[htbp]
+  \centering
+  \caption{Comparison of Dimensionality Concepts in Robot Locomotion}
+  \label{tab:dimensionality_concepts}
+  \begin{tabular}{@{}llll@{}}
+    \toprule
+    \textbf{Concept} & \textbf{Explanation} & \textbf{Metaphor} & \textbf{Attribute} \\ \midrule
+    \textbf{Physical DOF} & Degrees of Freedom & \begin{tabular}[c]{@{}l@{}}The number of \textbf{joints} in the robot\\ (hardware constraint).\end{tabular} & Constant \\ \addlinespace
+    \textbf{Feature Dimension} & \begin{tabular}[c]{@{}l@{}}State Space\\ Dimension\end{tabular} & \begin{tabular}[c]{@{}l@{}}\textbf{Total number of coordinate axes} describing the \\ motion (typically $\ge 2 \times$ DOF: e.g. for each joint, \\ $\langle q, \dot{q} \rangle$ whereas $q$ is position and $\dot{q}$ is velocity).\end{tabular} & Constant \\ \addlinespace
+    \textbf{Fractal Dimension} & \begin{tabular}[c]{@{}l@{}}Fractal Dimension\\ ($D_f$)\end{tabular} & \begin{tabular}[c]{@{}l@{}}The \textbf{``thickness'' or complexity} of the\\ actual trajectory the robot follows.\end{tabular} & \textbf{Variable}\footnotemark \\ \bottomrule
+  \end{tabular}
+\end{table}
+\footnotetext{Determined by RL policy, \textit{theoretical maximum is State Space Dimension}.}
+
+\end{document}
