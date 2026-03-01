@@ -1,0 +1,153 @@
+\documentclass{article}
+
+% Pass 'final' to the neurips_2023 package to remove line numbers if needed
+\usepackage[final]{neurips_2023}
+
+\usepackage{graphicx}
+
+\usepackage{enumitem}
+
+% \usepackage{placeins}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\title{Summarization: Path Planning for Manipulation using Experience-driven Random Trees}
+
+% Paper BibTex
+% @article{pairet2021path,
+%   title={Path planning for manipulation using experience-driven random trees},
+%   author={Pairet, {\`E}ric and Chamzas, Constantinos and Petillot, Yvan and Kavraki, Lydia E},
+%   journal={IEEE Robotics and Automation Letters},
+%   volume={6},
+%   number={2},
+%   pages={3295--3302},
+%   year={2021},
+%   publisher={IEEE}
+% }
+
+\author{
+  Summarized by Xiaonan (Nice) Wang \thanks{wangxiaonannice@gmail.com} \\
+  % Paper fr last-names (year)
+  Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and learning purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from Pairet et al. (2021) \\
+  Topic: \\
+}
+
+\begin{document}
+
+\newcommand{\repeatfootnote}[1]{\textsuperscript{\ref{#1}}}
+
+\maketitle
+
+\begin{abstract}
+This document summarizes the core contributions and methodology of the paper "Path Planning for Manipulation using Experience-driven Random Trees, \cite{pairet2021path}", focusing on its' main ideas and the core blocks.
+\end{abstract}
+
+\section{Overview: Core Questions and Answers}
+                           
+\paragraph{(1) What is the problem?} 
+\begin{itemize}
+  \item \textbf{Accurate Robot Dynamics Modeling:} Learning robot dynamics \textit{from data} for systems whose states evolve on a \textbf{matrix Lie group} (e.g., the $SE(3)$ manifold for rigid bodies), while ensuring the model respects \textbf{physical} laws (e.g. \textbf{energy conservation} and \textbf{kinematic constraints}).
+  \item \textbf{Stabilization and Generalizability:} Developing a \textbf{unified control policy} capable of stabilization and \textbf{trajectory tracking} for different rigid-body mobile \textbf{UGVs}, \textbf{UAVs} or \textbf{UUVs} under \textbf{same} control design.
+\end{itemize}
+
+\paragraph{(2) Why need to solve this problem?}
+\begin{itemize}
+  \item Accurate dynamics models are critical for \textbf{safe}, \textbf{stable} control and \textbf{generalization (generalizing?)} to novel operational conditions.
+  \item Necessity deriving from current situation (methods):
+  \begin{itemize}
+    \item Traditional models (e.g. hand-designed) derived from first principles often \textit{over-simplify} the system, resulting in modeling errors that simple parameter tuning cannot correct.
+    \item In contrast, standard \textit{black-box} machine learning models require \textit{large amounts of training data \& computational} time (\textit{impractical in mobile} robotics applications) and often fail to infer physical laws (like kinematic constraints and energy conservation).
+  \end{itemize}
+\end{itemize}
+
+\paragraph{(3) How is it different from prev.?}
+\begin{itemize}
+  \item Compared to structured learning:
+  \begin{itemize}
+    \item Previous Hamiltonian/Lagrangian neural networks primarily operated on vector-valued states in Euclidean space and relied on parameterizations like Euler angles, which suffer from singularities.
+    \item This work embeds matrix Lie groups in a \textbf{higher-dimensional} space, allowing to train the model via the widely used \textbf{neural ODE network on Euclidean space}.
+  \end{itemize}
+  \item Compared to Lie group networks:
+  \begin{itemize}
+    \item Existing Lie group neural ODEs (for learning dynamics and normalizing flows) mostly focused on preserving structure during backpropagation, but they did provide physical system descriptions.
+    \item This work embeds \textbf{physical system descriptions} via incorporating \textbf{Hamiltonian mechanics}.
+  \end{itemize}
+  \item In summarization, this work introduces a \textbf{port-Hamiltonian formulation} capable of embedding any general \textbf{matrix Lie group constraint} and explicitly models \textbf{energy-dissipation elements} (such as \textbf{friction} or \textbf{drag forces}).
+\end{itemize}
+
+\paragraph{(4) Why is it better than prev.? (Advantages)} 
+\begin{itemize}
+  \item \textbf{Physics and Geometry Preservation:} By embedding port-Hamiltonian mechanics and matrix Lie group constraints directly into the neural ODE, the model automatically obeys \textbf{energy conservation} and \textbf{geometric constraints} ($SO(3)$ constraints and $SE(3)$ constraints) during \textit{long-term trajectory predictions}.
+  \item \textbf{Efficiency:} The structured model \textbf{converges faster} and achieves significantly \textbf{lower training loss and prediction errors} compared to \textit{unstructured} or \textit{black-box networks}.
+  \item \textbf{Unified Model-based Controller:} It directly designs a unified, \textbf{system-agnostic} and \textbf{model-based} controller using \textit{interconnection and damping assignment passivity-based control (IDA-PBC)}, allowing \textbf{stable trajectory tracking} for fully-actuated and underactuated robots \textbf{without requiring a priori knowledge} of system parameters.
+\end{itemize}
+
+\paragraph{(5) What is the approach itself?}
+\begin{itemize}
+  \item Port-Hamiltonian neural ODE network on a Lie group
+  \begin{itemize}
+    \item 4 separate neural networks to \textbf{approximate physical components}:
+    \begin{itemize}
+      \item kinetic energy $T$
+      \item potential energy $V$
+      \item energy dissipation matrix $D$
+      \item input matrix $B$
+    \end{itemize}
+    \item The networks dictate the continuous-time dynamics within an ODE solver to minimize the errors between predicted and true states.
+  \end{itemize}
+  \item Unified Control Policy: It applies an energy-shaping and damping-injection strategy to reshape the learned system's energy landscape, so its global minimum aligns with the desired tracking trajectory.
+\end{itemize}
+
+\paragraph{(6) What are the applications of it?} 
+\begin{itemize}
+  \item The approach (designed \textit{dynamics models}) is applicable to rigid-body \textbf{mobile} robots, such as \textbf{unmanned ground vehicles (UGVs)}, \textbf{unmanned aerial vehicles (UAVs)} and \textbf{unmanned underwater vehicles (UUVs)}.
+  \item Experiments both in \textit{simulation} and \textit{\textbf{real} PX4 quadrotors}.
+\end{itemize}
+
+\section{The Structure}
+
+\paragraph{Summarized Block-Diagram} 
+
+The summarized block-diagram of \textit{Port-Hamiltonian ODE} see \cref{fig:port_hamiltonian_ode}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Nano Banana Pro.}.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/port_hamiltonian_ode.png}
+  \caption{Summarized Block-Diagram of Port-Hamiltonian ODE}
+  \label{fig:port_hamiltonian_ode}
+\end{figure}
+
+\paragraph{Original in Paper}
+
+The original block-diagram see \cref{fig:original}.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/orig.png}
+  \caption{Original Block-Diagram in Paper}
+  \label{fig:original}
+\end{figure}
+
+\section{Open Questions}
+
+% \begin{enumerate}
+%     \item \textbf{Generalizing to Highly Stochastic Environments:}
+%     In highly stochastic environments, such as rocky terrains or slippery surfaces, complex maneuvers are often essential for survival. Does forcibly compressing the fractal dimension risk compromising the agent's performance in high-difficulty settings? Furthermore, is there an ``optimal dimension'' that strikes a balance between guaranteed verifiability and environmental adaptability?
+%     \item \textbf{Beyond the Model-Free RL:} 
+%     Beyond the field of Model-Free RL, does the concept of Fractal Regularization still hold significant value in legged locomotion based on recent popular approaches?
+% \end{enumerate}
+
+\bibliographystyle{abbrvnat}
+\bibliography{main}
+\end{document}

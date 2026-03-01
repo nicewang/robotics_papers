@@ -7,7 +7,17 @@ ${\LaTeX}$ Template: `neurips_2023`
 
 ### Journal
 
-#### TRO
+### RA-L
+IEEE Robotics and Automation Letters
+#### 2021
+- [ERT: Path Planning for Manipulation using Experience-driven Random Trees](journal/RAL/21/ERT/)
+    - Exp:
+        - [x] Real-world Robotics Exp.
+        - [x] Simulation
+        - [ ] Other Application Scenarios (but within the scope of control & robotics)
+    - Confidence: ([details](journal/RAL/21/ERT/.confidence/))
+
+#### T-RO
 IEEE Transactions on Robotics
 ##### 2024
 - [FlowMPC: Learning a Generalizable Trajectory Sampling Distribution for Model Predictive Control](journal/TRO/24/FlowMPC)
