@@ -57,40 +57,27 @@ This document summarizes the core contributions and methodology of the paper "Pa
                            
 \paragraph{(1) What is the problem?} 
 \begin{itemize}
-  \item \textbf{Accurate Robot Dynamics Modeling:} Learning robot dynamics \textit{from data} for systems whose states evolve on a \textbf{matrix Lie group} (e.g., the $SE(3)$ manifold for rigid bodies), while ensuring the model respects \textbf{physical} laws (e.g. \textbf{energy conservation} and \textbf{kinematic constraints}).
-  \item \textbf{Stabilization and Generalizability:} Developing a \textbf{unified control policy} capable of stabilization and \textbf{trajectory tracking} for different rigid-body mobile \textbf{UGVs}, \textbf{UAVs} or \textbf{UUVs} under \textbf{same} control design.
+  \item Motion Planning from \textbf{Prior Experiences}
+  \item \textbf{Generalizability:} Generalize prior knowledge (experiences) even to \textbf{notably different} task instances.
 \end{itemize}
 
 \paragraph{(2) Why need to solve this problem?}
 \begin{itemize}
-  \item Accurate dynamics models are critical for \textbf{safe}, \textbf{stable} control and \textbf{generalization (generalizing?)} to novel operational conditions.
-  \item Necessity deriving from current situation (methods):
-  \begin{itemize}
-    \item Traditional models (e.g. hand-designed) derived from first principles often \textit{over-simplify} the system, resulting in modeling errors that simple parameter tuning cannot correct.
-    \item In contrast, standard \textit{black-box} machine learning models require \textit{large amounts of training data \& computational} time (\textit{impractical in mobile} robotics applications) and often fail to infer physical laws (like kinematic constraints and energy conservation).
-  \end{itemize}
+  \item Robots planning from \textit{scratch} leads to \textit{unnecessarily long planning times}.
+  \item While leveraging prior experiences can \textbf{speed up} the motion planning process, existing learning-based and experience-based methods \textit{fail} or \textit{generalize poorly} when the new task \textit{differs significantly} from the \textit{stored} experiences (i.e. \textit{non-experienced regions}).
+  \item Making \textbf{prior} knowledge \textbf{truly reusable} across \textbf{diverse task variations} remains an open challenge.
 \end{itemize}
 
 \paragraph{(3) How is it different from prev.?}
 \begin{itemize}
-  \item Compared to structured learning:
-  \begin{itemize}
-    \item Previous Hamiltonian/Lagrangian neural networks primarily operated on vector-valued states in Euclidean space and relied on parameterizations like Euler angles, which suffer from singularities.
-    \item This work embeds matrix Lie groups in a \textbf{higher-dimensional} space, allowing to train the model via the widely used \textbf{neural ODE network on Euclidean space}.
-  \end{itemize}
-  \item Compared to Lie group networks:
-  \begin{itemize}
-    \item Existing Lie group neural ODEs (for learning dynamics and normalizing flows) mostly focused on preserving structure during backpropagation, but they did provide physical system descriptions.
-    \item This work embeds \textbf{physical system descriptions} via incorporating \textbf{Hamiltonian mechanics}.
-  \end{itemize}
-  \item In summarization, this work introduces a \textbf{port-Hamiltonian formulation} capable of embedding any general \textbf{matrix Lie group constraint} and explicitly models \textbf{energy-dissipation elements} (such as \textbf{friction} or \textbf{drag forces}).
+  \item Previous experience-based \textit{path-centric} planners (like \textit{Lightning} or \textit{Thunder}) use prior experiences \textit{``rigidly''} by recalling \textit{exact existed motions} and simply repairing disconnected states, which requires \textit{a vast library of closely related experiences}.
+  \item In contrast, this approach treats experiences as \textbf{``decomposable''} and \textbf{``malleable''}. Instead of \textit{copying} exact paths, it breaks a prior path into smaller parts (\textbf{``micro-experiences''}) and \textbf{semi-randomly morphs} them using affine transformations (\textbf{shear} and \textbf{shift}) to explore new situations.
 \end{itemize}
 
 \paragraph{(4) Why is it better than prev.? (Advantages)} 
 \begin{itemize}
-  \item \textbf{Physics and Geometry Preservation:} By embedding port-Hamiltonian mechanics and matrix Lie group constraints directly into the neural ODE, the model automatically obeys \textbf{energy conservation} and \textbf{geometric constraints} ($SO(3)$ constraints and $SE(3)$ constraints) during \textit{long-term trajectory predictions}.
-  \item \textbf{Efficiency:} The structured model \textbf{converges faster} and achieves significantly \textbf{lower training loss and prediction errors} compared to \textit{unstructured} or \textit{black-box networks}.
-  \item \textbf{Unified Model-based Controller:} It directly designs a unified, \textbf{system-agnostic} and \textbf{model-based} controller using \textit{interconnection and damping assignment passivity-based control (IDA-PBC)}, allowing \textbf{stable trajectory tracking} for fully-actuated and underactuated robots \textbf{without requiring a priori knowledge} of system parameters.
+  \item The proposed method can successfully solve \textbf{highly novel} task instances using just a \textbf{single} prior path experience, whereas \textit{state-of-the-art} planners fail even with \textit{vast repertoires of experiences}.
+  \item It \textbf{significantly outperforms} existing methods in both \textbf{success rate} and \textbf{planning time}, particularly in challenging scenarios involving \textbf{new obstacles} or \textbf{narrower geometries}.
 \end{itemize}
 
 \paragraph{(5) What is the approach itself?}
