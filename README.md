@@ -13,7 +13,9 @@ IEEE Robotics and Automation Letters
 - [ERT: Path Planning for Manipulation using Experience-driven Random Trees](journal/RAL/21/ERT/)
     - Exp:
         - [x] Real-world Robotics Exp.
+            - Fetch (with a 7-DOF arm)
         - [x] Simulation
+            - Synthetic Exps: Simulation envs combined with _OMPL_ and _MoveIt_.
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
     - Confidence: ([details](journal/RAL/21/ERT/.confidence/))
 
