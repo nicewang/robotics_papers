@@ -17,7 +17,7 @@ IEEE Robotics and Automation Letters
         - [x] Simulation
             - Synthetic Exps: Simulation envs combined with _OMPL_ and _MoveIt_.
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    - Confidence: ([details](journal/RAL/21/ERT/.confidence/))
+    - Confidence: _60% ~ 70%_ ([details](journal/RAL/21/ERT/.confidence/))
 
 #### T-RO
 IEEE Transactions on Robotics
