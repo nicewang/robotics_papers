@@ -9,6 +9,9 @@
 
 % \usepackage{placeins}
 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
 \usepackage{hyperref}       % hyperlinks
@@ -114,8 +117,11 @@ This document summarizes the core contributions and methodology of the paper "Pa
 
 \paragraph{(6) What are the applications of it?} 
 \begin{itemize}
-  \item The approach (designed \textit{dynamics models}) is applicable to rigid-body \textbf{mobile} robots, such as \textbf{unmanned ground vehicles (UGVs)}, \textbf{unmanned aerial vehicles (UAVs)} and \textbf{unmanned underwater vehicles (UUVs)}.
-  \item Experiments both in \textit{simulation} and \textit{\textbf{real} PX4 quadrotors}.
+  \item Fully-autonomous robotic manipulation \& motion planning, particularly in \textbf{``recurrent''} tasks such as a robotic arm performing \textbf{\textit{shelf-stocking}}.
+  \item Exp Platforms:
+  \begin{itemize}
+    \item Real-world Fetch (with a \textit{7-DoF arm}, planning in an 8-DoF configuration space)
+  \end{itemize} Synthetic Exps
 \end{itemize}
 
 \section{The Structure}
