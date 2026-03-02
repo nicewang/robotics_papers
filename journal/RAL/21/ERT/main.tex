@@ -11,6 +11,7 @@
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{bm}
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
@@ -92,6 +93,7 @@ This document summarizes the core contributions and methodology of the paper "Pa
   \end{itemize}
   \item Iterative Traj. Generation Process via ERT (ERTConnect):
   \begin{itemize}
+    \item Prior $\xi_D$ Selection according to \textit{Eq. 4}
     \item ${\bm{\xi_D \to \xi'_D}}$ \textbf{``Mapping'':} The approach maps a \textbf{given single prior} path ${\bm{\xi_D}}$ to a new path ${\bm{\xi'_D}}$ \textit{whose initial and final configurations match the task's start and goal}.
     \item Iteration: Iteratively extracts \textbf{segments (``micro-experiences'')} from mapped \textbf{$\xi'_D$}.
     \begin{itemize}
