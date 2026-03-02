@@ -3,9 +3,9 @@ name: Build LaTeX PDF
 on:
   push:
     branches: [no_exist]
-  #   branches: [ "journal_tro_24_port_hamiltonian_ode" ]
+  #   branches: [ "journal_ral_21_ert" ]
   # pull_request:
-  #   branches: [ "journal_tro_24_port_hamiltonian_ode" ]
+  #   branches: [ "journal_ral_21_ert" ]
 
 jobs:
   build_latex:
@@ -18,8 +18,8 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
-          # root_file: journal/TRO/24/Port-Hamiltonian-ODE/main.tex
-          working_directory: journal/TRO/24/Port-Hamiltonian-ODE/
+          # root_file: journal/RAL/21/ERT/main.tex
+          working_directory: journal/RAL/21/ERT/
 
       # - name: Upload PDF artifact
       #   uses: actions/upload-artifact@v4
@@ -29,15 +29,15 @@ jobs:
       
       - name: Rename PDF
         run: |
-          old_path="journal/TRO/24/Port-Hamiltonian-ODE/main.pdf"
-          new_name="Port-Hamiltonian-ODE_summarization.pdf"
+          old_path="journal/RAL/21/ERT/main.pdf"
+          new_name="ERT_summarization.pdf"
           mv "$old_path" "$new_name"
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Port-Hamiltonian-ODE_summarization_pdf
-          path: Port-Hamiltonian-ODE_summarization.pdf
+          name: ERT_summarization_pdf
+          path: ERT_summarization.pdf
 
 
 #  Orig Ver

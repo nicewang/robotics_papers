@@ -5,7 +5,7 @@ This document summarizes the core contributions and methodology of the paper "Pa
 - Summarization Download: TBD
 
 #### Summarized Block-Diagram
-<!-- ![Block-Diagram](fig/port_hamiltonian_ode.png)  -->
+![Block-Diagram](fig/ert.png) 
 
 #### Orig Paper Citation
 ```BibTex
