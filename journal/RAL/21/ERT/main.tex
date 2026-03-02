@@ -93,16 +93,16 @@ This document summarizes the core contributions and methodology of the paper "Pa
   \end{itemize}
   \item Iterative Traj. Generation Process via ERT (ERTConnect):
   \begin{itemize}
-    \item Prior $\xi_D$ Selection according to \textit{Eq. 4}
-    \item ${\bm{\xi_D \to \xi'_D}}$ \textbf{``Mapping'':} The approach maps a \textbf{given single prior} path ${\bm{\xi_D}}$ to a new path ${\bm{\xi'_D}}$ \textit{whose initial and final configurations match the task's start and goal}.
-    \item Iteration: Iteratively extracts \textbf{segments (``micro-experiences'')} from mapped \textbf{$\xi'_D$}.
+    \item Prior $\bm{\xi_D}$ Selection according to \textit{Eq. 4}
+    \item ${\bm{\xi_D \to \xi'_D}}$ \textbf{``Mapping'':} The approach maps \textbf{selected single prior} path ${\bm{\xi_D}}$ to a new path ${\bm{\xi'_D}}$ \textit{whose initial and final configurations match the task's start and goal}.
+    \item Iteration: Iteratively extracts \textbf{segments (``micro-experiences'')} from mapped $\bm{\xi'_D}$.
     \begin{itemize}
-      \item \textbf{$\psi_{\mathcal{D}} \leftarrow \xi'_{\mathcal{D}}(\alpha_{\text{init}}, \alpha_{\text{targ}})$} with 2 options:
+      \item $\bm{\psi_{\mathcal{D}} \leftarrow \xi'_{\mathcal{D}}(\alpha_{\text{init}}, \alpha_{\text{targ}})}$ with 2 options:
       \begin{itemize}
-        \item Option \textbf{\textit{``Connect''}}: With 2 particular \textbf{given} states \textbf{$<s_{init}, s_{targ}>$}.
-        \item Option \textbf{\textit{``Explore''}}: \textbf{Explore} the best way to continue the task from a given state \textbf{$s_init$}.
+        \item Option \textbf{\textit{``Connect''}}: With 2 particular \textbf{given} states $\bm{<s_{init}, s_{targ}>}$.
+        \item Option \textbf{\textit{``Explore''}}: \textbf{Explore} the best way to continue the task from a given state $\bm{s_init}$.
       \end{itemize}
-      \item In each iteraion, an \textbf{affine transformation} is applied to \textbf{morph} the segment (``micro-experience'') \textbf{$\psi_{\mathcal{D}}$}, generating \textbf{smooth deformations} via \textbf{shear} and \textbf{shift} parameters to create task-relevant motions.
+      \item In each iteraion, an \textbf{affine transformation} is applied to \textbf{morph} the segment (``micro-experience'') $\bm{\psi_{\mathcal{D}}}$, generating \textbf{smooth deformations} via \textbf{shear} and \textbf{shift} parameters to create task-relevant motions.
       \item \textbf{Concatenation (Connecting):} Each segment is \textit{incrementally} concatenated to build a \textbf{valid motion tree} \textit{connecting the start and goal}.
     \end{itemize}
   \end{itemize}
