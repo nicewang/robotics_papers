@@ -99,8 +99,8 @@ This document summarizes the core contributions and methodology of the paper "Pa
     \begin{itemize}
       \item $\bm{\psi_{\mathcal{D}} \leftarrow \xi'_{\mathcal{D}}(\alpha_{\text{init}}, \alpha_{\text{targ}})}$ with 2 options:
       \begin{itemize}
-        \item Option \textbf{\textit{``Connect''}}: With 2 particular \textbf{given} states $\bm{<s_{init}, s_{targ}>}$.
-        \item Option \textbf{\textit{``Explore''}}: \textbf{Explore} the best way to continue the task from a given state $\bm{s_init}$.
+        \item Option \textbf{\textit{``Connect''}}: With 2 particular \textbf{given} states ${<\bm{s_{init}}, \bm{s_{targ}}>}$.
+        \item Option \textbf{\textit{``Explore''}}: \textbf{Explore} the best way to continue the task from a given state $\bm{s_{init}}$.
       \end{itemize}
       \item In each iteraion, an \textbf{affine transformation} is applied to \textbf{morph} the segment (``micro-experience'') $\bm{\psi_{\mathcal{D}}}$, generating \textbf{smooth deformations} via \textbf{shear} and \textbf{shift} parameters to create task-relevant motions.
       \item \textbf{Concatenation (Connecting):} Each segment is \textit{incrementally} concatenated to build a \textbf{valid motion tree} \textit{connecting the start and goal}.
@@ -159,12 +159,12 @@ The original block-diagram see \cref{fig:original-1} and \cref{fig:original-2}.
 
 \section{Open Questions}
 
-% \begin{enumerate}
-%     \item \textbf{Generalizing to Highly Stochastic Environments:}
-%     In highly stochastic environments, such as rocky terrains or slippery surfaces, complex maneuvers are often essential for survival. Does forcibly compressing the fractal dimension risk compromising the agent's performance in high-difficulty settings? Furthermore, is there an ``optimal dimension'' that strikes a balance between guaranteed verifiability and environmental adaptability?
-%     \item \textbf{Beyond the Model-Free RL:} 
-%     Beyond the field of Model-Free RL, does the concept of Fractal Regularization still hold significant value in legged locomotion based on recent popular approaches?
-% \end{enumerate}
+\begin{enumerate}
+    \item \textbf{Generative vs. Heuristic Morphing:}
+    Could we replace the heuristic random tree expansion with conditional generative models (e.g., Diffusion Models) to directly synthesize adaptable micro-experience segments based on the target environment?
+    \item \textbf{Scalability to High-Dimensional (High-DOF) Spaces:} 
+    Can this ``experience-patching'' strategy maintain its success rate and computational efficiency in highly constrained, high-dimensional state spaces, such as \textit{dexterous manipulation}?
+\end{enumerate}
 
 \bibliographystyle{abbrvnat}
 \bibliography{main}
