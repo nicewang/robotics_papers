@@ -1,4 +1,5 @@
 ### Confidence Score
+_60% ~ 70%_<sup>[Standard](../../../../../.std_rules/confidence.md)</sup>
 - [x] Overview
 - [x] Main Structure
 - [ ] Main Details
