@@ -82,18 +82,34 @@ This document summarizes the core contributions and methodology of the paper "Pa
 
 \paragraph{(5) What is the approach itself?}
 \begin{itemize}
-  \item Port-Hamiltonian neural ODE network on a Lie group
+  \item 2 \textbf{Tree Sampling-based Planners}:
   \begin{itemize}
-    \item 4 separate neural networks to \textbf{approximate physical components}:
-    \begin{itemize}
-      \item kinetic energy $T$
-      \item potential energy $V$
-      \item energy dissipation matrix $D$
-      \item input matrix $B$
-    \end{itemize}
-    \item The networks dictate the continuous-time dynamics within an ODE solver to minimize the errors between predicted and true states.
+    \item \textbf{\textit{ERT}} (Experience-driven Random Trees)
+    \item \textbf{\textit{ERTConnect}} (\textbf{bi-directional} version of ERT)
   \end{itemize}
-  \item Unified Control Policy: It applies an energy-shaping and damping-injection strategy to reshape the learned system's energy landscape, so its global minimum aligns with the desired tracking trajectory.
+  \item Iterative Traj. Generation Process via ERT (ERTConnect):
+  \begin{itemize}
+    \item \textbf{$\xi_D \to \xi'_D$ ``Mapping'':} The approach maps a \textbf{single prior} path \textbf{$\xi_D$} to a new path \textbf{$\xi'_D$} \textit{whose initial and final configurations match the task's start and goal}.
+    \item Iteration: Iteratively extracts \textbf{segments (``micro-experiences'')} from mapped \textbf{$\xi'_D$}.
+    \begin{itemize}
+      \item \textbf{$\psi_{\mathcal{D}} \leftarrow \xi'_{\mathcal{D}}(\alpha_{\text{init}}, \alpha_{\text{targ}})$} with 2 options:
+      \begin{itemize}
+        \item Option \textbf{\textit{``Connect''}}: With 2 particular \textbf{given} states \textbf{$<s_init, s_targ>$}.
+        \item Option \textbf{\textit{``Explore''}}: \textbf{Explore} the best way to continue the task from a given state \textbf{$s_init$}.
+      \end{itemize}
+      \item In each iteraion, an \textbf{affine transformation} is applied to \textbf{morph} the segment (``micro-experience'') \textbf{$\psi_{\mathcal{D}}$}, generating \textbf{smooth deformations} via \textbf{shear} and \textbf{shift} parameters to create task-relevant motions.
+      \item \textbf{Concatenation (Connecting):} Each segment is \textit{incrementally} concatenated to build a \textbf{valid motion tree} \textit{connecting the start and goal}.
+    \end{itemize}
+  \end{itemize}
+  \item Highlighted Novelty:
+  \begin{itemize}
+    \item \textbf{\textit{``Divide and Conquer''}} alike:
+    \begin{itemize}
+      \item \textbf{Divide -> Decompose:} Decompose a single prior path to smaller ``micro-experiences''.
+      \item \textbf{Conquer -> Compose:} Iteratively morph each ``micro-experiences'', and then finally compose to a valid motion tree (connecting the start and goal).
+      \item Effect: \textit{``rigid''} to \textbf{``agile''}
+    \end{itemize}
+  \end{itemize}
 \end{itemize}
 
 \paragraph{(6) What are the applications of it?} 
