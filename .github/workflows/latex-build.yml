@@ -2,10 +2,10 @@ name: Build LaTeX PDF
 
 on:
   push:
-    # branches: [no_exist]
-    branches: [ "journal_ral_21_ert" ]
-  pull_request:
-    branches: [ "journal_ral_21_ert" ]
+    branches: [no_exist]
+  #   branches: [ "journal_ral_21_ert" ]
+  # pull_request:
+  #   branches: [ "journal_ral_21_ert" ]
 
 jobs:
   build_latex:
