@@ -1,3 +1,4 @@
+_label: Step 1: Input & Learning_
 ## robotics_papers
 
 ${\LaTeX}$ Template: `neurips_2023`
