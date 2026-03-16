@@ -3,7 +3,7 @@ _label: Step 1: Input & Learning_
 
 [Source Tex Code](https://github.com/nicewang/robotics_papers)
 
-Robotics Paper Summarizations
+Robotics Paper Summarizations, Continuously Updating.
 
 ### Journal
 
