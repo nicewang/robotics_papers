@@ -3,6 +3,8 @@ _label: Step 1: Input & Learning_
 
 [Source Tex Code](https://github.com/nicewang/robotics_papers)
 
+Robotics Paper Summarizations
+
 ### Journal
 
 ### RA-L
@@ -40,7 +42,7 @@ IEEE International Conference on Robotics
 - [CLF-RL: Chasing Stability: Humanoid Running via Control Lyapunov Function Guided Reinforcement Learning](assets/CLF-RL_summarization.pdf)
 
 #### L4DC
-Learning for Dynamics \& Control Conference
+Learning for Dynamics & Control Conference
 
 ##### 2025
 - [Boltzmann Learning: Learning with Contextual Information in Non-Stationary Environments](assets/boltzmann_learning_based_control_summarization.pdf)
