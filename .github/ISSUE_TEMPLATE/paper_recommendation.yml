@@ -36,7 +36,7 @@ body:
       multiple: false
       options:
         - 🤖 Robotics (General)
-        - 🦾 Motion Planning / Manipulation / Control
+        - 🦾 Manipulation & Locomotion / Motion Planning / Control
         - 🎓 Robot Learning
         - 🧭 Navigation
         - 👁️ Perception
