@@ -1,0 +1,171 @@
+\documentclass{article}
+
+% Pass 'final' to the neurips_2023 package to remove line numbers if needed
+\usepackage[final]{neurips_2023}
+
+\usepackage{graphicx}
+
+\usepackage{enumitem}
+
+% \usepackage{placeins}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{bm}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\title{Summarization: Path Planning for Manipulation using Experience-driven Random Trees}
+
+% Paper BibTex
+% @article{pairet2021path,
+%   title={Path planning for manipulation using experience-driven random trees},
+%   author={Pairet, {\`E}ric and Chamzas, Constantinos and Petillot, Yvan and Kavraki, Lydia E},
+%   journal={IEEE Robotics and Automation Letters},
+%   volume={6},
+%   number={2},
+%   pages={3295--3302},
+%   year={2021},
+%   publisher={IEEE}
+% }
+
+\author{
+  Summarized by Xiaonan (Nice) Wang \thanks{wangxiaonannice@gmail.com} \\
+  % Paper fr last-names (year)
+  Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and learning purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from Pairet et al. (2021) \\
+  Topic: \\
+}
+
+\begin{document}
+
+\newcommand{\repeatfootnote}[1]{\textsuperscript{\ref{#1}}}
+
+\maketitle
+
+\begin{abstract}
+This document summarizes the core contributions and methodology of the paper "Path Planning for Manipulation using Experience-driven Random Trees, \cite{pairet2021path}", focusing on its' main ideas and the core blocks.
+\end{abstract}
+
+\section{Overview: Core Questions and Answers}
+                           
+\paragraph{(1) What is the problem?} 
+\begin{itemize}
+  \item Motion Planning from \textbf{Prior Experiences}
+  \item \textbf{Generalizability:} Generalize prior knowledge (experiences) even to \textbf{notably different} task instances.
+\end{itemize}
+
+\paragraph{(2) Why need to solve this problem?}
+\begin{itemize}
+  \item Robots planning from \textit{scratch} leads to \textit{unnecessarily long planning times}.
+  \item While leveraging prior experiences can \textbf{speed up} the motion planning process, existing learning-based and experience-based methods \textit{fail} or \textit{generalize poorly} when the new task \textit{differs significantly} from the \textit{stored} experiences (i.e. \textit{non-experienced regions}).
+  \item Making \textbf{prior} knowledge \textbf{truly reusable} across \textbf{diverse task variations} remains an open challenge.
+\end{itemize}
+
+\paragraph{(3) How is it different from prev.?}
+\begin{itemize}
+  \item Previous experience-based \textit{path-centric} planners (like \textit{Lightning} or \textit{Thunder}) use prior experiences \textit{``rigidly''} by recalling \textit{exact existed motions} and simply repairing disconnected states, which requires \textit{a vast library of closely related experiences}.
+  \item In contrast, this approach treats experiences as \textbf{``decomposable''} and \textbf{``malleable''}. Instead of \textit{copying} exact paths, it breaks a prior path into smaller parts (\textbf{``micro-experiences''}) and \textbf{semi-randomly morphs} them using affine transformations (\textbf{shear} and \textbf{shift}) to explore new situations.
+\end{itemize}
+
+\paragraph{(4) Why is it better than prev.? (Advantages)} 
+\begin{itemize}
+  \item The proposed method can successfully solve \textbf{highly novel} task instances using just a \textbf{single} prior path experience, whereas \textit{state-of-the-art} planners fail even with \textit{vast repertoires of experiences}.
+  \item It \textbf{significantly outperforms} existing methods in both \textbf{success rate} and \textbf{planning time}, particularly in challenging scenarios involving \textbf{new obstacles} or \textbf{narrower geometries}.
+\end{itemize}
+
+\paragraph{(5) What is the approach itself?}
+\begin{itemize}
+  \item 2 \textbf{Tree Sampling-based Planners}:
+  \begin{itemize}
+    \item \textbf{\textit{ERT}} (Experience-driven Random Trees)
+    \item \textbf{\textit{ERTConnect}} (\textbf{bi-directional} version of ERT)
+  \end{itemize}
+  \item Iterative Traj. Generation Process via ERT (ERTConnect):
+  \begin{itemize}
+    \item Prior $\bm{\xi_D}$ Selection according to \textit{Eq. 4}
+    \item ${\bm{\xi_D \to \xi'_D}}$ \textbf{``Mapping'':} The approach maps \textbf{selected single prior} path ${\bm{\xi_D}}$ to a new path ${\bm{\xi'_D}}$ \textit{whose initial and final configurations match the task's start and goal}.
+    \item Iteration: Iteratively extracts \textbf{segments (``micro-experiences'')} from mapped $\bm{\xi'_D}$.
+    \begin{itemize}
+      \item $\bm{\psi_{\mathcal{D}} \leftarrow \xi'_{\mathcal{D}}(\alpha_{\text{init}}, \alpha_{\text{targ}})}$ with 2 options:
+      \begin{itemize}
+        \item Option \textbf{\textit{``Connect''}}: With 2 particular \textbf{given} states ${<\bm{s_{init}}, \bm{s_{targ}}>}$.
+        \item Option \textbf{\textit{``Explore''}}: \textbf{Explore} the best way to continue the task from a given state $\bm{s_{init}}$.
+      \end{itemize}
+      \item In each iteraion, an \textbf{affine transformation} is applied to \textbf{morph} the segment (``micro-experience'') $\bm{\psi_{\mathcal{D}}}$, generating \textbf{smooth deformations} via \textbf{shear} and \textbf{shift} parameters to create task-relevant motions.
+      \item \textbf{Concatenation (Connecting):} Each segment is \textit{incrementally} concatenated to build a \textbf{valid motion tree} \textit{connecting the start and goal}.
+    \end{itemize}
+  \end{itemize}
+  \item Highlighted Novelty:
+  \begin{itemize}
+    \item \textbf{\textit{``Divide and Conquer''}} alike:
+    \begin{itemize}
+      \item \textbf{Divide -> Decompose:} Decompose a single prior path to smaller ``micro-experiences''.
+      \item \textbf{Conquer -> Compose:} Iteratively morph each ``micro-experiences'', and then finally compose to a valid motion tree (connecting the start and goal).
+      \item Effect: \textit{``rigid''} to \textbf{``agile''}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\paragraph{(6) What are the applications of it?} 
+\begin{itemize}
+  \item Fully-autonomous robotic manipulation \& motion planning, particularly in \textbf{``recurrent''} tasks such as a robotic arm performing \textbf{\textit{shelf-stocking}}.
+  \item Exp Platforms:
+  \begin{itemize}
+    \item Real-world Fetch (with a \textit{7-DoF arm}, planning in an 8-DoF configuration space)
+  \end{itemize} Synthetic Exps: Simulation envs combined with \textit{OMPL} and \textit{MoveIt}.
+\end{itemize}
+
+\section{The Structure}
+
+\paragraph{Summarized Block-Diagram} 
+
+The summarized block-diagram of \textit{ERT} see \cref{fig:ert}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Nano Banana Pro.}.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/ert.png}
+  \caption{Summarized Block-Diagram of ERT}
+  \label{fig:ert}
+\end{figure}
+
+\paragraph{Original in Paper}
+
+The original block-diagram see \cref{fig:original-1} and \cref{fig:original-2}.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/orig_1.png}
+  \caption{Original Block-Diagram in Paper: (1)}
+  \label{fig:original-1}
+\end{figure}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/orig_2.png}
+  \caption{Original Block-Diagram in Paper: (2)}
+  \label{fig:original-2}
+\end{figure}
+
+\section{Open Questions}
+
+\begin{enumerate}
+    \item \textbf{Generative vs. Heuristic Morphing:}
+    Could we replace the heuristic random tree expansion with conditional generative models (e.g., Diffusion Models) to directly synthesize adaptable micro-experience segments based on the target environment?
+    \item \textbf{Scalability to High-Dimensional (High-DOF) Spaces:} 
+    Can this ``experience-patching'' strategy maintain its success rate and computational efficiency in highly constrained, high-dimensional state spaces, such as \textit{dexterous manipulation}?
+\end{enumerate}
+
+\bibliographystyle{abbrvnat}
+\bibliography{main}
+\end{document}

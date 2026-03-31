@@ -1,7 +1,7 @@
 name: 📝 Paper Recommendation
-description: Submit a robotics or AI paper worth including in this repository.
+description: Submit a robotics paper worth including in this repository.
 title: "[Rec]: "
-labels: ["paper-submission", "triage"]
+labels: ["Add Paper Summarization"]
 assignees:
   - nicewang
 body:
@@ -36,8 +36,9 @@ body:
       multiple: false
       options:
         - 🤖 Robotics (General)
-        - 🦾 Motion Planning / Manipulation / Control
+        - 🦾 Manipulation & Locomotion / Motion Planning / Control
         - 🎓 Robot Learning
+        - 🧭 Navigation
         - 👁️ Perception
         - 🧠 Reinforcement Learning
         - 🚙 Autonomous Driving
