@@ -26,8 +26,7 @@ IEEE Transactions on Robotics
 - [FlowMPC: Learning a Generalizable Trajectory Sampling Distribution for Model Predictive Control](journal/TRO/24/FlowMPC)
     - Exp:
         - [ ] Real-world Robotics Exp.
-        - [x] Simulation
-            - _MuJoCo?_[^1]
+        - [ ] Simulation
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
     - Confidence: ([details](journal/TRO/24/FlowMPC/.confidence/))
 - [Port-Hamiltonian ODE: Port-Hamiltonian Neural ODE Networks on Lie Groups for Robot Dynamics Learning and Control](journal/TRO/24/Port-Hamiltonian-ODE/)
@@ -46,9 +45,10 @@ Conference on Robot Learning. PMLR.
 - [Meshing Box: Explicitly Encouraging Low Fractional Dimensional Trajectories via Reinforcement Learning](conf/corl/21/meshing_box/)
     - Exp:
         - [ ] Real-world Robotics Exp.
-        - [ ] Simulation
+        - [x] Simulation
+            - _MuJoCo?_[^1]
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    - Confidence: ([details](conf/corl/21/meshing_box/.confidence/))
+    - Confidence: _70% ~ 75%_ ([details](conf/corl/21/meshing_box/.confidence/))
 
 #### HRI
 ACM/IEEE International Conference on Human-Robot Interaction
