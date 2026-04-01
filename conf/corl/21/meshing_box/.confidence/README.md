@@ -8,4 +8,4 @@ _70% ~ 75%_<sup>[Standard](../../../../../.std_rules/confidence.md)</sup>
 - [ ] Other Details
 
 ### Supplements
-- Lack of ERTConnect (Algo. 5)
+- 
