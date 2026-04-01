@@ -22,6 +22,8 @@
 \usepackage{hyperref}
 \usepackage{cleveref}
 
+\usepackage{tabularx}
+
 \title{Summarization: Explicitly Encouraging Low Fractional Dimensional Trajectories via Reinforcement Learning}
 
 % Paper BibTex
@@ -37,7 +39,7 @@
 \author{
   Summarized by Xiaonan (Nice) Wang \thanks{wangxiaonannice@gmail.com} \\
   % Paper fr last-names (year)
-  Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and study purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from Gillen and Byl. (2021) \\
+  Summarization\thanks{\textbf{Disclaimer:} This summarization is for research and learning purposes. It represents a personal interpretation and may contain inaccuracies. Feedback or corrections via email are highly appreciated.} Generated based on Paper from Gillen and Byl. (2021) \\
   Topic: Legged Locomotion, Fractal Geometry, Reinforcement Learning \\
 }
 
@@ -192,20 +194,25 @@ The \cref{fig:note}\repeatfootnote{note_draft} shows the ``hand-crafted \textit{
   \label{fig:note}
 \end{figure}
 
-The \cref{tab:dimensionality_concepts} illustrates the comparison of ``\textit{Physical DOF vs. State Dim. vs. Fractal Dim.}''
+The \cref{tab:dimensionality_concepts} illustrates the comparison of ``\textit{Physical DOF vs. State (Space) Dim. vs. Fractal Dim.}''
 
 \begin{table}[htbp]
   \centering
   \caption{Comparison of Dimensionality Concepts in Robot Locomotion}
   \label{tab:dimensionality_concepts}
-  \begin{tabular}{@{}llll@{}}
+  \begin{tabularx}{\textwidth}{@{}l l X l@{}}
     \toprule
     \textbf{Concept} & \textbf{Explanation} & \textbf{Metaphor} & \textbf{Attribute} \\ \midrule
-    \textbf{Physical DOF} & Degrees of Freedom & \begin{tabular}[c]{@{}l@{}}The number of \textbf{joints} in the robot\\ (hardware constraint).\end{tabular} & Constant \\ \addlinespace
-    \textbf{State (Space) Dimension} & \begin{tabular}[c]{@{}l@{}}Feature Dimension\end{tabular} & \begin{tabular}[c]{@{}l@{}}\textbf{Total number of coordinate axes} describing the \\ motion (typically $\ge 2 \times$ DOF: e.g. for each joint, \\ $\langle q, \dot{q} \rangle$ whereas $q$ is position and $\dot{q}$ is velocity).\end{tabular} & Constant \\ \addlinespace
-    \textbf{Fractal Dimension} & \begin{tabular}[c]{@{}l@{}}Fractal Dimension\\ ($D_f$)\end{tabular} & \begin{tabular}[c]{@{}l@{}}The \textbf{``thickness'' or complexity} of the\\ actual trajectory the robot follows.\end{tabular} & \textbf{Variable}\footnotemark \\ \bottomrule
-  \end{tabular}
+    \textbf{Physical DOF} & Degrees of Freedom & \begin{tabular}[c]{@{}l@{}}The number of \textbf{joints} (generally\footnotemark) in the robot (hardware \\ constraint).\end{tabular} & Constant \\ \addlinespace
+    \textbf{State Dimension} & \begin{tabular}[c]{@{}l@{}}Feature Dimension\end{tabular} & \begin{tabular}[c]{@{}l@{}}\textbf{Total number of coordinate axes} describing the motion \\ (typically $\ge 2 \times$ DOF: e.g. for each joint, $\langle q, \dot{q} \rangle$ whereas \\ $q$ is position and $\dot{q}$ is velocity).\end{tabular} & Constant \\ \addlinespace
+    \textbf{Fractal Dimension} & \begin{tabular}[c]{@{}l@{}}Fractal Dimension\\ ($D_f$)\end{tabular} & \begin{tabular}[c]{@{}l@{}}The \textbf{``thickness'' or complexity} of the actual trajectory the \\ robot follows.\end{tabular} & \textbf{Variable}\footnotemark \\ \bottomrule
+  \end{tabularx}
 \end{table}
+
+\addtocounter{footnote}{-1}
+\footnotetext{It's true that the physical DOF equals the number of joints or actuators in most robotic platforms (especially manipulators), but there are some \textit{exceptions like: the DOF of UAV is 6 (x, y, z, roll, pitch, yaw) while with 4 actuators (for total/roll/pitch/yaw torque), the DOF of UGV is 3 (x, y, yaw) while with 2 actuators (left and right)}.}
+
+\stepcounter{footnote}
 \footnotetext{Determined by RL policy, \textit{theoretical maximum is State Space Dimension}.}
 
 \end{document}
