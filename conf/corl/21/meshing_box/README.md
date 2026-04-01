@@ -47,6 +47,8 @@ Mapping the Fea-Dimensionality to Multi-Dimensionality Coordinate Sys.
 
 | Concept | Explanation | Metaphor | Attribute |
 | :--- | :--- | :--- | :--- |
-| **Physical DOF** | Degrees of Freedom | The number of **joints** in the robot (hardware constraint). | Constant |
-| **Feature Dimension** | State Space Dimension | The **total number of coordinate axes** describing the motion (typically ${\ge 2 \times}$ DOF: e.g. for each joint, $<q, \dot{q}>$ whereas ${q}$ is the position and $\dot{q}$ is the velocity). | Constant |
+| **Physical DOF** | Degrees of Freedom | The number of **joints** (generally[^1]) in the robot (hardware constraint). | Constant |
+| **State Space Dimension** | Feature Dimension | The **total number of coordinate axes** describing the motion (typically ${\ge 2 \times}$ DOF: e.g. for each joint, $<q, \dot{q}>$ whereas ${q}$ is the position and $\dot{q}$ is the velocity). | Constant |
 | **Fractal Dimension** | Fractal Dimension ($D_f$) | The **"thickness" or complexity** of the actual trajectory the robot follows. | **Variable** (Determined by RL policy, _theoretical maximum is State Space Dimension_) |
+
+[^1]: It's true that the physical DOF equals the number of joints \& actuators in most robotic platforms (especially manipulators), but there are some *exceptions like: the DOF of UAV is 6 (x, y, z, roll, pitch, yaw) while with 4 actuators (for total/roll/pitch/yaw torque), the DOF of UGV is 3 (x, y, yaw) while with 2 actuators (left and right)*.

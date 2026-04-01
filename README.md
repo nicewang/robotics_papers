@@ -45,9 +45,10 @@ Conference on Robot Learning. PMLR.
 - [Meshing Box: Explicitly Encouraging Low Fractional Dimensional Trajectories via Reinforcement Learning](conf/corl/21/meshing_box/)
     - Exp:
         - [ ] Real-world Robotics Exp.
-        - [ ] Simulation
+        - [x] Simulation
+            - _MuJoCo?_[^1]
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    - Confidence: ([details](conf/corl/21/meshing_box/.confidence/))
+    - Confidence: _70% ~ 75%_ ([details](conf/corl/21/meshing_box/.confidence/))
 
 #### HRI
 ACM/IEEE International Conference on Human-Robot Interaction
@@ -95,3 +96,5 @@ Learning for Dynamics \& Control Conference
         - [ ] Simulation
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
     - Confidence: ([details](conf/L4DC/25/boltzmann_learning_based_control/.confidence/))
+
+[^1]: "We examine a subset of the popular OpenAI Mujoco locomotion environments...", OpenAI's Gym? Google Deepmind's MuJoCo?

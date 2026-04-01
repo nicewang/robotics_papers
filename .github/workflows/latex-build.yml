@@ -3,9 +3,9 @@ name: Build LaTeX PDF
 on:
   push:
     branches: [no_exist]
-  #   branches: [ "journal_ral_21_ert" ]
+  #   branches: [ "conf_corl_21_meshing_box" ]
   # pull_request:
-  #   branches: [ "journal_ral_21_ert" ]
+  #   branches: [ "conf_corl_21_meshing_box" ]
 
 jobs:
   build_latex:
@@ -18,8 +18,8 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
-          # root_file: journal/RAL/21/ERT/main.tex
-          working_directory: journal/RAL/21/ERT/
+          # root_file: conf/corl/21/meshing_box/main.tex
+          working_directory: conf/corl/21/meshing_box/
 
       # - name: Upload PDF artifact
       #   uses: actions/upload-artifact@v4
@@ -29,15 +29,15 @@ jobs:
       
       - name: Rename PDF
         run: |
-          old_path="journal/RAL/21/ERT/main.pdf"
-          new_name="ERT_summarization.pdf"
+          old_path="conf/corl/21/meshing_box/main.pdf"
+          new_name="Meshing-Box_summarization.pdf"
           mv "$old_path" "$new_name"
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ERT_summarization_pdf
-          path: ERT_summarization.pdf
+          name: Meshing-Box_summarization_pdf
+          path: Meshing-Box_summarization.pdf
 
 
 #  Orig Ver
