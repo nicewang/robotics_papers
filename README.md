@@ -26,7 +26,8 @@ IEEE Transactions on Robotics
 - [FlowMPC: Learning a Generalizable Trajectory Sampling Distribution for Model Predictive Control](journal/TRO/24/FlowMPC)
     - Exp:
         - [ ] Real-world Robotics Exp.
-        - [ ] Simulation
+        - [x] Simulation
+            - _MuJoCo?_[^1]
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
     - Confidence: ([details](journal/TRO/24/FlowMPC/.confidence/))
 - [Port-Hamiltonian ODE: Port-Hamiltonian Neural ODE Networks on Lie Groups for Robot Dynamics Learning and Control](journal/TRO/24/Port-Hamiltonian-ODE/)
@@ -95,3 +96,5 @@ Learning for Dynamics \& Control Conference
         - [ ] Simulation
         - [ ] Other Application Scenarios (but within the scope of control & robotics)
     - Confidence: ([details](conf/L4DC/25/boltzmann_learning_based_control/.confidence/))
+
+[^1]: "We examine a subset of the popular OpenAI Mujoco locomotion environments...", OpenAI's Gym? Google Deepmind's MuJoCo?
