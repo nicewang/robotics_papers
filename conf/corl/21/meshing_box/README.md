@@ -43,7 +43,7 @@ Mapping the Fea-Dimensionality to Multi-Dimensionality Coordinate Sys.
 
 ![note](fig/note_draft_1.png)
 
-#### Physical DOF vs. Feature Dimension vs. Fractal Dimension
+#### Physical DOF vs. State Space Dimension vs. Fractal Dimension
 
 | Concept | Explanation | Metaphor | Attribute |
 | :--- | :--- | :--- | :--- |
