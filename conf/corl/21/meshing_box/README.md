@@ -2,7 +2,7 @@
 ### Explicitly Encouraging Low Fractional Dimensional Trajectories via Reinforcement Learning
 This document summarizes the core contributions and methodology of the paper "Explicitly Encouraging Low Fractional Dimensional Trajectories via Reinforcement Learning", focusing on its' main ideas and the core blocks.
 - [Original Paper](https://github.com/nicewang/robotics_papers/tree/assets/conf/corl/21/meshing_box/original_paper)
-- Summarization Download: TBD
+- [Summarization Download](https://nicewang.github.io/robotics_papers/assets/Meshing-Box_summarization.pdf)
 
 #### Comments
 
