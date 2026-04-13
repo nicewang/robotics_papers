@@ -146,12 +146,10 @@ But seems that the correct one is \cref{fig:boltzmann-1}?
 
 \section{Open Questions}
 
-% \begin{enumerate}
-%     \item \textbf{Generalizing to Highly Stochastic Environments:}
-%     In highly stochastic environments, such as rocky terrains or slippery surfaces, complex maneuvers are often essential for survival. Does forcibly compressing the fractal dimension risk compromising the agent's performance in high-difficulty settings? Furthermore, is there an ``optimal dimension'' that strikes a balance between guaranteed verifiability and environmental adaptability?
-%     \item \textbf{Beyond the Model-Free RL:} 
-%     Beyond the field of Model-Free RL, does the concept of Fractal Regularization still hold significant value in legged locomotion based on recent popular approaches?
-% \end{enumerate}
+\begin{enumerate}
+    \item \textbf{Trade-off between Computational Memory Comsuption and Learning Performance:}
+    Non-stationary scenarios are actually quite common, for example, CTR prediction in recommendation systems. For such environments, there are many mature solutions even within (training) model-based scopes, such as \textit{online learning}, \textit{(distant) time decay}, and \textit{exploration-exploitation strategies}, etc. In the field of applied machine learning, the performance gains brought by (training) model-based approaches seem to fully justify the additional memory consumption required for training. Therefore, does the advantage of ``map-based'' Boltzmann Learning seem less significant? Or are there other considerations such as a better ``alignment'' with first principles?
+\end{enumerate}
 
 \bibliographystyle{abbrvnat}
 \bibliography{main}
