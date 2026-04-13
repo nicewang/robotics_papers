@@ -87,7 +87,7 @@ This document summarizes the core contributions and methodology of the paper "Le
   \begin{itemize}
     \item Conceptually, the regret is defined as: $R(T) = \Delta(\pi_{actual}, \pi_{static}^*)$
   \end{itemize}
-  \item It is \textbf{computationally much more efficient} and requires significantly \textbf{less memory} than competing \textit{machine learning approaches} (SVM and Neural Network, which must be \textit{continuously retrained on sliding windows of past data} to handle non-stationarity).
+  \item It is \textbf{computationally much more efficient} and requires significantly \textbf{less memory} than competing \textit{machine learning approaches} (SVM and Neural Network, which must be \textit{continuously retrained on sliding windows of past data} to handle non-stationarity). -> Due to \textbf{``Map''} based Learning (Updating).
 \end{itemize}
 
 \paragraph{(5) What is the approach itself?}
@@ -148,8 +148,6 @@ The summarized block-diagram of \textit{Exponentially Discounted Regret based Bo
 \bibliographystyle{abbrvnat}
 \bibliography{main}
 
-\end{document}
-
 \FloatBarrier
 
 \newpage
@@ -178,3 +176,5 @@ The summarized block-diagram of \textit{Exponentially Discounted Regret based Bo
   \caption{Proof of Transition Function when in Learning.}
   \label{fig:formula_derivation}
 \end{figure}
+
+\end{document}
