@@ -94,7 +94,9 @@ Learning for Dynamics \& Control Conference
     - Exp:
         - [ ] Real-world Robotics Exp.
         - [ ] Simulation
-        - [ ] Other Application Scenarios (but within the scope of control & robotics)
-    - Confidence: ([details](conf/L4DC/25/boltzmann_learning_based_control/.confidence/))
+        - [x] Other Application Scenarios (but within the scope of control & robotics)
+            - Rock-Paper-Scissors (Discrete Measurements)
+            - Malware Classification (Continuum Measurements)
+    - Confidence: _55% ~ 60%_ ([details](conf/L4DC/25/boltzmann_learning_based_control/.confidence/))
 
 [^1]: "We examine a subset of the popular OpenAI Mujoco locomotion environments...", OpenAI's Gym? Google Deepmind's MuJoCo?
