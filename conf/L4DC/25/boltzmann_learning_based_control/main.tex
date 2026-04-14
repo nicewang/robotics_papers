@@ -7,7 +7,7 @@
 
 \usepackage{enumitem}
 
-% \usepackage{placeins}
+\usepackage{placeins}
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
@@ -87,7 +87,7 @@ This document summarizes the core contributions and methodology of the paper "Le
   \begin{itemize}
     \item Conceptually, the regret is defined as: $R(T) = \Delta(\pi_{actual}, \pi_{static}^*)$
   \end{itemize}
-  \item It is \textbf{computationally much more efficient} and requires significantly \textbf{less memory} than competing \textit{machine learning approaches} (SVM and Neural Network, which must be \textit{continuously retrained on sliding windows of past data} to handle non-stationarity).
+  \item It is \textbf{computationally much more efficient} and requires significantly \textbf{less memory} than competing \textit{machine learning approaches} (SVM and Neural Network, which must be \textit{continuously retrained on sliding windows of past data} to handle non-stationarity). -> Due to \textbf{``Map''} based Learning (Updating).
 \end{itemize}
 
 \paragraph{(5) What is the approach itself?}
@@ -117,12 +117,20 @@ This document summarizes the core contributions and methodology of the paper "Le
 \paragraph{Summarized Block-Diagram} 
 
 The summarized block-diagram of \textit{Exponentially Discounted Regret based Boltzmann Learning} see \cref{fig:boltzmann}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Nano Banana Pro.}.
+But seems that the correct one is \cref{fig:boltzmann-1}?
 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\textwidth]{fig/boltzmann.png}
   \caption{Summarized Block-Diagram of Exponentially Discounted Regret based Boltzmann Learning}
   \label{fig:boltzmann}
+\end{figure}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/boltzmann.jpg}
+  \caption{Summarized Block-Diagram of Exponentially Discounted Regret based Boltzmann Learning, seems that this is the correct one?}
+  \label{fig:boltzmann-1}
 \end{figure}
 
 % \paragraph{Original in Paper}
@@ -138,14 +146,41 @@ The summarized block-diagram of \textit{Exponentially Discounted Regret based Bo
 
 \section{Open Questions}
 
-% \begin{enumerate}
-%     \item \textbf{Generalizing to Highly Stochastic Environments:}
-%     In highly stochastic environments, such as rocky terrains or slippery surfaces, complex maneuvers are often essential for survival. Does forcibly compressing the fractal dimension risk compromising the agent's performance in high-difficulty settings? Furthermore, is there an ``optimal dimension'' that strikes a balance between guaranteed verifiability and environmental adaptability?
-%     \item \textbf{Beyond the Model-Free RL:} 
-%     Beyond the field of Model-Free RL, does the concept of Fractal Regularization still hold significant value in legged locomotion based on recent popular approaches?
-% \end{enumerate}
+\begin{enumerate}
+    \item \textbf{Trade-off between Computational Memory Comsuption and Learning Performance:}
+    Non-stationary scenarios are actually quite common, for example, CTR prediction in recommendation systems. For such environments, there are many mature solutions even within (training) model-based scopes, such as \textit{online learning}, \textit{(distant) time decay}, and \textit{exploration-exploitation strategies}, etc. In the field of applied machine learning, the performance gains brought by (training) model-based approaches seem to fully justify the additional memory consumption required for training. Therefore, does the advantage of ``map-based'' Boltzmann Learning seem less significant? Or are there other considerations such as a better ``alignment'' with first principles?
+\end{enumerate}
 
 \bibliographystyle{abbrvnat}
 \bibliography{main}
+
+\FloatBarrier
+
+\newpage
+\appendix
+\section{Hand-Drawn Drafts of Mathematical Backbone\protect\footnote{This part is mainly used for contributor's notes of understanding.}}
+
+\FloatBarrier
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/note_draft_1.jpg}
+  \caption{Drafts of Mathematical Backbone - 1: Policy with Low-Regret (Def. 1 + Def. 2), highlighting the Boltzmann Distribution.}
+  \label{fig:formula_derivation}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/note_draft_2.jpg}
+  \caption{Drafts of Mathematical Backbone - 2: Reagarding Theorem 1 - Some Understandings, proof of theorem 1 see \cite{andersonlearning}.}
+  \label{fig:formula_derivation}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig/note_draft_3.jpg}
+  \caption{Proof of Transition Function when in Learning.}
+  \label{fig:formula_derivation}
+\end{figure}
 
 \end{document}
