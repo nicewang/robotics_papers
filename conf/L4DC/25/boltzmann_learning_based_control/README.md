@@ -6,7 +6,7 @@ This document summarizes the core contributions and methodology of the paper "Le
 
 #### Summarized Block-Diagram
 
-> [!Warning]
+> [!Caution]
 > 
 > **Is this the correct one?** It seems that the updating (learning) should take place after the execution, otherwise the cost of current iteration is unknown. The correct order of each iteration seems should be: Perception -> Decision Making -> Act -> Feedback -> Learn. (See Issue#86). But need to be confirmed (@nicewang).
 >
