@@ -165,16 +165,16 @@ Bellman (Optimal) Equation: $$V(s) = \max_{a} [ R(s, a) + \gamma V(s') ]$$
 
 We regard energy as $$E = -V(s)$$, thus:
 
-% $$\begin{aligned}
-\begin{equation}  
+\begin{equation} 
+$$\begin{aligned} 
 E &= -V(s) \\
   &= -\max_{a} [ R(s, a) + \gamma V(s') ] \\
   &= -\gamma V(s') - \max_{a} [ R(s, a) ] \\
   &= \gamma E - \max_{a} [ R(s, a) ] \\
   &= \gamma E - \min_{a} [ cost(s, a) ] \\
   &= \gamma E - \gamma \min_{a}[ E ]
+\end{aligned}$$
 \end{equation}
-% \end{aligned}$$
    
 There is a trick: since we can not obtain the actual cost (i.e. $$J_{k}$$) when in get_Boltzmann_distribution, we use an approximation: \textbf{``Regard Energy as cost''} \textbf{\textit{(Using energy instead of cost.)}}. Thus, we regard energy $E$ as $\text{Virtual} E$ there.
 
