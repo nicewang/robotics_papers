@@ -19,6 +19,8 @@
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
 
+\usepackage{amsmath}
+
 \usepackage{hyperref}
 \usepackage{cleveref}
 
@@ -117,21 +119,21 @@ This document summarizes the core contributions and methodology of the paper "Le
 \paragraph{Summarized Block-Diagram} 
 
 The summarized block-diagram of \textit{Exponentially Discounted Regret based Boltzmann Learning} see \cref{fig:boltzmann}\footnote{For efficiency, this diagram was initially hand-drawn on paper and then converted into its current digital version using Nano Banana Pro.}.
-But seems that the correct one is \cref{fig:boltzmann-1}?
+% But seems that the correct one is \cref{fig:boltzmann-1}?
 
 \begin{figure}[tb]
   \centering
-  \includegraphics[width=0.95\textwidth]{fig/boltzmann.png}
+  \includegraphics[width=0.95\textwidth]{fig/boltzmann_new.png}
   \caption{Summarized Block-Diagram of Exponentially Discounted Regret based Boltzmann Learning}
   \label{fig:boltzmann}
 \end{figure}
 
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=0.95\textwidth]{fig/boltzmann.jpg}
-  \caption{Summarized Block-Diagram of Exponentially Discounted Regret based Boltzmann Learning, seems that this is the correct one?}
-  \label{fig:boltzmann-1}
-\end{figure}
+% \begin{figure}[tb]
+%   \centering
+%   \includegraphics[width=0.95\textwidth]{fig/boltzmann.jpg}
+%   \caption{Summarized Block-Diagram of Exponentially Discounted Regret based Boltzmann Learning, seems that this is the correct one?}
+%   \label{fig:boltzmann-1}
+% \end{figure}
 
 % \paragraph{Original in Paper}
 
@@ -158,6 +160,36 @@ But seems that the correct one is \cref{fig:boltzmann-1}?
 
 \newpage
 \appendix
+
+\section{Derivation of ``Virtual'' Energy Used in Decision Making}
+
+\textbf{\textit{Bellman (Optimal) Equation}}:
+
+\begin{equation} 
+  V(s) = \max_{a} [ R(s, a) + \gamma V(s') ]
+\end{equation}
+
+We regard energy as:
+
+\begin{equation} 
+  E = -V(s)
+\end{equation}
+
+then:
+
+\begin{equation} 
+\begin{aligned} 
+E &= -V(s) \\
+  &= -\max_{a} [ R(s, a) + \gamma V(s') ] \\
+  &= -\gamma V(s') - \max_{a} [ R(s, a) ] \\
+  &= \gamma E - \max_{a} [ R(s, a) ] \\
+  &= \gamma E - \min_{a} [ cost(s, a) ] \\
+  &= \gamma E - \gamma \min_{a}[ E ]
+\end{aligned}
+\end{equation}
+   
+There is a trick: since we can not obtain the actual cost (i.e. $J_{k}$) when in decision making, we use an approximation: \textbf{``Regard Energy as cost''} \textbf{\textit{(Using energy instead of cost.)}}. Thus, we regard energy $E$ as $\text{Virtual} E$ there.
+
 \section{Hand-Drawn Drafts of Mathematical Backbone\protect\footnote{This part is mainly used for contributor's notes of understanding.}}
 
 \FloatBarrier
@@ -165,22 +197,29 @@ But seems that the correct one is \cref{fig:boltzmann-1}?
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.95\textwidth]{fig/note_draft_1.jpg}
-  \caption{Drafts of Mathematical Backbone - 1: Policy with Low-Regret (Def. 1 + Def. 2), highlighting the Boltzmann Distribution.}
-  \label{fig:formula_derivation}
+  \caption{Drafts of Mathematical Backbone - 1: Policy with Low-Regret (Def. 1 + Def. 2), highlighting the Boltzmann Distribution. (PS. Softmax among time-domain)}
+  \label{fig:formula_derivation_1}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth, angle=-90]{fig/note_draft_1_5.jpg}
+  \caption{Drafts of Mathematical Backbone - 2}
+  \label{fig:formula_derivation_1_5}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.95\textwidth]{fig/note_draft_2.jpg}
-  \caption{Drafts of Mathematical Backbone - 2: Reagarding Theorem 1 - Some Understandings, proof of theorem 1 see \cite{andersonlearning}.}
-  \label{fig:formula_derivation}
+  \caption{Drafts of Mathematical Backbone - 3: Reagarding Theorem 1 - Some Understandings, proof of theorem 1 see \cite{andersonlearning}. (PS. Softmax among action-domain)}
+  \label{fig:formula_derivation_2}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.95\textwidth]{fig/note_draft_3.jpg}
   \caption{Proof of Transition Function when in Learning.}
-  \label{fig:formula_derivation}
+  \label{fig:formula_derivation_3}
 \end{figure}
 
 \end{document}
