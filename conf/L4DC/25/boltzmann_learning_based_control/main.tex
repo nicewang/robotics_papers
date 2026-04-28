@@ -163,9 +163,19 @@ The summarized block-diagram of \textit{Exponentially Discounted Regret based Bo
 
 \section{Derivation of ``Virtual'' Energy Used in Decision Making}
 
-\textbf{\textit{Bellman (Optimal) Equation}}: $$V(s) = \max_{a} [ R(s, a) + \gamma V(s') ]$$
+\textbf{\textit{Bellman (Optimal) Equation}}:
 
-We regard energy as $$E = -V(s)$$, thus:
+\begin{equation} 
+  V(s) = \max_{a} [ R(s, a) + \gamma V(s') ]
+\end{equation}
+
+We regard energy as:
+
+\begin{equation} 
+  E = -V(s)
+\end{equation}
+
+then:
 
 \begin{equation} 
 \begin{aligned} 
@@ -193,7 +203,7 @@ There is a trick: since we can not obtain the actual cost (i.e. $J_{k}$) when in
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.95\textwidth]{fig/note_draft_1_5.jpg}
+  \includegraphics[width=0.75\textwidth]{fig/note_draft_1_5.jpg}
   \caption{Drafts of Mathematical Backbone - 2}
   \label{fig:formula_derivation_1_5}
 \end{figure}
