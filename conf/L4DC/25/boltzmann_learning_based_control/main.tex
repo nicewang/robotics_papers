@@ -161,34 +161,34 @@ The summarized block-diagram of \textit{Exponentially Discounted Regret based Bo
 \newpage
 \appendix
 
-\section{Derivation of ``Virtual'' Energy Used in Decision Making}
+% \section{Derivation of ``Virtual'' Energy Used in Decision Making}
 
-\textbf{\textit{Bellman (Optimal) Equation}}:
+% \textbf{\textit{Bellman (Optimal) Equation}}:
 
-\begin{equation} 
-  V(s) = \max_{a} [ R(s, a) + \gamma V(s') ]
-\end{equation}
+% \begin{equation} 
+%   V(s) = \max_{a} [ R(s, a) + \gamma V(s') ]
+% \end{equation}
 
-We regard energy as:
+% We regard energy as:
 
-\begin{equation} 
-  E = -V(s)
-\end{equation}
+% \begin{equation} 
+%   E = -V(s)
+% \end{equation}
 
-then:
+% then:
 
-\begin{equation} 
-\begin{aligned} 
-E &= -V(s) \\
-  &= -\max_{a} [ R(s, a) + \gamma V(s') ] \\
-  &= -\gamma V(s') - \max_{a} [ R(s, a) ] \\
-  &= \gamma E - \max_{a} [ R(s, a) ] \\
-  &= \gamma E - \min_{a} [ cost(s, a) ] \\
-  &= \gamma E - \gamma \min_{a}[ E ]
-\end{aligned}
-\end{equation}
+% \begin{equation} 
+% \begin{aligned} 
+% E &= -V(s) \\
+%   &= -\max_{a} [ R(s, a) + \gamma V(s') ] \\
+%   &= -\gamma V(s') - \max_{a} [ R(s, a) ] \\
+%   &= \gamma E - \max_{a} [ R(s, a) ] \\
+%   &= \gamma E - \min_{a} [ cost(s, a) ] \\
+%   &= \gamma E - \gamma \min_{a}[ E ]
+% \end{aligned}
+% \end{equation}
    
-There is a trick: since we can not obtain the actual cost (i.e. $J_{k}$) when in decision making, we use an approximation: \textbf{``Regard Energy as cost''} \textbf{\textit{(Using energy instead of cost.)}}. Thus, we regard energy $E$ as $\text{Virtual} E$ there.
+% There is a trick: since we can not obtain the actual cost (i.e. $J_{k}$) when in decision making, we use an approximation: \textbf{``Regard Energy as cost''} \textbf{\textit{(Using energy instead of cost.)}}. Thus, we regard energy $E$ as $\text{Virtual} E$ there.
 
 \section{Hand-Drawn Drafts of Mathematical Backbone\protect\footnote{This part is mainly used for contributor's notes of understanding.}}
 
